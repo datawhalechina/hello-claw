@@ -14,7 +14,7 @@ export default defineConfig({
       title: "Hello Claw",
       description: "从零到一学习 OpenClaw：领养你的 AI 龙虾助理，或从零构建属于你的智能体",
       themeConfig: {
-        logo: '/datawhale-logo.png',
+        logo: '/logo.png',
         nav: [
           { text: '领养龙虾', link: '/cn/adopt/' },
           { text: '构建龙虾', link: '/cn/build/' },
@@ -101,7 +101,7 @@ export default defineConfig({
       title: "Hello Claw",
       description: "Learn OpenClaw from scratch: Adopt your AI lobster assistant or build your own agent",
       themeConfig: {
-        logo: '/datawhale-logo.png',
+        logo: '/logo.png',
         nav: [
           { text: 'Adopt', link: '/en/adopt/' },
           { text: 'Build', link: '/en/build/' },

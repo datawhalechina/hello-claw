@@ -11,13 +11,6 @@ export default defineConfig({
     root: {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/cn/',
-      title: "Hello Claw",
-      description: "从零到一学习 OpenClaw：领养你的 AI 龙虾助理，或从零构建属于你的智能体",
-    },
-    cn: {
-      label: '简体中文',
-      lang: 'zh-CN',
       title: "Hello Claw",
       description: "从零到一学习 OpenClaw：领养你的 AI 龙虾助理，或从零构建属于你的智能体",
       themeConfig: {

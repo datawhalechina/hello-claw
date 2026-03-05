@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: 开始使用
-      link: /adopt/
+      link: /cn/adopt/
     - theme: alt
       text: 深入开发
-      link: /build/
+      link: /cn/build/
 
 features:
   - title: 🦞 领养 Claw（使用篇）

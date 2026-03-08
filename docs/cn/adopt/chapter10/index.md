@@ -1,5 +1,9 @@
 # 第十章 开发者效率提升
 
+> **本章适合谁**：本章面向有一定编程基础的开发者。如果你不是开发者，可以跳过本章，直接看[第十一章 故障排查与优化](/cn/adopt/chapter11/)。
+>
+> **前提**：已完成第一章的安装配置。
+
 OpenClaw 对开发者而言不只是聊天机器人，它是可以直接操作代码、运行命令、管理 Git 的执行引擎。本章介绍如何用 OpenClaw 优化开发工作流。
 
 ## 1. 代码生成与辅助
@@ -51,6 +55,8 @@ clawhub install git-ops
 帮我把最近 3 个 commit squash 成一个，commit message 用中文
 ```
 
+> **什么是 squash？** 把多个小的 Git 提交合并成一个，让提交历史更整洁。适合在功能开发完成后清理提交记录。
+
 ### 2.3 PR 管理
 
 ```
@@ -77,6 +83,8 @@ clawhub install git-ops
 ```
 
 ### 3.2 CI/CD 集成
+
+> **什么是 CI/CD？** CI（持续集成）是指代码提交后自动运行测试；CD（持续部署）是指测试通过后自动发布。GitHub Actions、GitLab CI 都是常见的 CI/CD 工具。
 
 ```bash
 clawhub install cicd-pipeline
@@ -108,6 +116,9 @@ clawhub install cicd-pipeline
 ```
 根据最近 2 周的 Git 历史生成 CHANGELOG，按 Added/Changed/Fixed 分类
 ```
+
+<details>
+<summary>展开：进阶开发功能（代码审查、调试排错、环境管理）</summary>
 
 ## 5. 代码审查
 
@@ -180,6 +191,8 @@ clawhub install sql-toolkit
 ```
 比较 staging 和 production 数据库的 schema 差异
 ```
+
+</details>
 
 ## 8. 实战工作流
 

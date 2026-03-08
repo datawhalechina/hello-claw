@@ -8,17 +8,18 @@ OpenClaw 不绑定任何单一 LLM 提供商。你可以同时配置 Claude、GP
 
 | 提供商 | 模型 | 特点 | 适合任务 |
 |--------|------|------|---------|
-| **SiliconFlow** | `siliconflow/deepseek-ai/DeepSeek-V3` | **国内推荐**，新用户 16 元免费 | 通用编码、中文任务 |
-| SiliconFlow | `siliconflow/Qwen/Qwen2.5-72B-Instruct` | 中文能力突出 | 中文写作、翻译 |
-| DeepSeek | `deepseek/deepseek-chat` | 编码能力强 | 代码生成、调试 |
-| Qwen | `qwen/qwen-max` | 阿里云生态，中文能力强 | 中文写作、企业应用 |
-| Kimi | `moonshot/moonshot-v1-128k` | 128K 长上下文 | 长文档分析 |
-| StepFun | `stepfun/step-2-16k` | 多模态、长上下文 | 图片理解、复杂推理 |
-| Doubao | `volcengine/doubao-seed-2-0-pro-260215` | 火山方舟平台，模型丰富 | 通用对话、编码 |
-| Hunyuan | `hunyuan/hunyuan-turbos-latest` | hunyuan-lite 免费无限量 | 通用对话、翻译 |
-| MiniMax | `minimax/abab6.5s-chat` | 多模态支持 | 语音、图片处理 |
+| **硅基流动** | `siliconflow/deepseek-ai/DeepSeek-V3` | **国内推荐**，新用户 16 元免费 | 通用编码、中文任务 |
+| 深度求索 | `deepseek/deepseek-chat` | 编码能力强 | 代码生成、调试 |
+| 通义千问 | `qwen/qwen-max` | 阿里云生态，中文能力强 | 中文写作、企业应用 |
+| 月之暗面 | `moonshot/moonshot-v1-128k` | 128K 长上下文 | 长文档分析 |
+| 阶跃星辰 | `stepfun/step-2-16k` | 多模态、长上下文 | 图片理解、复杂推理 |
+| 豆包 | `volcengine/doubao-seed-2-0-pro-260215` | 火山方舟平台，模型丰富 | 通用对话、编码 |
+| 混元 | `hunyuan/hunyuan-turbos-latest` | hunyuan-lite 免费无限量 | 通用对话、翻译 |
+| 稀宇科技 | `minimax/abab6.5s-chat` | 多模态支持 | 语音、图片处理 |
+| 智谱 | `glm/glm-4-plus` | 清华技术背景，中文理解强 | 中文对话、知识问答 |
+| 文心一言 | `ernie/ernie-4.0-8k` | 百度生态，中文内容生成 | 中文对话、写作 |
 
-> **模型标识格式**：OpenClaw 统一使用 `provider/model-name` 格式标识模型。目前支持 12+ 个官方提供商：Ollama、SiliconFlow、DeepSeek、Qwen、Moonshot AI、StepFun、MiniMax、火山引擎、OpenRouter、GLM、Z.AI 等。Hunyuan等其他提供商可通过自定义 OpenAI 兼容端点接入。
+> **模型标识格式**：OpenClaw 统一使用 `provider/model-name` 格式标识模型。目前支持 12+ 个官方提供商：Ollama、硅基流动、深度求索、通义千问、月之暗面、阶跃星辰、稀宇科技、火山引擎（豆包）、智谱、OpenRouter、Z.AI 等。混元、文心一言等其他提供商可通过自定义 OpenAI 兼容端点接入。
 >
 > **国内用户推荐**：[硅基流动（SiliconFlow）](https://cloud.siliconflow.cn)提供 OpenAI 兼容 API，新注册用户赠送 16 元算力券，支持支付宝/微信充值。详见第一章 4.2 节。通过硅基流动可直接访问 DeepSeek、Qwen、GLM 等多家模型，无需分别注册。
 
@@ -43,12 +44,15 @@ openclaw config set llm.providers.siliconflow.apiKey "sk-xxxxx"
 # 添加 DeepSeek
 openclaw config set llm.providers.deepseek.apiKey "sk-xxxxx"
 
-# 添加Doubao（火山方舟，内置提供商）
+# 添加豆包（火山引擎，内置提供商）
 openclaw config set llm.providers.volcengine.apiKey "sk-xxxxx"
 
-# 添加Hunyuan（腾讯，自定义 OpenAI 兼容端点）
+# 添加混元（腾讯，自定义 OpenAI 兼容端点）
 openclaw config set llm.providers.hunyuan.baseUrl "https://api.hunyuan.cloud.tencent.com/v1"
 openclaw config set llm.providers.hunyuan.apiKey "sk-xxxxx"
+
+# 添加智谱（内置提供商）
+openclaw config set llm.providers.glm.apiKey "sk-xxxxx"
 
 # 添加本地 Ollama
 openclaw config set llm.providers.ollama.baseUrl "http://localhost:11434"

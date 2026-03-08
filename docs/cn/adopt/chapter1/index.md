@@ -199,11 +199,11 @@ openclaw onboard --install-daemon
 
 | 推荐路径 | 适合用户 | 费用 |
 |---------|---------|------|
-| **硅基流动 SiliconFlow** | 国内用户（首选） | 新用户 16 元免费 |
-| Qwen（通义千问） | 国内用户（备选） | 阿里云生态，企业级支持 |
-| Doubao（字节跳动） | 国内用户（备选） | 火山方舟平台，模型丰富 |
-| Hunyuan（腾讯） | 国内用户（备选） | hunyuan-lite 免费无限量 |
-| DeepSeek / Kimi / StepFun / MiniMax / GLM | 国内用户（其他选择） | 支持支付宝，按量计费 |
+| **硅基流动** | 国内用户（首选） | 新用户 16 元免费 |
+| 通义千问 | 国内用户（备选） | 阿里云生态，企业级支持 |
+| 豆包 | 国内用户（备选） | 火山方舟平台，模型丰富 |
+| 混元 | 国内用户（备选） | hunyuan-lite 免费无限量 |
+| 深度求索 / 月之暗面 / 阶跃星辰 / 稀宇科技 / 智谱 / 文心一言 | 国内用户（其他选择） | 支持支付宝，按量计费 |
 
 ### 4.2 获取 API Key：以硅基流动为例
 
@@ -237,13 +237,15 @@ openclaw onboard --install-daemon
 <details>
 <summary>其他提供商的 API Key 获取方式</summary>
 
-- **DeepSeek（深度求索）**：访问 https://platform.deepseek.com ，注册后在控制台创建密钥，支持支付宝充值
-- **Qwen（通义千问）**：访问 https://dashscope.console.aliyun.com ，阿里云旗下，中文能力突出，企业级支持
-- **Kimi（月之暗面）**：访问 https://platform.moonshot.cn ，国内团队，中文理解能力强
-- **StepFun（阶跃星辰）**：访问 https://platform.stepfun.com ，多模态能力强，支持长上下文
-- **Doubao（字节跳动）**：访问 https://console.volcengine.com/ark ，火山方舟平台，支持 doubao-seed 系列模型，按量计费
-- **Hunyuan（腾讯）**：访问 https://cloud.tencent.com/product/tclm ，hunyuan-lite 免费无限量使用，支持多模态
-- **MiniMax（稀宇科技）**：访问 https://platform.minimaxi.com ，支持语音和多模态
+- **深度求索（DeepSeek）**：访问 https://platform.deepseek.com ，注册后在控制台创建密钥，支持支付宝充值
+- **通义千问（Qwen）**：访问 https://dashscope.console.aliyun.com ，阿里云旗下，中文能力突出，企业级支持
+- **月之暗面（Moonshot/Kimi）**：访问 https://platform.moonshot.cn ，国内团队，中文理解能力强
+- **阶跃星辰（StepFun）**：访问 https://platform.stepfun.com ，多模态能力强，支持长上下文
+- **豆包（字节跳动/Doubao）**：访问 https://console.volcengine.com/ark ，火山方舟平台，支持 doubao-seed 系列模型，按量计费
+- **混元（腾讯/Hunyuan）**：访问 https://cloud.tencent.com/product/tclm ，hunyuan-lite 免费无限量使用，支持多模态
+- **稀宇科技（MiniMax）**：访问 https://platform.minimaxi.com ，支持语音和多模态
+- **智谱（GLM）**：访问 https://open.bigmodel.cn ，清华技术背景，中文理解能力强
+- **文心一言（百度/ERNIE）**：访问 https://console.bce.baidu.com/qianfan ，百度生态，中文内容生成
 - **OpenRouter**：访问 https://openrouter.ai ，一个 Key 可访问多家模型
 
 </details>

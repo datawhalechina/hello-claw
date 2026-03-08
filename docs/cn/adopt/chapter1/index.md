@@ -200,9 +200,10 @@ openclaw onboard --install-daemon
 | 推荐路径 | 适合用户 | 费用 |
 |---------|---------|------|
 | **硅基流动 SiliconFlow** | 国内用户（首选） | 新用户 16 元免费 |
-| DeepSeek | 国内用户（备选） | 支付宝充值，按量计费 |
 | Qwen（通义千问） | 国内用户（备选） | 阿里云生态，企业级支持 |
-| Kimi / StepFun / MiniMax | 国内用户（其他选择） | 支持支付宝 |
+| Doubao（字节跳动） | 国内用户（备选） | 火山方舟平台，模型丰富 |
+| Hunyuan（腾讯） | 国内用户（备选） | hunyuan-lite 免费无限量 |
+| DeepSeek / Kimi / StepFun / MiniMax / GLM | 国内用户（其他选择） | 支持支付宝，按量计费 |
 
 ### 4.2 获取 API Key：以硅基流动为例
 
@@ -240,6 +241,8 @@ openclaw onboard --install-daemon
 - **Qwen（通义千问）**：访问 https://dashscope.console.aliyun.com ，阿里云旗下，中文能力突出，企业级支持
 - **Kimi（月之暗面）**：访问 https://platform.moonshot.cn ，国内团队，中文理解能力强
 - **StepFun（阶跃星辰）**：访问 https://platform.stepfun.com ，多模态能力强，支持长上下文
+- **Doubao（字节跳动）**：访问 https://console.volcengine.com/ark ，火山方舟平台，支持 doubao-seed 系列模型，按量计费
+- **Hunyuan（腾讯）**：访问 https://cloud.tencent.com/product/tclm ，hunyuan-lite 免费无限量使用，支持多模态
 - **MiniMax（稀宇科技）**：访问 https://platform.minimaxi.com ，支持语音和多模态
 - **OpenRouter**：访问 https://openrouter.ai ，一个 Key 可访问多家模型
 

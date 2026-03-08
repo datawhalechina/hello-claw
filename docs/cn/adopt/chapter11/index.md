@@ -37,6 +37,9 @@
 | 技能安装后不可用 | 缺少系统依赖 | 检查 SKILL.md 中的 requirements |
 | API Key 配置后仍报错 | openclaw.json 格式错误 | 用 `openclaw config` 交互式配置 |
 
+<details>
+<summary>展开：日志诊断</summary>
+
 ## 2. 日志诊断
 
 ### 2.1 查看日志
@@ -75,6 +78,11 @@ openclaw logs --skill weather --last 20
 openclaw config set logging.level debug
 openclaw gateway restart
 ```
+
+</details>
+
+<details>
+<summary>展开：性能优化</summary>
 
 ## 3. 性能优化
 
@@ -127,6 +135,11 @@ openclaw usage --detail
 openclaw usage --by-skill --period month
 ```
 
+</details>
+
+<details>
+<summary>展开：数据备份与恢复</summary>
+
 ## 4. 数据备份与恢复
 
 ### 4.1 需要备份的内容
@@ -166,6 +179,11 @@ tar -xzf openclaw-backup-20260307.tar.gz -C ~/
 openclaw gateway restart
 ```
 
+</details>
+
+<details>
+<summary>展开：升级指南</summary>
+
 ## 5. 升级指南
 
 ### 5.1 升级 OpenClaw
@@ -187,6 +205,8 @@ docker compose up -d
 - 升级前备份 `~/.openclaw/` 目录
 - 查看 Release Notes 了解破坏性变更
 - 大版本升级后可能需要重新配置部分技能
+
+</details>
 
 ## 6. 社区资源
 

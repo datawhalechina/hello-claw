@@ -39,11 +39,13 @@
 
 ### 3.1 安装 OpenClaw
 
+> Node.js 安装和 API Key 获取的详细步骤请参考[第一章](/cn/adopt/chapter1/)，这里只列出服务器部署的关键命令。
+
 ```bash
 # SSH 连接到服务器
 ssh user@your-server-ip
 
-# 安装 Node.js（如果没有）
+# 安装 Node.js 22（详见第一章第 2 节）
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
 sudo apt-get install -y nodejs
 
@@ -56,15 +58,19 @@ openclaw --version
 
 ### 3.2 配置 LLM API Key
 
+使用第一章获取的 API Key 配置服务器端（以硅基流动为例）：
+
 ```bash
-# 设置 API Key（以硅基流动为例）
+# 方式一：命令行配置
 openclaw config set llm.provider "siliconflow"
 openclaw config set llm.baseUrl "https://api.siliconflow.cn/v1"
 openclaw config set llm.apiKey "sk-xxxxx"
 
-# 或使用环境变量
+# 方式二：使用环境变量（推荐生产环境，更安全）
 export LLM_API_KEY="sk-xxxxx"
 ```
+
+> **提示**：如果还没有 API Key，请先完成[第一章 4.2 节](/cn/adopt/chapter1/#_4-2-获取-api-key-以硅基流动为例)的注册步骤。
 
 ### 3.3 使用 systemd 保持运行
 
@@ -74,6 +80,9 @@ export LLM_API_KEY="sk-xxxxx"
 # 自动安装 systemd 服务（推荐）
 openclaw onboard --install-daemon
 ```
+
+<details>
+<summary>展开：手动配置 systemd 服务</summary>
 
 如果需要手动配置：
 
@@ -108,6 +117,8 @@ sudo systemctl status openclaw    # 查看状态
 sudo systemctl restart openclaw   # 重启
 journalctl -u openclaw -f         # 查看实时日志
 ```
+
+</details>
 
 ## 4. Docker 部署（推荐）
 
@@ -179,6 +190,9 @@ docker compose pull
 docker compose up -d
 ```
 
+<details>
+<summary>展开：安全加固配置</summary>
+
 ## 5. 安全加固
 
 ### 5.1 创建专用用户
@@ -212,6 +226,11 @@ openclaw logs --last 100
 # 监控异常操作
 openclaw logs --level error --last 50
 ```
+
+</details>
+
+<details>
+<summary>展开：监控与维护</summary>
 
 ## 6. 监控与维护
 
@@ -254,6 +273,8 @@ openclaw cleanup --older-than 30d
 # 查看磁盘使用
 du -sh ~/openclaw-data/*
 ```
+
+</details>
 
 ## 7. 常见问题
 

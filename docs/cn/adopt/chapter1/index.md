@@ -362,6 +362,9 @@ openclaw --version
 openclaw --help
 ```
 
+<details>
+<summary>更多命令：Gateway 管理、模型管理、渠道管理、日志调试</summary>
+
 ### Gateway 管理
 
 ```bash
@@ -425,6 +428,8 @@ openclaw logs --follow
 # 查看最近日志
 openclaw logs
 ```
+
+</details>
 
 ## 9. 常见问题
 

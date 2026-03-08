@@ -267,6 +267,9 @@ openclaw config set channels.telegram.customKeyboard '[["/status","/logs"],["/ba
 
 这样你只需要发送 `/status`，OpenClaw 就会执行完整的检查流程。这些快捷命令本质上是预定义的 prompt，OpenClaw 会把它们展开成完整的指令再执行。
 
+<details>
+<summary>展开：带参数的快捷命令</summary>
+
 你还可以设置带参数的快捷命令：
 
 ```json
@@ -281,6 +284,8 @@ openclaw config set channels.telegram.customKeyboard '[["/status","/logs"],["/ba
 
 使用时这样调用：`/search TODO` 或 `/git status`。
 
+</details>
+
 ### 4.2 文件传输
 
 移动端接入的另一个强大功能是文件传输。你可以在手机上拍一张照片发给 OpenClaw，让它识别图片中的文字；或者发送一个 Excel 文件，让它生成数据分析报告。
@@ -293,6 +298,9 @@ openclaw config set channels.telegram.customKeyboard '[["/status","/logs"],["/ba
 - 代码文件：进行代码审查和优化建议
 
 处理完成后，OpenClaw 会把结果文件发回给你。整个过程完全自动化，不需要你手动上传下载。
+
+<details>
+<summary>展开：语音输入配置</summary>
 
 ### 4.3 语音输入
 
@@ -315,6 +323,11 @@ openclaw config set channels.telegram.customKeyboard '[["/status","/logs"],["/ba
 ```
 
 发送语音消息后，OpenClaw 会先回复"正在识别语音..."，然后显示识别出的文字，最后执行指令并返回结果。
+
+</details>
+
+<details>
+<summary>展开：安全加固建议</summary>
 
 ### 4.4 安全建议
 
@@ -343,6 +356,11 @@ openclaw logs --channel telegram --last 100
 
 **不要在公共网络下暴露端口**：如果你的 OpenClaw 运行在公网服务器上，务必配置防火墙，只允许来自飞书或 Telegram 官方服务器的请求。
 
+</details>
+
+<details>
+<summary>展开：多渠道协同配置</summary>
+
 ### 4.5 多渠道协同
 
 你可以同时启用飞书和 Telegram，在不同场景使用不同渠道。例如工作相关的任务通过飞书，个人事务通过 Telegram。所有对话历史都会同步到 OpenClaw 的记忆系统中，不会因为切换渠道而丢失上下文。
@@ -366,6 +384,8 @@ openclaw logs --channel telegram --last 100
 ```
 
 这样可以实现更细粒度的权限控制，比如在 Telegram 上只能查询信息，不能修改文件。
+
+</details>
 
 ## 5. 实战案例
 

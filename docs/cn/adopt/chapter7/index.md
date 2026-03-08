@@ -84,6 +84,9 @@ openclaw config set llm.fallback "deepseek/deepseek-chat"
 
 > **注意**：OpenClaw 的配置文件为 `openclaw.json`（JSON 格式），不是 YAML。
 
+<details>
+<summary>展开：模型路由策略配置</summary>
+
 ## 3. 模型路由策略
 
 ### 3.1 基于任务复杂度
@@ -127,6 +130,11 @@ OpenClaw 可以根据任务自动选择合适的模型：
   }
 }
 ```
+
+</details>
+
+<details>
+<summary>展开：本地模型部署（Ollama）</summary>
 
 ## 4. 本地模型部署（Ollama）
 
@@ -179,7 +187,12 @@ openclaw config set llm.default "ollama/qwen2.5:72b"
 
 > **Ollama 自动发现**：OpenClaw 会自动查询 Ollama 的 `/api/tags` 和 `/api/show` 接口，发现本地已安装的模型，无需手动逐一配置。
 
+</details>
+
 ## 5. 成本监控与优化
+
+<details>
+<summary>展开：成本监控与优化配置</summary>
 
 ### 5.1 查看 Token 消耗
 
@@ -217,6 +230,8 @@ openclaw usage --by-skill
 **选择合适的模型**：不要所有任务都用最贵的模型。天气查询用 Haiku（$0.25/M tokens）就够了，不需要 Opus（$15/M tokens），价格差 60 倍。
 
 **减少活跃技能**：每个活跃技能的说明都会加入上下文，增加 Token 消耗。只保留常用技能。
+
+</details>
 
 ### 5.4 成本对比
 

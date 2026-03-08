@@ -120,6 +120,9 @@ clawhub update --all
 clawhub uninstall weather
 ```
 
+<details>
+<summary>展开：技能文件结构详解（开发者参考）</summary>
+
 ## 3. 技能文件结构
 
 ### 3.1 SKILL.md 格式
@@ -178,6 +181,8 @@ frontmatter 字段说明：
 ```
 
 > **注意**：技能目录内没有 `config.yaml` 或 `tools.yaml`。所有技能配置统一在工作区级的 `openclaw.json` 中管理，而非分散在各技能目录中。
+
+</details>
 
 ## 4. 常用技能推荐
 
@@ -261,6 +266,9 @@ openclaw config
 
 对于需要 API Key 的技能，安装时会自动引导你输入。你也可以后续通过 `openclaw config` 或直接编辑 `openclaw.json` 修改。
 
+<details>
+<summary>展开：创建和发布自定义技能</summary>
+
 ## 6. 创建自定义技能
 
 如果 ClawHub 上没有你需要的技能，可以自己创建。
@@ -305,6 +313,8 @@ cp -r my-ip ~/.openclaw/skills/
 # 3. 提交 Pull Request
 ```
 
+</details>
+
 ## 7. 飞书插件：技能实战案例
 
 飞书官方插件是一个典型的复合技能，展示了技能如何深度集成外部服务。安装飞书插件后（安装步骤参见第二章 2.4 节），OpenClaw 不仅能通过飞书收发消息，还能直接操作飞书的办公数据：
@@ -333,6 +343,9 @@ cp -r my-ip ~/.openclaw/skills/
 
 这种深度集成体现了技能系统的核心价值：通过标准化的 SKILL.md 接口，将复杂的外部服务能力无缝注入 OpenClaw 的执行循环中。
 
+<details>
+<summary>展开：性能考量与安全提示</summary>
+
 ## 8. 技能系统的性能考量
 
 技能并非越多越好。每个活跃技能都会增加上下文加载量，影响响应速度。建议：
@@ -346,6 +359,8 @@ cp -r my-ip ~/.openclaw/skills/
 **测试后再用**：新安装的技能先在测试环境试用，确认没问题后再用于生产任务。对于未经审计的第三方技能，建议在 Docker 沙箱中运行。
 
 > **安全警告**：2026 年 2 月的安全审计（ClawHavoc 事件）发现 ClawHub 上约 12% 的技能存在恶意行为或安全漏洞。OpenClaw 团队已进行清理，但安装第三方技能时仍需保持警惕。建议优先使用高星标技能，并检查 SKILL.md 中的指令内容。
+
+</details>
 
 <details>
 <summary>展开阅读：技能与 MCP 的关系</summary>

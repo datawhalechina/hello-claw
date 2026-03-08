@@ -318,7 +318,7 @@ openclaw cron disable morning_brief
 openclaw cron enable morning_brief
 ```
 
-或者直接在 `openclaw.json` 的 `cron.jobs` 对应条目中设置 `"enabled": false`。如果你要出差一周，可以临时禁用所有非关键任务，避免不必要的通知。
+或者直接在 `~/.openclaw/cron/jobs.json` 对应条目中设置 `"enabled": false`（参见本章第 4 节的配置说明）。如果你要出差一周，可以临时禁用所有非关键任务，避免不必要的通知。
 
 ### 5.4 查看执行日志
 

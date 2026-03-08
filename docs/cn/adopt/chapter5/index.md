@@ -1,5 +1,7 @@
 # 第五章 外部服务集成
 
+> **前提**：本章假设你已完成第一章的安装配置和第四章的技能安装。本章涉及的服务（Google、Notion、数据库等）需要你已有对应的账号。没有这些服务账号的读者可以跳过对应小节，只看自己用得到的部分。
+
 在第四章中，我们学会了安装和使用技能。本章将深入实战，通过 Google Workspace、Notion 等技能将 OpenClaw 与你的日常工具连接起来，打造真正的自动化工作流。
 
 ## 1. Google Workspace 集成
@@ -73,11 +75,11 @@ Notion 技能让 OpenClaw 成为你的知识库管理助手。
 clawhub install notion
 ```
 
-需要创建 Notion Integration 并获取 API Token：
+需要创建 Notion Integration（集成接口，让 OpenClaw 获得访问你 Notion 数据的权限）并获取 API Token：
 
 1. 访问 https://www.notion.so/my-integrations
-2. 创建新的 Integration，获取 Internal Token
-3. 在 Notion 中将需要访问的页面/数据库共享给 Integration
+2. 点击"New integration"创建新的集成，获取 Internal Token（一串以 `ntn_` 开头的密钥）
+3. 在 Notion 中打开需要访问的页面/数据库，点击右上角"..."→"Connections"→添加你刚创建的 Integration
 
 ### 2.2 数据库操作
 

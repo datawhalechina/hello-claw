@@ -45,6 +45,8 @@ wsl --install
 >
 > 打开后你会看到一个黑色（或白色）的窗口，里面有一个闪烁的光标，这就是终端。后续所有 `bash` 代码块中的命令都在这里输入。
 
+<!-- TODO: 补充各系统终端界面截图（Windows PowerShell、macOS Terminal、Linux Terminal） -->
+
 ## 2. 安装 Node.js
 
 > **什么是 Node.js？** Node.js 是一个让 JavaScript 语言能在电脑上运行的平台。OpenClaw 是用 JavaScript 编写的，所以需要先安装 Node.js 才能运行它。你不需要学会 JavaScript，只需要安装好 Node.js 就行。
@@ -205,6 +207,8 @@ openclaw --version
 
 看到版本号说明安装成功。
 
+<!-- TODO: 补充 node --version 和 openclaw --version 的终端输出截图 -->
+
 ## 4. 运行配置向导
 
 安装完成后，运行配置向导：
@@ -295,6 +299,8 @@ openclaw onboard --install-daemon
 │  ● Custom（自定义 API 端点）← 硅基流动选这个
 ```
 
+<!-- TODO: 补充配置向导交互界面截图（模型选择步骤） -->
+
 选择 `Custom` 后，按提示输入：
 
 - **API Base URL**：`https://api.siliconflow.cn/v1`
@@ -330,6 +336,8 @@ openclaw status
 
 看到 `Gateway service: running` 说明安装成功。Gateway（网关）是 OpenClaw 的核心服务，负责接收你的指令、调用 AI 模型、执行任务。
 
+<!-- TODO: 补充 openclaw status 输出截图（显示 Gateway service: running） -->
+
 打开 Web 控制面板：
 
 ```bash
@@ -339,6 +347,8 @@ openclaw dashboard
 浏览器会自动打开 `http://localhost:18789`，你可以在这里和 OpenClaw 对话。
 
 > **什么是 localhost？** `localhost` 就是"本机"的意思，指你自己的电脑。`http://localhost:18789` 表示访问本机 18789 端口上运行的服务。这个网页只有你自己能打开，外人无法访问。
+
+<!-- TODO: 补充 Web 控制面板首页截图（浏览器打开 localhost:18789 的界面） -->
 
 ## 6. 第一次对话
 

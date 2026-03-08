@@ -77,6 +77,8 @@ clawhub install notion
 
 需要创建 Notion Integration（集成接口，让 OpenClaw 获得访问你 Notion 数据的权限）并获取 API Token：
 
+<!-- TODO: 补充 Notion Integration 创建页面截图（New integration 按钮和 Token 显示） -->
+
 1. 访问 https://www.notion.so/my-integrations
 2. 点击"New integration"创建新的集成，获取 Internal Token（一串以 `ntn_` 开头的密钥）
 3. 在 Notion 中打开需要访问的页面/数据库，点击右上角"..."→"Connections"→添加你刚创建的 Integration

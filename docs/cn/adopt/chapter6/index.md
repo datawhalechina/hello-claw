@@ -88,6 +88,8 @@ export LLM_API_KEY="sk-xxxxx"
 openclaw onboard --install-daemon
 ```
 
+<!-- TODO: 补充 systemd 服务状态截图（systemctl status openclaw 输出） -->
+
 <details>
 <summary>展开：手动配置 systemd 服务</summary>
 

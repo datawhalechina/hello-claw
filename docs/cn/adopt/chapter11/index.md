@@ -46,6 +46,8 @@
 
 ### 2.1 查看日志
 
+<!-- TODO: 补充 openclaw logs 终端输出截图（实时日志流示例） -->
+
 ```bash
 # 查看实时日志（持续输出）
 openclaw logs --follow
@@ -149,8 +151,15 @@ openclaw usage --by-skill --period month
 ```
 ~/.openclaw/
 ├── openclaw.json        # 配置文件（API Key、渠道设置）
-├── SOUL.md              # 人格设定
-├── MEMORY.md            # 长期记忆
+├── workspace/           # 工作区（详见第八章第 7 节）
+│   ├── IDENTITY.md      # 助理身份（名字、风格）
+│   ├── SOUL.md          # 人格设定和行为准则
+│   ├── USER.md          # 你的个人信息和偏好
+│   ├── AGENTS.md        # 工作流程和操作规范
+│   ├── TOOLS.md         # 环境专属信息（服务器、设备等）
+│   ├── MEMORY.md        # 长期记忆
+│   ├── HEARTBEAT.md     # 定期巡检清单
+│   └── memory/          # 每日工作日志
 ├── skills/              # 已安装技能及配置
 ├── cron/                # 定时任务
 └── conversations/       # 对话历史
@@ -162,11 +171,10 @@ openclaw usage --by-skill --period month
 # 完整备份
 tar -czf openclaw-backup-$(date +%Y%m%d).tar.gz ~/.openclaw/
 
-# 只备份配置（不含对话历史）
+# 只备份配置和工作区（不含对话历史）
 tar -czf openclaw-config-$(date +%Y%m%d).tar.gz \
   ~/.openclaw/openclaw.json \
-  ~/.openclaw/SOUL.md \
-  ~/.openclaw/MEMORY.md \
+  ~/.openclaw/workspace/ \
   ~/.openclaw/skills/ \
   ~/.openclaw/cron/
 ```

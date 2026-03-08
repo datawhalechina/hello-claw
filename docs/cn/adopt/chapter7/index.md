@@ -254,6 +254,8 @@ openclaw usage --by-skill
 
 </details>
 
+<!-- TODO: 补充 openclaw usage 命令输出截图（Token 消耗统计） -->
+
 ### 5.4 成本对比
 
 | 使用模式 | 日均调用 | 月估算费用 |

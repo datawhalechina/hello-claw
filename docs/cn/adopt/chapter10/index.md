@@ -59,6 +59,8 @@ clawhub install git-ops
 
 ### 2.3 PR 管理
 
+<!-- TODO: 补充 GitHub PR 自动生成截图（OpenClaw 创建的 PR 描述示例） -->
+
 ```
 为当前分支创建一个 PR 到 main：
 - 自动生成 PR 描述（基于 commit 历史）

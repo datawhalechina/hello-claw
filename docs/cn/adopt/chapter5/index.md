@@ -131,7 +131,7 @@ clawhub install notion
 clawhub install sql-toolkit
 ```
 
-支持 PostgreSQL、MySQL、SQLite 的只读查询：
+支持 PostgreSQL、MySQL、SQLite 的只读查询（这三种都是常见的数据库软件，用来存储和管理结构化数据，类似于功能更强大的 Excel 表格）：
 
 ```
 连接生产数据库，查询最近 7 天的新增用户数，按天分组

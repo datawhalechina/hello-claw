@@ -53,7 +53,7 @@ openclaw logs --follow
 # 查看最近 100 条日志
 openclaw logs --limit 100
 
-# 以 JSON 格式输出（方便用 jq 等工具过滤）
+# 以 JSON 格式输出（方便用 jq 等数据处理工具过滤，新手可忽略此选项）
 openclaw logs --limit 100 --json
 
 # 纯文本输出（无颜色）

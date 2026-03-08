@@ -79,6 +79,8 @@ export LLM_API_KEY="sk-xxxxx"
 
 ### 3.3 使用 systemd 保持运行
 
+> **什么是 systemd？** systemd 是 Linux 系统自带的"服务管理器"，可以让程序在后台自动运行，并在崩溃时自动重启。你不需要深入了解它，只需运行下面一条命令即可。
+
 创建系统服务让 OpenClaw 在后台持续运行。OpenClaw 提供了自动生成 systemd 配置的命令：
 
 ```bash
@@ -201,6 +203,8 @@ docker run -d \
 ```
 
 ### 4.3 使用 Docker Compose
+
+> **什么是 Docker Compose？** Docker Compose 是 Docker 的"编排工具"，让你用一个配置文件（`docker-compose.yml`）定义和管理容器，比手动输入长串 `docker run` 命令更方便。
 
 ```yaml
 # docker-compose.yml

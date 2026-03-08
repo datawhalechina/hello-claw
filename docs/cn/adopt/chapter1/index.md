@@ -47,6 +47,8 @@ wsl --install
 
 ## 2. 安装 Node.js
 
+> **什么是 Node.js？** Node.js 是一个让 JavaScript 语言能在电脑上运行的平台。OpenClaw 是用 JavaScript 编写的，所以需要先安装 Node.js 才能运行它。你不需要学会 JavaScript，只需要安装好 Node.js 就行。
+
 > **国内网络提示**：下面的安装方法默认从国外服务器下载，速度可能较慢。如果遇到下载超时，请参考本节末尾的"国内镜像加速"。
 
 ### Windows 用户（不使用 WSL2）
@@ -68,6 +70,8 @@ iwr -useb https://openclaw.ai/install.ps1 | iex
 这个脚本会自动下载并安装 Node.js 和 OpenClaw，全程无需手动操作。
 
 **方案二：手动安装**
+
+> **什么是 nvm？** nvm（Node Version Manager）是一个 Node.js 版本管理工具，可以帮你安装和切换不同版本的 Node.js。如果你只需要装一个版本，用方案一更简单。
 
 1. 下载 nvm-windows：访问 [github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases) 下载 `nvm-setup.exe`
 2. 安装后重新打开 PowerShell（管理员模式）
@@ -186,6 +190,8 @@ npm config set registry https://registry.npmmirror.com
 ## 3. 安装 OpenClaw
 
 全局安装 OpenClaw CLI（CLI 即"命令行界面"，就是在终端里通过输入命令来操作的工具）：
+
+> **什么是 npm？** npm（Node Package Manager）是 Node.js 自带的"软件安装器"。安装好 Node.js 后，npm 就自动可用了。下面这条命令的意思是：用 npm 把 OpenClaw 安装到电脑上（`-g` 表示全局安装，让你在任何目录都能使用 `openclaw` 命令）。
 
 ```bash
 npm install -g openclaw@latest
@@ -331,6 +337,8 @@ openclaw dashboard
 ```
 
 浏览器会自动打开 `http://localhost:18789`，你可以在这里和 OpenClaw 对话。
+
+> **什么是 localhost？** `localhost` 就是"本机"的意思，指你自己的电脑。`http://localhost:18789` 表示访问本机 18789 端口上运行的服务。这个网页只有你自己能打开，外人无法访问。
 
 ## 6. 第一次对话
 
@@ -494,7 +502,7 @@ openclaw gateway restart
 
 **Q: 提示"API key not found"怎么办？**
 
-A: 编辑配置文件 `openclaw.json`，确保 API 密钥配置正确。例如使用硅基流动：
+A: 编辑配置文件 `openclaw.json`（位于 `~/.openclaw/openclaw.json`，Windows 上是 `C:\Users\你的用户名\.openclaw\openclaw.json`），确保 API 密钥配置正确。你可以用任何文本编辑器（如记事本、VS Code）打开它。例如使用硅基流动：
 
 ```json
 {

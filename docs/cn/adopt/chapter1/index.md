@@ -254,10 +254,10 @@ OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-fl
 <details>
 <summary>更多提供商的 API Key 获取方式</summary>
 
+- **阶跃星辰（StepFun）**：访问 https://platform.stepfun.com 获取官方 API Key；或在 [OpenRouter](https://openrouter.ai/stepfun/step-3.5-flash:free) 直接使用 `stepfun/step-3.5-flash:free` 免费模型，零成本入门（推荐）
 - **深度求索（DeepSeek）**：访问 https://platform.deepseek.com ，支持支付宝充值
 - **通义千问（Qwen）**：访问 https://dashscope.console.aliyun.com ，阿里云旗下
 - **月之暗面（Moonshot/Kimi）**：访问 https://platform.moonshot.cn
-- **阶跃星辰（StepFun）**：访问 https://platform.stepfun.com ，有免费模型可用
 - **豆包（Doubao）**：访问 https://console.volcengine.com/ark ，火山方舟平台
 - **混元（Hunyuan）**：访问 https://cloud.tencent.com/product/tclm ，hunyuan-lite 免费无限量
 - **稀宇科技（MiniMax）**：访问 https://platform.minimaxi.com
@@ -271,6 +271,13 @@ OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-fl
 </details>
 
 </details>
+
+::: info Token 消耗提醒
+随着对话轮数增加，上下文会越来越长，Token 消耗也会显著增加。即使是免费模型，长时间对话后也可能触发速率限制。建议：
+- 使用更便宜的模型（如 `stepfun/step-3.5-flash:free` 等免费模型）
+- 对于复杂任务，考虑使用 coding plan 模式进行操作
+- 使用一段时间后注意检查 API 开销，避免意外费用
+:::
 
 <details>
 <summary>进阶：跳过向导，手动编辑配置文件</summary>
@@ -411,6 +418,54 @@ openclaw logs --follow
 # 重新配置
 openclaw configure
 ```
+
+</details>
+
+<details>
+<summary>如何卸载 OpenClaw</summary>
+
+### 方式一：使用内置卸载命令（推荐）
+
+```bash
+# 交互式卸载
+openclaw uninstall
+
+# 完全卸载（非交互式，适用于自动化）
+openclaw uninstall --all --yes
+```
+
+### 方式二：手动卸载
+
+如果 CLI 已删除但服务仍在运行，按步骤手动清理：
+
+**1. 停止网关服务：**
+```bash
+openclaw gateway stop
+```
+
+**2. 卸载系统服务：**
+```bash
+openclaw gateway uninstall
+```
+
+**3. 删除配置和状态数据：**
+```bash
+rm -rf ~/.openclaw
+```
+
+**4. 删除 CLI（根据安装方式选择）：**
+```bash
+# npm 安装
+npm rm -g openclaw
+
+# pnpm 安装
+pnpm remove -g openclaw
+
+# bun 安装
+bun remove -g openclaw
+```
+
+> **注意**：卸载前建议备份你的 workspace 目录（`~/.openclaw/workspace`），其中包含重要数据。
 
 </details>
 

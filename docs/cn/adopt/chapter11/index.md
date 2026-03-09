@@ -151,7 +151,7 @@ openclaw usage --by-skill --period month
 ```
 ~/.openclaw/
 ├── openclaw.json        # 配置文件（API Key、渠道设置）
-├── workspace/           # 工作区（详见第八章第 7 节）
+├── workspace/           # 工作区（详见第九章第 7 节）
 │   ├── IDENTITY.md      # 助理身份（名字、风格）
 │   ├── SOUL.md          # 人格设定和行为准则
 │   ├── USER.md          # 你的个人信息和偏好

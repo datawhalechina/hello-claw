@@ -1,328 +1,367 @@
-# 第七章 多模型与成本优化
+# 第七章 生产环境部署
 
-> **前提**：本章假设你已完成第一章的安装配置。如果你只使用一个模型提供商（如硅基流动），可以先跳过本章，等需要切换或优化费用时再回来看。
+> **本章适合谁？** 如果你只是个人使用，在自己电脑上运行 OpenClaw 就够了，可以跳过本章。本章面向需要 24/7 不间断运行的用户——比如你想让定时任务在你睡觉时也能执行，或者想在手机上随时控制 OpenClaw。
 
-OpenClaw 不绑定任何单一 LLM（大语言模型）提供商。你可以同时配置 Claude、GPT、本地 Ollama 等多个模型，根据任务复杂度智能路由，在保证质量的同时大幅降低 API 费用。
+到目前为止，你可能一直在本地运行 OpenClaw。但要让它真正成为 24/7 待命的 AI 助手，你需要将它部署到服务器上持续运行。
 
-> **什么是 Token？** 在 AI 模型计费中，Token 是文本的计量单位。1 个汉字约等于 1-2 个 Token，1 个英文单词约等于 1 个 Token。模型提供商按你消耗的 Token 数量收费——你发送的问题和 AI 的回答都会消耗 Token。
+**什么是服务器？** 简单说就是一台 24 小时开机、连着网的电脑。你可以租一台云服务器（VPS），每月几十元，就像租了一台永远在线的远程电脑。本章介绍 VPS 选择、Docker 部署和远程管理的完整流程。
 
-## 1. 支持的模型
+## 1. 为什么需要服务器部署
 
-### 1.1 云端模型
+本地运行的限制很明显：电脑关机就停了，网络不稳定会断连，而且你无法随时随地使用。部署到服务器后：
 
-| 提供商 | 模型 | 特点 | 适合任务 |
-|--------|------|------|---------|
-| **硅基流动** | `siliconflow/deepseek-ai/DeepSeek-V3` | **国内推荐**，新用户 16 元免费 | 通用编码、中文任务 |
-| 深度求索 | `deepseek/deepseek-chat` | 编码能力强 | 代码生成、调试 |
-| 通义千问 | `qwen/qwen-max` | 阿里云生态，中文能力强 | 中文写作、企业应用 |
-| 月之暗面 | `moonshot/moonshot-v1-128k` | 128K 长上下文 | 长文档分析 |
-| 阶跃星辰 | `stepfun/step-2-16k` | 多模态、长上下文 | 图片理解、复杂推理 |
-| 豆包 | `volcengine/doubao-seed-2-0-pro-260215` | 火山方舟平台，模型丰富 | 通用对话、编码 |
-| 混元 | `hunyuan/hunyuan-turbos-latest` | hunyuan-lite 免费无限量 | 通用对话、翻译 |
-| 稀宇科技 | `minimax/abab6.5s-chat` | 多模态支持 | 语音、图片处理 |
-| 智谱 | `glm/glm-4-plus` | 清华技术背景，中文理解强 | 中文对话、知识问答 |
-| 文心一言 | `ernie/ernie-4.0-8k` | 百度生态，中文内容生成 | 中文对话、写作 |
-| OpenAI | `openai/gpt-5.4` | 最强综合能力 | 复杂推理、编码 |
-| Anthropic | `anthropic/claude-opus-4-6` | 深度思考、长上下文 | 写作、分析、编码 |
-| Google | `google/gemini-3.1-pro` | 多模态、大上下文窗口 | 多模态任务、长文档 |
-| xAI | `xai/grok-4` | 实时信息接入 | 信息检索、对话 |
+- 定时任务（第四章）可以 24/7 准时执行
+- 移动端（第三章）可以随时发送指令
+- 多人可以共享同一个 OpenClaw 实例
+- 系统资源更充足，处理速度更快
 
-> **模型标识格式**：OpenClaw 统一使用 `provider/model-name` 格式标识模型。内置提供商包括：OpenAI、Anthropic、Google、xAI、Ollama、硅基流动、深度求索、通义千问、月之暗面、阶跃星辰、稀宇科技、火山引擎（豆包）、智谱、OpenRouter 等。混元、文心一言等其他提供商可通过自定义 OpenAI 兼容端点接入。
->
-> **国内用户推荐**：[硅基流动（SiliconFlow）](https://cloud.siliconflow.cn)提供 OpenAI 兼容 API，新注册用户赠送 16 元算力券，支持支付宝/微信充值。详见[第一章 4.2 节](/cn/adopt/chapter1/#_4-2-配置-ai-模型)。通过硅基流动可直接访问 DeepSeek、Qwen、GLM 等多家模型，无需分别注册。
+## 2. VPS 选择
 
-### 1.2 本地模型（Ollama）
+### 2.1 国内推荐
 
-| 模型 | 参数量 | 最低显存 | 特点 |
-|------|--------|---------|------|
-| Llama 3.3 | 70B | 48GB | 开源最强通用模型 |
-| Qwen 2.5 | 72B | 48GB | 中文能力突出 |
-| DeepSeek V3 | 671B（MoE，混合专家架构，虽然参数量大但实际显存需求低） | 24GB | 编码能力强 |
-| Phi-4 | 14B | 8GB | 轻量级推理 |
+| 服务商 | 最低配置 | 月费参考 | 适合场景 |
+|--------|---------|---------|---------|
+| 阿里云 ECS | 2 核 4G | ~70 元 | 飞书集成、国内服务 |
+| 腾讯云 CVM | 2 核 4G | ~65 元 | 微信生态集成 |
+| 火山引擎 | 2 核 4G | ~60 元 | 字节系产品集成 |
 
-## 2. 配置多模型
+### 2.2 海外推荐
 
-### 2.1 添加模型提供商
+| 服务商 | 最低配置 | 月费参考 | 适合场景 |
+|--------|---------|---------|---------|
+| Hetzner | 2 核 4G | ~$5 | 性价比最高 |
+| DigitalOcean | 2 核 4G | ~$12 | Telegram 集成 |
+| AWS Lightsail | 2 核 4G | ~$10 | AWS 生态集成 |
 
-在 `openclaw.json` 中添加 `models.providers` 配置块：
+### 2.3 配置建议
+
+- **最低要求**：2 核 CPU、4GB 内存、40GB SSD
+- **推荐配置**：4 核 CPU、8GB 内存、80GB SSD
+- **操作系统**：Ubuntu 22.04 LTS 或 Debian 12
+
+## 3. 基础部署
+
+### 3.1 安装 OpenClaw
+
+> Node.js 安装和 API Key 获取的详细步骤请参考[第一章](/cn/adopt/chapter1/)，这里只列出服务器部署的关键命令。
+
+```bash
+# SSH 连接到服务器（SSH 是远程登录工具，用你的终端连接到远程服务器）
+# 将 user 替换为你的用户名，your-server-ip 替换为服务器 IP 地址
+ssh user@your-server-ip
+
+# 安装 Node.js 22（详见第一章第 2 节）
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+sudo apt-get install -y nodejs
+
+# 安装 OpenClaw
+npm install -g openclaw
+
+# 验证安装
+openclaw --version
+```
+
+### 3.2 配置 LLM API Key
+
+使用第一章获取的 API Key 配置服务器端（以硅基流动为例）：
+
+在部署目录下创建或编辑 `openclaw.json`，填入你的 API Key：
 
 ```json
-// openclaw.json
 {
+  "env": {
+    "SILICONFLOW_API_KEY": "sk-你的密钥"
+  },
   "models": {
+    "mode": "merge",
     "providers": {
       "siliconflow": {
         "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "sk-xxxxx"
-      },
-      "deepseek": {
-        "apiKey": "sk-xxxxx"
-      },
-      "volcengine": {
-        "apiKey": "sk-xxxxx"
-      },
-      "hunyuan": {
-        "baseUrl": "https://api.hunyuan.cloud.tencent.com/v1",
-        "apiKey": "sk-xxxxx",
-        "api": "openai-completions"
-      },
-      "glm": {
-        "apiKey": "sk-xxxxx"
-      },
-      "ollama": {
-        "baseUrl": "http://localhost:11434"
-      }
-    }
-  }
-}
-```
-
-### 2.2 设置默认模型
-
-在 `openclaw.json` 中通过 `agents.defaults.model.primary` 指定默认模型：
-
-```json
-// openclaw.json
-{
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "siliconflow/deepseek-ai/DeepSeek-V3"
-      }
-    }
-  }
-}
-```
-
-### 2.3 完整配置文件示例
-
-```json
-// openclaw.json
-{
-  "models": {
-    "providers": {
-      "siliconflow": {
-        "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "sk-xxxxx"
-      },
-      "deepseek": {
-        "apiKey": "sk-xxxxx"
-      },
-      "ollama": {
-        "baseUrl": "http://localhost:11434"
+        "apiKey": "${SILICONFLOW_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
+        ]
       }
     }
   },
   "agents": {
     "defaults": {
-      "model": {
-        "primary": "siliconflow/deepseek-ai/DeepSeek-V3"
-      }
+      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
     }
   }
 }
 ```
 
-> **注意**：OpenClaw 的配置文件为 `openclaw.json`（JSON 格式），不是 YAML。
+> **安全提示**：生产环境建议将密钥写入系统环境变量，再在 `openclaw.json` 中用 `${SILICONFLOW_API_KEY}` 引用，避免密钥明文出现在配置文件里。
+
+> **提示**：如果还没有 API Key，请先完成[第一章第 2 节](/cn/adopt/chapter1/#_2-配置-ai-模型)的注册步骤。
+
+### 3.3 使用 systemd 保持运行
+
+> **什么是 systemd？** systemd 是 Linux 系统自带的"服务管理器"，可以让程序在后台自动运行，并在崩溃时自动重启。你不需要深入了解它，只需运行下面一条命令即可。
+
+创建系统服务让 OpenClaw 在后台持续运行。OpenClaw 提供了自动生成 systemd 配置的命令：
+
+```bash
+# 自动安装 systemd 服务（推荐）
+openclaw onboard --install-daemon
+```
+
+<!-- TODO: 补充 systemd 服务状态截图（systemctl status openclaw 输出） -->
 
 <details>
-<summary>展开：模型路由策略配置</summary>
+<summary>展开：手动配置 systemd 服务</summary>
 
-## 3. 模型路由策略
+如果需要手动配置：
 
-### 3.1 基于任务复杂度
+```bash
+sudo cat > /etc/systemd/system/openclaw.service << 'EOF'
+[Unit]
+Description=OpenClaw AI Agent
+After=network.target
 
-OpenClaw 可以根据任务自动选择合适的模型：
+[Service]
+Type=simple
+User=openclaw
+WorkingDirectory=/home/openclaw
+ExecStart=/usr/bin/openclaw gateway start
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
 
-```json
-{
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "siliconflow/deepseek-ai/DeepSeek-V3"
-      }
-    }
-  }
-}
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable openclaw
+sudo systemctl start openclaw
 ```
 
-运行时也可以通过命令快速切换模型：
+管理服务：
 
+```bash
+sudo systemctl status openclaw    # 查看状态
+sudo systemctl restart openclaw   # 重启
+journalctl -u openclaw -f         # 查看实时日志
 ```
-/model fast
+
+</details>
+
+## 4. Docker 部署（推荐）
+
+Docker 提供了更好的隔离性和可移植性。
+
+### 4.1 使用官方安装脚本（推荐）
+
+OpenClaw 官方提供了 `docker-setup.sh` 一键部署脚本，这是最简单的 Docker 部署方式：
+
+```bash
+# 克隆官方仓库
+git clone https://github.com/openclaw/openclaw.git
+cd openclaw
+
+# 使用预构建镜像运行（推荐，省去编译时间）
+export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+./docker-setup.sh
 ```
 
-### 3.2 基于技能类型
+脚本会自动完成以下步骤：
+1. 拉取或构建 Docker 镜像
+2. 运行初始化配置向导
+3. 生成访问令牌（Token）
+4. 启动 Gateway 服务
 
-不同技能可以指定不同的模型：
+完成后访问 `http://127.0.0.1:18789/` 打开控制台，在设置中粘贴脚本输出的 Token 即可使用。
 
-```json
-{
-  "skills": {
-    "weather": {
-      "model": "siliconflow/Qwen/Qwen2.5-7B-Instruct"
-    },
-    "code-reviewer": {
-      "model": "deepseek/deepseek-chat"
-    },
-    "translator": {
-      "model": "moonshot/moonshot-v1-128k"
-    }
-  }
-}
+<details>
+<summary>展开：启用沙箱模式（Docker-in-Docker）</summary>
+
+如果你希望 AI 执行的命令在隔离环境中运行（更安全），可以启用沙箱模式：
+
+```bash
+export OPENCLAW_SANDBOX=1
+export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+./docker-setup.sh
+```
+
+> **什么是沙箱？** 沙箱是一种安全机制，让 AI 执行的命令在一个独立的容器中运行，即使出错也不会影响你的主系统。
+
+如果你使用 rootless Docker（非 root 用户运行 Docker），还需要指定 socket 路径：
+
+```bash
+export OPENCLAW_SANDBOX=1
+export OPENCLAW_DOCKER_SOCKET=/run/user/1000/docker.sock
+./docker-setup.sh
+```
+
+</details>
+
+### 4.2 使用官方镜像
+
+<!-- TODO: 补充 Docker 部署流程截图 -->
+
+```bash
+# 拉取镜像
+docker pull ghcr.io/openclaw/openclaw:latest
+
+# 创建配置目录
+mkdir -p ~/openclaw-data
+
+# 运行容器
+docker run -d \
+  --name openclaw \
+  --restart always \
+  -v ~/openclaw-data:/home/openclaw/.openclaw \
+  -e LLM_API_KEY="sk-xxxxx" \
+  -p 18789:18789 \
+  ghcr.io/openclaw/openclaw:latest gateway start
+```
+
+> **注意**：容器内运行用户为 uid 1000（node）。宿主机挂载目录需确保权限正确：
+> ```bash
+> chown -R 1000:1000 ~/openclaw-data
+```
+
+### 4.3 使用 Docker Compose
+
+> **什么是 Docker Compose？** Docker Compose 是 Docker 的"编排工具"，让你用一个配置文件（`docker-compose.yml`）定义和管理容器，比手动输入长串 `docker run` 命令更方便。
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw
+    restart: always
+    volumes:
+      - ./data:/home/openclaw/.openclaw
+    ports:
+      - "18789:18789"
+    environment:
+      - LLM_API_KEY=${LLM_API_KEY}
+      - NODE_ENV=production
+    command: gateway start
+```
+
+启动：
+
+```bash
+# 创建 .env 文件
+echo "LLM_API_KEY=sk-xxxxx" > .env
+
+# 启动服务
+docker compose up -d
+
+# 查看日志
+docker compose logs -f
+```
+
+### 4.4 更新版本
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+<details>
+<summary>展开：安全加固配置</summary>
+
+## 5. 安全加固
+
+### 5.1 创建专用用户
+
+```bash
+sudo useradd -m -s /bin/bash openclaw
+sudo su - openclaw
+```
+
+### 5.2 防火墙配置
+
+```bash
+# 只开放必要端口
+sudo ufw allow ssh
+sudo ufw allow 443/tcp    # HTTPS（如果需要 Webhook）
+sudo ufw enable
+```
+
+### 5.3 API Key 安全
+
+- 使用环境变量而非明文配置文件
+- 定期轮换 API Key
+- 设置 API 调用上限
+
+### 5.4 日志审计
+
+```bash
+# 查看 OpenClaw 最近日志
+openclaw logs --limit 100
+
+# 实时监控日志
+openclaw logs --follow
 ```
 
 </details>
 
 <details>
-<summary>展开：本地模型部署（Ollama）</summary>
+<summary>展开：监控与维护</summary>
 
-## 4. 本地模型部署（Ollama）
+## 6. 监控与维护
 
-### 4.1 安装 Ollama
+### 6.1 健康检查
 
-```bash
-# Linux
-curl -fsSL https://ollama.ai/install.sh | sh
-
-# macOS
-brew install ollama
-```
-
-### 4.2 下载模型
+OpenClaw 提供内置健康检查端点（默认端口 18789）：
 
 ```bash
-# 下载 Qwen 2.5（推荐中文场景）
-ollama pull qwen2.5:72b
+# 存活检查（liveness）
+curl http://localhost:18789/healthz
 
-# 下载 DeepSeek V3（推荐编码场景）
-ollama pull deepseek-v3
-
-# 轻量级模型（适合低配置机器）
-ollama pull phi4:14b
+# 就绪检查（readiness）
+curl http://localhost:18789/readyz
 ```
 
-### 4.3 配置 OpenClaw 使用本地模型
+也可以设置一个定时任务让 OpenClaw 自我检查：
 
-在 `openclaw.json` 中添加 Ollama 提供商并设置默认模型：
-
-```json
-// openclaw.json
-{
-  "models": {
-    "providers": {
-      "ollama": {
-        "baseUrl": "http://localhost:11434"
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "ollama/qwen2.5:72b"
-      }
-    }
-  }
-}
+```
+每小时检查一次自身状态，如果发现异常就发送告警到 Telegram
 ```
 
-### 4.4 混合模式
+### 6.2 自动备份
 
-推荐的混合部署：本地模型处理日常任务（零成本），复杂任务切换到云端 API：
+```bash
+# 备份配置和记忆
+tar -czf openclaw-backup-$(date +%Y%m%d).tar.gz ~/openclaw-data/
 
-```json
-// openclaw.json
-{
-  "models": {
-    "providers": {
-      "ollama": {
-        "baseUrl": "http://localhost:11434"
-      },
-      "siliconflow": {
-        "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "sk-xxxxx"
-      },
-      "deepseek": {
-        "apiKey": "sk-xxxxx"
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "ollama/qwen2.5:72b"
-      }
-    }
-  }
-}
+# 设置定时备份（每天凌晨 3 点）
+echo "0 3 * * * tar -czf /backups/openclaw-$(date +\%Y\%m\%d).tar.gz ~/openclaw-data/" | crontab -
 ```
 
-> **Ollama 自动发现**：OpenClaw 会自动查询 Ollama 的 `/api/tags` 和 `/api/show` 接口，发现本地已安装的模型，无需手动逐一配置。
+### 6.3 磁盘管理
+
+OpenClaw 的对话历史和日志会随时间增长。定期清理：
+
+```bash
+# 清理 30 天前的对话历史
+openclaw cleanup --older-than 30d
+
+# 查看磁盘使用
+du -sh ~/openclaw-data/*
+```
 
 </details>
 
-## 5. 成本监控与优化
+## 7. 常见问题
 
-<details>
-<summary>展开：成本监控与优化配置</summary>
+**服务启动失败**：检查 Node.js 版本（需要 22+）、API Key 是否正确、端口是否被占用。
 
-### 5.1 查看 Token 消耗
+**内存不足**：OpenClaw 运行时通常占用 500MB-1GB 内存。如果服务器内存紧张，考虑升级配置或使用 swap。
 
-```bash
-# 查看今日消耗
-openclaw usage today
+**网络超时**：如果使用海外 API 提供商，国内服务器可能需要代理。可以配置 HTTP_PROXY 环境变量。推荐使用硅基流动等国内提供商避免此问题。
 
-# 查看本月统计
-openclaw usage month
-
-# 按技能查看消耗
-openclaw usage --by-skill
-```
-
-### 5.2 设置预算上限
-
-```json
-{
-  "models": {
-    "budget": {
-      "daily": 5.00,
-      "monthly": 100.00,
-      "alert_at": 80
-    }
-  }
-}
-```
-
-### 5.3 成本优化技巧
-
-**使用缓存**：相同查询不重复调用 API。OpenClaw 内置了语义缓存，相似问题会复用之前的结果。
-
-**精简 Prompt**：过长的系统提示词会增加每次调用的 Token 数。定期审查技能的提示词，去除冗余内容。
-
-**选择合适的模型**：不要所有任务都用最贵的模型。简单任务用小模型（如硅基流动的 Qwen2.5-7B，约 ¥0.5/百万 tokens）就够了，不需要大模型（如 Claude Opus，约 ¥100/百万 tokens），价格相差上百倍。
-
-**减少活跃技能**：每个活跃技能的说明都会加入上下文，增加 Token 消耗。只保留常用技能。
-
-</details>
-
-<!-- TODO: 补充 openclaw usage 命令输出截图（Token 消耗统计） -->
-
-### 5.4 成本对比
-
-| 使用模式 | 日均调用 | 月估算费用 |
-|---------|---------|-----------|
-| **硅基流动 DeepSeek V3** | 100 次 | **~¥20-50** |
-| 混合路由（硅基流动 + Opus） | 100 次 | ~¥30-80 |
-| 本地 Ollama + 云端回退 | 100 次 | ~¥5-15 |
-
-## 6. 常见问题
-
-**模型切换延迟**：不同模型的首次调用可能有冷启动延迟。Ollama 本地模型需要先加载到显存，首次响应会慢一些。
-
-**本地模型质量不够**：对于复杂任务，本地模型确实不如 Claude Opus。建议设置自动回退：本地模型处理失败时自动切换到云端。
-
-**API 限流**：大部分提供商都有 RPM（每分钟请求数）限制。如果遇到 429 错误，减少并发任务数或升级 API 套餐。
+**Docker 容器自动重启**：检查 `docker logs openclaw` 查看崩溃原因，通常是 API Key 过期或配置文件格式错误。
 
 ---
 
-**下一步**：[第八章 个人助理系统](/cn/adopt/chapter8/)
+**下一步**：[第八章 多模型与成本优化](/cn/adopt/chapter8/)

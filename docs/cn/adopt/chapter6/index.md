@@ -95,7 +95,7 @@ openclaw --version
 
 > **安全提示**：生产环境建议将密钥写入系统环境变量，再在 `openclaw.json` 中用 `${SILICONFLOW_API_KEY}` 引用，避免密钥明文出现在配置文件里。
 
-> **提示**：如果还没有 API Key，请先完成[第一章 4.2 节](/cn/adopt/chapter1/#_4-2-获取-api-key-以硅基流动为例)的注册步骤。
+> **提示**：如果还没有 API Key，请先完成[第一章 4.2 节](/cn/adopt/chapter1/#_4-2-配置-ai-模型)的注册步骤。
 
 ### 3.3 使用 systemd 保持运行
 

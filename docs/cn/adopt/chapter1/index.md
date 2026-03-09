@@ -235,30 +235,62 @@ openclaw onboard --install-daemon
 
 ![openclaw onboard 配置向导界面](/openclaw-onboard.png)
 
-这个命令会启动交互式配置向导，并安装后台守护进程（守护进程就是在后台默默运行的程序，让 OpenClaw 在你不操作时也能保持在线）。
+这个命令会启动交互式配置向导，并安装后台守护进程（守护进程就是在后台默默运行的程序，让 OpenClaw 在你不操作时也能保持在线）。接下来跟着向导一步步走就好——下面会在每个关键步骤旁告诉你怎么选。
 
-### 4.1 选择模型提供商
+### 4.1 安全确认与模式选择
 
-向导首先会询问你使用哪个 AI 模型。OpenClaw 本身不包含 AI 大脑，它需要连接一个"模型提供商"的服务来获得智能。你需要在提供商那里注册账号，获取一个 **API Key**（类似于访问密码），OpenClaw 用它来调用 AI 服务。
+向导首先展示一段安全提示，读完后选择 **Yes** 继续：
+
+```
+◇  I understand this is personal-by-default and shared/multi-user use
+   requires lock-down. Continue?
+│  Yes
+```
+
+接着选择配置模式，推荐 **QuickStart**（快速开始）：
+
+```
+◇  Onboarding mode
+│  QuickStart (Configure details later via openclaw configure.)
+```
+
+> **QuickStart 做了什么？** 它将 Gateway 端口设为 18789，绑定到本机（127.0.0.1，只有你自己能访问），启用 Token 认证。这些默认值对个人使用完全够用，后续可通过 `openclaw configure` 随时调整。
+
+### 4.2 配置 AI 模型
+
+这是向导中最关键的一步。OpenClaw 本身不包含 AI 大脑，它需要连接一个"模型提供商"的服务来获得智能。你需要在提供商那里注册账号，获取一个 **API Key**（类似于访问密码），OpenClaw 用它来调用 AI 服务。
 
 **国内用户强烈推荐硅基流动（SiliconFlow）**——新注册用户可获得 **16 元免费算力券**，足够完成本教程的全部练习，无需国际信用卡。
 
-| 推荐路径 | 适合用户 | 费用 |
-|---------|---------|------|
-| **硅基流动** | 国内用户（首选） | 新用户 16 元免费 |
-| 通义千问 | 国内用户（备选） | 阿里云生态，企业级支持 |
-| 豆包 | 国内用户（备选） | 火山方舟平台，模型丰富 |
-| 混元 | 国内用户（备选） | hunyuan-lite 免费无限量 |
-| 深度求索 / 月之暗面 / 阶跃星辰 / 稀宇科技 / 智谱 / 文心一言 | 国内用户（其他选择） | 支持支付宝，按量计费 |
-| OpenRouter | 海外用户 | 需国际信用卡，按量计费 |
-| OpenAI | 海外用户 | 需国际信用卡，按量计费 |
-| Anthropic | 海外用户 | 需国际信用卡，按量计费 |
-| Google | 海外用户 | 需国际信用卡，有免费额度 |
-| xAI | 海外用户 | 需国际信用卡，按量计费 |
+向导会询问模型提供商。硅基流动属于自定义端点，选择 **Custom Provider**：
 
-### 4.2 在向导中配置
+```
+◇  Model/auth provider
+│  Custom Provider
+```
 
-> 还没有 API Key？展开下方的获取指南，拿到 Key 后再回来继续。
+然后按提示依次输入以下信息：
+
+```
+◇  API Base URL
+│  https://api.siliconflow.cn/v1
+
+◇  How do you want to provide this API key?
+│  Paste API key now
+
+◇  API Key (leave blank if not required)
+│  sk-你的密钥（粘贴从硅基流动获取的 API Key）
+
+◇  Endpoint compatibility
+│  OpenAI-compatible
+
+◇  Model ID
+│  deepseek-ai/DeepSeek-V3
+```
+
+向导验证通过后，会自动生成端点名称（如 `siliconflow-deepseek`）并完成模型配置。
+
+> **还没有 API Key？** 展开下方指南，注册并获取 Key 后回来粘贴即可。
 
 <details>
 <summary>获取 API Key：以硅基流动为例（已有 Key 可跳过）</summary>
@@ -310,23 +342,67 @@ openclaw onboard --install-daemon
 
 </details>
 
-拿到 API Key 后，回到向导继续配置。在向导中选择提供商，然后输入 Key：
+<details>
+<summary>其他模型提供商推荐</summary>
+
+| 推荐路径 | 适合用户 | 费用 |
+|---------|---------|------|
+| **硅基流动** | 国内用户（首选） | 新用户 16 元免费 |
+| 通义千问 | 国内用户（备选） | 阿里云生态，企业级支持 |
+| 豆包 | 国内用户（备选） | 火山方舟平台，模型丰富 |
+| 混元 | 国内用户（备选） | hunyuan-lite 免费无限量 |
+| 深度求索 / 月之暗面 / 阶跃星辰 / 稀宇科技 / 智谱 / 文心一言 | 国内用户（其他选择） | 支持支付宝，按量计费 |
+| OpenRouter | 海外用户 | 需国际信用卡，按量计费 |
+| OpenAI | 海外用户 | 需国际信用卡，按量计费 |
+| Anthropic | 海外用户 | 需国际信用卡，按量计费 |
+| Google | 海外用户 | 需国际信用卡，有免费额度 |
+| xAI | 海外用户 | 需国际信用卡，按量计费 |
+
+</details>
+
+### 4.3 配置聊天渠道（可选）
+
+向导接下来展示所有支持的聊天渠道：
 
 ```
-◇  Model/auth provider
-│  ○ DeepSeek
-│  ○ Kimi
-│  ○ OpenRouter
-│  ● Custom（自定义 API 端点）← 硅基流动选这个
+◇  Channel status ─────────────────────────╮
+│                                           │
+│  Telegram: needs token                    │
+│  WhatsApp (default): not linked           │
+│  Discord: needs token                     │
+│  Feishu: install plugin to enable         │
+│  ...                                      │
+├───────────────────────────────────────────╯
 ```
 
-选择 `Custom` 后，按提示输入：
+如果你暂时只想在本地网页上使用 OpenClaw，可以选择跳过。想接入 Telegram、飞书等移动端？[第二章](/cn/adopt/chapter2/)会详细介绍。
 
-- **API Base URL**：`https://api.siliconflow.cn/v1`
-- **API Key**：粘贴你刚才复制的密钥
-- **默认模型**：`deepseek-ai/DeepSeek-V3`（推荐）
+### 4.4 完成向导
 
-也可以跳过向导，直接编辑配置文件 `~/.openclaw/openclaw.json`：
+向导后续还会依次询问几项可选配置，初学者建议都先跳过：
+
+- **Web 搜索**：让 OpenClaw 能上网查资料。需要额外的搜索 API Key，可以后续再配
+- **技能安装**：OpenClaw 的扩展能力。[第四章](/cn/adopt/chapter4/)会详细介绍
+- **Hooks**：自动化钩子，用于特定事件触发动作。[第三章](/cn/adopt/chapter3/)会介绍
+
+配置完成后，向导会**自动安装并启动 Gateway 守护进程**，然后显示控制面板地址：
+
+```
+◇  Control UI ──────────────────────────────────╮
+│                                                │
+│  Web UI: http://127.0.0.1:18789/               │
+│  Gateway: reachable                            │
+├────────────────────────────────────────────────╯
+```
+
+最后，向导会问你是否要"孵化"（Hatch）你的助手——这是你和 OpenClaw 的第一次对话！选择 **Hatch in TUI** 即可进入终端聊天界面，OpenClaw 会发送一句 "Wake up, my friend!" 来唤醒你的助手。
+
+> 如果你更喜欢网页界面，也可以跳过 TUI 孵化，直接在浏览器中打开 `http://localhost:18789` 开始对话（见下一节）。
+
+<details>
+<summary>进阶：跳过向导，手动编辑配置文件</summary>
+
+如果你更习惯直接编辑配置文件，可以跳过向导，手动编辑 `~/.openclaw/openclaw.json`：
 
 ```json
 {
@@ -356,15 +432,7 @@ openclaw onboard --install-daemon
 
 > **说明**：`env` 中存放 API 密钥，`models.providers` 定义提供商信息，`agents.defaults.model.primary` 指定默认使用的模型。配置完成后运行 `openclaw config validate` 可检查配置是否正确。
 
-### 4.4 配置聊天渠道（可选）
-
-向导会询问是否配置 Slack、Telegram 等聊天渠道。如果暂时不需要，可以选择跳过，后续通过 `openclaw configure` 添加。
-
-### 4.5 配置技能（可选）
-
-向导会显示可用的技能列表，询问是否安装。建议先跳过，等熟悉基本操作后再安装。
-
-配置完成后，向导会自动启动 Gateway 守护进程。
+</details>
 
 ## 5. 验证安装
 
@@ -376,7 +444,7 @@ openclaw status
 
 看到 `Gateway service: running` 说明安装成功。Gateway（网关）是 OpenClaw 的核心服务，负责接收你的指令、调用 AI 模型、执行任务。
 
-<!-- TODO: 补充 openclaw status 输出截图（显示 Gateway service: running） -->
+![openclaw status 输出](/openclaw-status.png)
 
 打开 Web 控制面板：
 
@@ -388,7 +456,7 @@ openclaw dashboard
 
 > **什么是 localhost？** `localhost` 就是"本机"的意思，指你自己的电脑。`http://localhost:18789` 表示访问本机 18789 端口上运行的服务。这个网页只有你自己能打开，外人无法访问。
 
-<!-- TODO: 补充 Web 控制面板首页截图（浏览器打开 localhost:18789 的界面） -->
+![Web 控制面板首页](/openclaw-dashboard.png)
 
 ## 6. 第一次对话
 
@@ -556,11 +624,25 @@ A: 编辑配置文件 `openclaw.json`（位于 `~/.openclaw/openclaw.json`，Win
 
 ```json
 {
-  "llm": {
-    "provider": "siliconflow",
-    "baseUrl": "https://api.siliconflow.cn/v1",
-    "apiKey": "sk-xxxxx",
-    "default": "deepseek-ai/DeepSeek-V3"
+  "env": {
+    "SILICONFLOW_API_KEY": "sk-xxxxx"
+  },
+  "models": {
+    "providers": {
+      "siliconflow": {
+        "baseUrl": "https://api.siliconflow.cn/v1",
+        "apiKey": "${SILICONFLOW_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
+    }
   }
 }
 ```

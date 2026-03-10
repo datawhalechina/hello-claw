@@ -2,7 +2,7 @@
 
 2026 年初，一个名为 [OpenClaw](https://github.com/openclaw/openclaw) 的开源项目在 GitHub 上创造了历史：两个月内获得超过 247,000 星标，超越 Linux 成为增长最快的开源项目。根据 [Wikipedia 的记录](https://en.wikipedia.org/wiki/OpenClaw)，这不仅是一个技术现象，更标志着 AI 从"对话时代"正式迈向"执行时代"。
 
-[虎嗅网](https://www.huxiu.com)、[36氪](https://www.36kr.com)、[新浪科技](https://sina.cn)等多家科技媒体报道称，OpenClaw 在中文互联网上迅速走红，被称为 AI 代理从"对话时代"迈向"执行时代"的标志性产品。字节跳动的火山引擎、阿里云、[腾讯云](https://tencentcloud.com)等国内头部云厂商也迅速提供了运行 OpenClaw 的云端服务。
+OpenClaw 在中文互联网迅速走红，被视作 AI 代理从“对话时代”迈向“执行时代”的里程碑。国内头部云厂商旋即推出托管方案，把“可控的 AI 执行力”送进企业与个人的私有环境，进一步推高这股浪潮。
 
 <details>
 <summary>"百虾大战"：13 家国内大厂跟进 OpenClaw 全景图</summary>

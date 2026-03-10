@@ -57,20 +57,18 @@ ClawHub 上有 16,000+ 技能，社区精选库 awesome-openclaw-skills 有 5,00
 
 ### 2.1 检查 IP 暴露
 
-**第一步：查找你的服务器公网 IP**
+**第一步：查找你的公网 IP**
 
-如果你的 OpenClaw 部署在云服务器上：
+直接在浏览器访问 [ifconfig.me](https://ifconfig.me)，页面显示的就是你的公网 IP。
 
-```bash
-# 在服务器上执行，查看公网 IP
-curl -s ifconfig.me
-```
-
-如果部署在本地电脑上：
+或者在终端执行：
 
 ```bash
-# 查看本地公网 IP
+# Linux / macOS
 curl -s ifconfig.me
+
+# Windows PowerShell（curl 在 PowerShell 中是 Invoke-WebRequest 的别名，需要用 curl.exe）
+curl.exe -s ifconfig.me
 ```
 
 > 本地部署通常在路由器 NAT 后面，默认不会暴露到公网。但如果你做了端口映射或使用了内网穿透工具（如 frp、ngrok），你的 OpenClaw 可能已经暴露。

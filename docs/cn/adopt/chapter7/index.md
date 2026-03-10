@@ -41,7 +41,7 @@
 
 ### 2.4 托管替代方案：ArkClaw
 
-如果你不想自己购买和管理服务器，可以考虑云厂商提供的 OpenClaw 托管服务。例如火山引擎的 [ArkClaw](https://www.volcengine.com/product/arkclaw) 提供了完全托管的 OpenClaw 云端实例，无需购买 VPS、无需配置 Docker，注册后即可获得 24/7 运行的 OpenClaw 服务。
+如果你不想自己购买和管理服务器，可以考虑云厂商提供的 OpenClaw 托管服务。例如火山引擎的 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供了完全托管的 OpenClaw 云端实例，无需购买 VPS、无需配置 Docker，订阅 Coding Plan 后即可获得 24/7 运行的 OpenClaw 服务（Lite ¥9.90/月起，新用户享 7 天免费试用）。
 
 适合不想运维服务器、希望快速上线的用户。本章后续内容面向自建部署，如果你选择托管方案可以跳过。
 

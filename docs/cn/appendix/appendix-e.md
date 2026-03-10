@@ -99,7 +99,7 @@
 **优势**：
 - 与飞书等字节系产品协同使用体验最佳
 - 「方舟 Coding Plan」提供 doubao-seed 等字节系模型 API
-- 托管方案 [ArkClaw](https://www.volcengine.com/product/arkclaw) 提供完全免运维的云端 OpenClaw（详见[导言](/cn/adopt/#_6-1-三种使用方式)）
+- 托管方案 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供完全免运维的云端 OpenClaw，需订阅 Coding Plan（详见[导言](/cn/adopt/#_6-1-四种使用方式)）
 
 **注意**：无一键部署镜像，适合已有服务器运维经验的用户。
 

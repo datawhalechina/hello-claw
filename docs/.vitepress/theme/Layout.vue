@@ -77,6 +77,13 @@
           >
             构建龙虾 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
           </a>
+          <a
+            href="https://github.com/datawhalechina/hello-claw"
+            target="_blank"
+            class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            GitHub <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+          </a>
         </div>
 
         <a :href="withBase('/cn/build/chapter7')" class="group flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full py-2 px-4 md:px-6 transition-all duration-300 mb-20 hover:scale-105 active:scale-95 cursor-pointer">

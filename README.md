@@ -7,7 +7,7 @@
 <p align="center"><em>Hello Claw：领养你的 AI 龙虾助理，从零构建属于你的智能助理，智能公司</em></p>
 
 <p align="center">
-  📌 <a href="https://datawhalechina.github.io/hello-claw/">在线阅读</a> | 💬 <a href="#交流群">加入交流群</a>
+  📌 <a href="https://datawhalechina.github.io/hello-claw/">在线阅读</a> | 💬 <a href="#交流群">加入交流群</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">还想学 vibecoding</a>
 </p>
 
 <p align="center">

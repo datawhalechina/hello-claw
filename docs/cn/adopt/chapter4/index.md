@@ -1,489 +1,394 @@
-# 第四章 自动化任务入门
+# 第四章 命令行与基础配置
 
-> **前提**：本章假设你已完成第一章的安装配置。定时任务的通知功能需要配合第三章的消息渠道（飞书/Telegram/QQ），但不是必须的——没有配置渠道时，任务仍会执行，只是结果只能在 Web 控制面板查看。
+> **前提**：本章假设你已完成[第二章](/cn/adopt/chapter2/)的安装，拥有了一个可以正常使用的 QQ AI 助手。
 
-OpenClaw 的定时任务（Cron）功能让 AI 可以主动工作，而不是被动等待你的指令。你可以让它每天早上发送简报，每小时检查服务器状态，或者每周生成工作总结。这些任务会在 Gateway 中持久化存储，即使重启也不会丢失。
+第二章带你用最短路径拥有了 QQ AI 助手。本章深入介绍 OpenClaw 的配置向导、命令行工具和 Web 控制面板——帮你全面掌握 OpenClaw 的配置与管理能力。
 
-## 1. 什么是 OpenClaw Cron
+## 1. 配置向导详解
 
-OpenClaw Cron 不是传统的 Linux cron，而是一个让 AI 按时间表主动执行任务的系统。它运行在 Gateway 中，支持三种调度方式：
+第二章中我们快速跑完了 `openclaw onboard --install-daemon` 向导。这里详细解说每个步骤，方便你理解和日后重新配置。
 
-- **at**（一次性）：在指定时间执行一次
-- **every**（固定间隔）：每隔一段时间执行
-- **cron**（表达式）：使用 cron 表达式精确控制（如 `0 8 * * *` 表示每天早上 8 点，格式为"分 时 日 月 周"）
-
-任务可以在主会话中执行，也可以在独立会话中运行（推荐），避免干扰正常对话。
-
-## 2. 创建定时任务
-
-### 2.1 通过对话创建
-
-最简单的方式是直接告诉 OpenClaw：
-
-```
-每天早上 8 点给我发送今日简报，包括天气、日程和重要邮件
-```
-
-OpenClaw 会自动创建定时任务并保存。你可以用自然语言描述任务，它会理解并配置。
-
-### 2.2 使用命令行
+### 1.1 启动向导
 
 ```bash
-# 添加定时任务（--name 必填，--channel 指定发送目标）
-openclaw cron add --name "每日简报" --cron "30 7 * * *" --message "发送今日简报" --channel "telegram:chat:123456789"
-
-# 添加间隔任务
-openclaw cron add --name "健康检查" --every 10m --message "检查服务器状态" --channel "qqbot:c2c:your_openid"
-
-# 添加一次性任务（20 分钟后执行）
-openclaw cron add --name "提醒我" --at 20m --message "该休息了" --channel "telegram:chat:123456789"
-
-# 查看所有任务
-openclaw cron list
-
-# 编辑任务
-openclaw cron edit <jobId>
-
-# 删除任务
-openclaw cron rm <jobId>
+openclaw onboard --install-daemon
 ```
 
-> **为什么需要 `--channel`？** 定时任务是 OpenClaw **主动推送**的——它需要知道把结果发到哪里。这和你在 QQ/Telegram 里跟机器人聊天不同：聊天时机器人知道该回复谁（被动响应），但定时任务没有"发起者"，所以必须用 `--channel` 明确指定发送目标。
->
-> **`--channel` 格式**：
-> - Telegram 私聊：`telegram:chat:<你的ChatID>`（首次配对时机器人会告诉你 Chat ID，详见[第三章 3.3 配对验证](/cn/adopt/chapter3/#_3-3-配对验证)）
-> - QQ 私聊：`qqbot:c2c:<openid>`
-> - QQ 群聊：`qqbot:group:<groupid>`
->
-> 如果不指定 `--channel`，任务仍会执行，但结果只能在 Web 控制面板（`openclaw dashboard`）中查看，不会推送到任何聊天渠道。
+> **什么是 daemon？** daemon（守护进程）是一种在后台持续运行的程序。`--install-daemon` 参数让 OpenClaw 安装一个后台服务（Gateway），这样即使你关闭终端，QQ 机器人和其他功能也能继续工作。
 
-> **其他常用选项**：`--cron` 设置 cron 表达式（如 `"30 7 * * *"` 表示每天 7:30），`--every` 设置间隔（如 `10m`、`1h`），`--at` 设置一次性定时（如 `20m` 或 ISO 时间），`--announce` 将结果发送到聊天。完整选项运行 `openclaw cron add --help` 查看。
+### 1.2 安全确认
 
-## 3. 实战案例
-
-### 3.1 每日简报
+向导首先会询问安全确认：
 
 ```
-每天早上 7:30 给我发送今日简报到 Telegram：
-1. 北京天气和空气质量
-2. 今天的日历事件
-3. 未读邮件数量
-4. GitHub 上的新通知
+◇  Do you want to proceed?
+│  Yes
 ```
 
-OpenClaw 会创建一个独立会话的定时任务，每天准时执行。
+选择 **Yes** 继续。这一步确认你了解 OpenClaw 会在你的电脑上执行操作（如读写文件、运行命令）。
 
-### 3.2 服务器监控
-
-```
-每 10 分钟检查服务器状态，如果 CPU 超过 90% 或内存超过 85% 就发送告警到飞书
-```
-
-这比传统监控更灵活，你可以随时调整阈值和告警规则。
-
-### 3.3 周报生成
+### 1.3 配置模式
 
 ```
-每周五下午 5 点生成本周工作总结：
-- 统计 Git 提交次数和代码行数
-- 列出完成的 Jira 任务
-- 生成 Markdown 格式周报
-- 发送到飞书工作群
+◇  Select configuration mode
+│  QuickStart
 ```
 
-### 3.4 数据备份
+- **QuickStart**：推荐新用户使用，自动应用合理的默认配置
+- **Advanced**：适合有经验的用户，可以逐项自定义所有设置
+
+QuickStart 模式下，OpenClaw 会展示默认配置摘要：
 
 ```
-每天凌晨 2 点备份数据库到 S3，完成后通知我
+◇  These are the defaults for QuickStart mode:
+│  System prompt:  default
+│  Timezone:       auto-detected
+│  Tools profile:  full
+│  Memory:         enabled
+│  ...
 ```
 
-### 3.5 定期清理
+> **什么是 Tools Profile？** `full` 表示 OpenClaw 可以执行命令、读写文件等完整操作。如果设为 `messaging`，它只能聊天不能干活。建议保持 `full`。
+
+::: warning 3.7 之前版本的已知问题
+OpenClaw 3.7 之前的版本存在一个 bug：即使向导中显示 `Tools profile: full`，实际默认值可能是 `messaging`，导致 OpenClaw 只会聊天、不会执行任何操作。如果你发现 OpenClaw 只给建议而不干活，大概率是这个问题。
+
+**修复方法**：
+
+```bash
+# 命令行修复（推荐）
+openclaw config set tools.profile full
+openclaw gateway restart
+```
+
+如果你使用 Trae CN 等 IDE，也可以直接编辑 `~/.openclaw/openclaw.json`，在顶层添加：
+
+```json
+{
+  "tools": {
+    "profile": "full"
+  }
+}
+```
+
+修改后运行 `openclaw gateway restart` 生效。
+:::
+
+::: danger full 模式安全提示
+`full` 模式意味着 OpenClaw 可以在你的电脑上执行任意命令、读写任意文件。这正是它强大的原因，但也意味着：
+- **不要在生产服务器上使用 `full` 模式**，除非你清楚自己在做什么
+- **不要把 OpenClaw 暴露到公网**，确保只有你自己能访问
+- 如果只需要聊天功能（如给家人使用），可以设为 `messaging` 模式来限制权限
+
+个人电脑上使用 `full` 模式是安全的，OpenClaw 执行每个操作前都会请求你确认。
+:::
+
+### 1.4 配置 AI 模型
+
+这是向导的核心步骤。OpenClaw 本身不包含 AI 大脑，需要连接一个"模型提供商"。
 
 ```
-每周日凌晨 3 点清理 30 天前的日志文件，保留错误日志
+◇  Select AI model provider
+│  Custom Provider
 ```
 
-## 4. 高级配置
+选择 **Custom Provider** 可以接入任何兼容 OpenAI 的提供商。
 
-> **定时任务的两层配置**：
->
-> - **全局设置**在 `openclaw.json` 的 `cron` 字段中，控制是否启用、最大并发数等：
->   ```json
->   {
->     "cron": {
->       "enabled": true,
->       "maxConcurrentRuns": 2
->     }
->   }
->   ```
-> - **具体任务**通过 CLI（`openclaw cron add --name "任务名" --cron "表达式" --message "内容"`）或对话创建，由 Gateway 存储在 `~/.openclaw/cron/jobs.json` 中。手动编辑该文件需要先停止 Gateway。
->
-> 下面的 JSON 示例展示的是 `jobs.json` 中的任务定义格式，仅供理解参考，**推荐通过对话或 CLI 创建任务**。
+> **提示**：如果你在第二章中已经配置了 OpenRouter 免费模型，这里会显示你之前的配置，无需重复操作。下面以硅基流动为例展示如何切换到国内付费提供商。
+
+以硅基流动为例，依次输入：
+
+```
+◇  API Base URL
+│  https://api.siliconflow.cn/v1
+
+◇  API Key
+│  sk-你的密钥
+
+◇  Endpoint compatibility
+│  OpenAI-compatible
+
+◇  Model ID
+│  deepseek-ai/DeepSeek-V3
+```
+
+> **国内付费场景推荐硅基流动（SiliconFlow）**——新注册送 **16 元免费算力券**，支持更多模型选择。如何注册和获取 API Key，详见[第二章第 2 节](/cn/adopt/chapter2/#_2-配置-ai-模型)的折叠指南。如果你用的是第二章推荐的 OpenRouter 免费模型，继续使用即可。
 
 <details>
-<summary>展开：高级配置（条件执行、任务链、环境变量、错误处理）</summary>
+<summary>其他模型提供商配置参考</summary>
 
-### 4.1 条件执行
+| 提供商 | API Base URL | 推荐模型 | 备注 |
+|-------|-------------|---------|------|
+| 硅基流动 | `https://api.siliconflow.cn/v1` | `deepseek-ai/DeepSeek-V3` | 国内首推，新用户送 16 元 |
+| 深度求索 | `https://api.deepseek.com/v1` | `deepseek-chat` | DeepSeek 官方 |
+| 通义千问 | `https://dashscope.aliyuncs.com/compatible-mode/v1` | `qwen-max` | 阿里云旗下 |
+| 月之暗面 | `https://api.moonshot.cn/v1` | `moonshot-v1-8k` | Kimi |
+| 阶跃星辰 | `https://api.stepfun.com/v1` | `step-2-16k` | 有免费模型 |
+| 混元 | `https://api.hunyuan.cloud.tencent.com/v1` | `hunyuan-lite` | 腾讯，hunyuan-lite 免费 |
 
-有时你希望任务只在特定条件下执行。可以在 prompt 中添加判断逻辑：
-
-```json
-// jobs.json 任务定义格式（推荐通过 CLI 或对话创建）
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "disk_alert",
-        "schedule": "*/30 * * * *",
-        "prompt": "检查磁盘使用率，如果超过 80% 就发送告警到 Telegram，否则不做任何操作",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-OpenClaw 会智能地理解这个条件，只有在磁盘使用率超过 80% 时才会发送消息。这比传统的脚本更灵活，因为你不需要写 if-else 逻辑，只需要用自然语言描述条件即可。
-
-你还可以设置更复杂的条件：
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "smart_backup",
-        "schedule": "0 2 * * *",
-        "prompt": "检查数据库大小，如果超过 1GB 就执行完整备份，否则只备份增量数据。备份完成后，如果是工作日就发送通知到飞书，如果是周末就发送到 Telegram",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-### 4.2 任务链
-
-多个任务可以组合成工作流：
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "weekly_report",
-        "schedule": "0 17 * * 5",
-        "prompt": "1. 读取本周 Git 提交记录\n2. 从 Jira 获取已完成任务\n3. 生成 Markdown 格式周报\n4. 发送到飞书工作群",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-OpenClaw 会按顺序执行每个步骤，前一步的结果会传递给下一步。如果某一步失败，后续步骤会自动跳过，并记录失败原因。
-
-你也可以设置任务依赖关系：
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "backup_db",
-        "schedule": "0 2 * * *",
-        "prompt": "备份数据库到本地",
-        "enabled": true
-      },
-      {
-        "name": "upload_backup",
-        "schedule": "0 3 * * *",
-        "depends_on": "backup_db",
-        "prompt": "将备份文件上传到云存储",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-这样 `upload_backup` 只有在 `backup_db` 成功执行后才会运行。
-
-### 4.3 环境变量
-
-如果任务需要访问外部服务，可以在配置中设置环境变量：
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "backup_db",
-        "schedule": "0 2 * * *",
-        "env": {
-          "DB_HOST": "localhost",
-          "DB_NAME": "myapp",
-          "S3_BUCKET": "my-backups"
-        },
-        "prompt": "备份数据库到 S3：\n1. 使用 mysqldump 导出数据库\n2. 压缩文件\n3. 上传到 S3\n4. 删除本地临时文件",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-环境变量会在任务执行时注入到 OpenClaw 的运行环境中。这样可以避免在 prompt 中硬编码敏感信息，也方便在不同环境（开发、测试、生产）使用不同的配置。
-
-你还可以在全局配置中设置通用的环境变量：
-
-```json
-{
-  "cron": {
-    "global_env": {
-      "TIMEZONE": "Asia/Shanghai",
-      "NOTIFICATION_CHANNEL": "telegram"
-    },
-    "jobs": [
-      {
-        "name": "morning_brief",
-        "schedule": "0 8 * * *",
-        "prompt": "生成今日简报并发送到 ${NOTIFICATION_CHANNEL}",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-### 4.4 错误处理和重试
-
-定时任务可能因为网络问题、服务不可用等原因失败。你可以配置重试策略：
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "api_sync",
-        "schedule": "0 */1 * * *",
-        "prompt": "从 API 同步数据到本地数据库",
-        "retry": {
-          "max_attempts": 3,
-          "delay": 60
-        },
-        "on_failure": {
-          "notify": true,
-          "channel": "telegram"
-        },
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-如果任务失败，OpenClaw 会等待 60 秒后重试，最多重试 3 次。如果所有重试都失败，会发送通知到 Telegram。
+所有提供商均选择 **OpenAI-compatible** 兼容模式。
 
 </details>
 
-## 5. 管理定时任务
+### 1.5 配置聊天渠道（可选）
 
-### 5.1 查看任务状态
+向导会列出可用的聊天渠道：
 
-```bash
-openclaw cron list
+```
+◇  Select channels to configure
+│  ○ Telegram
+│  ○ Discord
+│  ○ Slack
+│  ○ WhatsApp
+│  ...
 ```
 
-会显示所有任务的 ID、名称、调度方式、下次/上次执行时间、状态等信息：
+如果你已在第二章配置了 QQ 机器人，这里可以**直接跳过**。后续需要接入其他渠道时，参见[第三章 移动端接入](/cn/adopt/chapter3/)。
 
-![openclaw cron list 终端输出](/openclaw-cron-list.png)
+### 1.6 完成向导
 
-> **字段说明**：`ID` 是任务唯一标识（后续管理任务时会用到），`Schedule` 显示调度类型和参数，`Next` 是距下次执行的时间，`Status` 为 `idle`（空闲等待中）或 `running`（正在执行）。
+向导最后会询问是否启用 Web 搜索、Skills（技能）和 Hooks（钩子）等功能。**新手建议都先跳过**，这些功能会在后续章节详细介绍。
 
-查看某个任务的执行历史（需要指定任务 ID，可从 `cron list` 获取）：
+向导完成后，Gateway（网关服务）会自动启动：
 
-```bash
-# 查看任务的执行历史（--id 为任务 ID）
-openclaw cron runs --id 309d8d42-8f61-404b-abb2-c4f301999197
+```
+✔  Configuration saved
+✔  Gateway daemon installed and started
 ```
 
-### 5.2 手动触发
+## 2. Web 控制面板
 
-测试任务时不想等到定时时间，可以手动触发：
+OpenClaw 提供了一个本地 Web 控制面板，让你可以在浏览器中管理和使用 OpenClaw。
 
-```bash
-openclaw cron run 每日简报
-```
-
-OpenClaw 会立即执行这个任务，并实时显示执行过程和结果。这对于调试任务配置非常有用。
-
-### 5.3 暂停和恢复
-
-临时禁用某个任务：
+### 2.1 打开控制面板
 
 ```bash
-openclaw cron disable 每日简报
+openclaw dashboard
 ```
 
-恢复：
+![openclaw dashboard 终端输出](/openclaw-dashboard-terminal.png)
+
+浏览器会自动打开 `http://localhost:18789`：
+
+![Web 控制面板浏览器界面](/openclaw-dashboard-browser.png)
+
+> **什么是 localhost？** `localhost` 就是"本机"的意思，这个网页只有你自己能打开。`18789` 是端口号，就像门牌号一样区分不同的服务。
+
+### 2.2 面板功能
+
+Web 控制面板提供以下功能：
+
+- **对话界面**：直接在浏览器中与 OpenClaw 聊天，和 QQ 机器人一样的 AI 能力
+- **状态监控**：查看 Gateway 运行状态、已连接的渠道、模型配置
+- **日志查看**：实时查看 OpenClaw 的运行日志
+- **配置管理**：修改模型、渠道等配置（修改后需重启 Gateway）
+
+## 3. 第一次 CLI 对话
+
+除了 QQ 和 Web 面板，你还可以直接在终端中与 OpenClaw 对话：
 
 ```bash
-openclaw cron enable 每日简报
+openclaw chat
 ```
 
-或者直接在 `~/.openclaw/cron/jobs.json` 对应条目中设置 `"enabled": false`（参见本章第 4 节的配置说明）。如果你要出差一周，可以临时禁用所有非关键任务，避免不必要的通知。
+进入交互式对话后，试试让它执行一些任务：
 
-### 5.4 查看执行日志
+```
+帮我创建一个文件叫 hello.txt，写上今天的日期和"Hello from OpenClaw!"
+```
 
-查看某个任务的执行历史：
+如果 OpenClaw 成功创建了文件，说明它不仅能聊天，还能帮你干活。再试试更有趣的：
+
+```
+用 Python 写一个猜数字小游戏，保存为 game.py 并运行它
+```
+
+> **提示**：如果 OpenClaw 只给建议而不执行命令，可能是 Tools Profile 被设为了 `messaging`。运行以下命令修复：
+> ```bash
+> openclaw config set tools.profile full
+> openclaw gateway restart
+> ```
+
+## 4. 状态检查与管理
+
+### 4.1 查看运行状态
 
 ```bash
-openclaw cron runs --id <任务ID>
+openclaw status
 ```
 
-会显示该任务的执行记录，包括开始时间、状态和结果。任务 ID 可从 `openclaw cron list` 获取。如果需要更详细的日志，可以使用 `openclaw logs --follow` 查看实时网关日志。
+![openclaw status 输出](/openclaw-status.png)
+
+这会显示 Gateway 是否在运行、已连接的渠道、使用的模型等关键信息。
+
+### 4.2 深度健康检查
+
+```bash
+openclaw status --deep
+```
+
+深度检查会额外验证 API 连接、模型可用性等。
+
+### 4.3 系统诊断
+
+遇到问题时，运行诊断工具：
+
+```bash
+openclaw doctor
+```
+
+它会自动检查常见问题并给出修复建议。
+
+### 4.4 查看日志
+
+```bash
+openclaw logs --follow
+```
+
+`--follow` 参数让日志实时滚动显示，按 `Ctrl + C` 退出。
+
+### 4.5 重启 Gateway
+
+修改配置后需要重启 Gateway 才能生效：
+
+```bash
+openclaw gateway restart
+```
 
 <details>
-<summary>展开：更多实战案例（服务器监控、自动化测试、数据同步、内容发布、智能提醒）</summary>
+<summary>常用命令速查</summary>
 
-## 6. 进阶实战案例
+```bash
+# 查看状态
+openclaw status
 
-### 6.1 服务器监控
+# 深度健康检查
+openclaw status --deep
 
-```json
-// jobs.json 任务定义格式（推荐通过 CLI 或对话创建）
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "server_monitor",
-        "schedule": "*/10 * * * *",
-        "prompt": "检查服务器状态：\n- CPU 使用率超过 90% 时告警\n- 内存使用率超过 85% 时告警\n- 磁盘空间低于 10GB 时告警\n发送结果到 Telegram",
-        "enabled": true
-      }
-    ]
-  }
-}
+# 系统诊断和修复
+openclaw doctor
+
+# 重启 Gateway（修改配置后执行）
+openclaw gateway restart
+
+# 查看日志
+openclaw logs --follow
+
+# 重新运行配置向导
+openclaw configure
+
+# 打开 Web 控制面板
+openclaw dashboard
 ```
 
-这个任务每 10 分钟检查一次服务器状态，只有在出现问题时才会发送通知。相比传统的监控系统，这种方式更灵活，你可以随时调整告警阈值，不需要修改复杂的配置文件。
-
-### 6.2 自动化测试
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "nightly_test",
-        "schedule": "0 1 * * *",
-        "prompt": "运行完整测试套件：\n1. 拉取最新代码\n2. 安装依赖\n3. 运行测试\n4. 生成覆盖率报告\n5. 如果失败，发送详细日志到飞书",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-每天凌晨 1 点自动运行测试，确保代码质量。如果测试失败，团队成员第二天上班就能看到详细的错误报告。
-
-### 6.3 数据同步
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "sync_orders",
-        "schedule": "*/5 * * * *",
-        "env": {
-          "API_KEY": "xxxxx",
-          "DB_HOST": "localhost"
-        },
-        "prompt": "从电商平台 API 获取最近 5 分钟的新订单，写入本地数据库，如果有新订单就发送通知",
-        "retry": {
-          "max_attempts": 3,
-          "delay": 30
-        },
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-每 5 分钟同步一次订单数据，确保本地数据库和线上保持一致。如果 API 调用失败，会自动重试 3 次。
-
-### 6.4 内容发布
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "auto_publish",
-        "schedule": "0 9,14,18 * * *",
-        "prompt": "从内容库中随机选择一篇文章，发布到微信公众号、知乎、小红书，记录发布结果",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-每天 9 点、14 点、18 点自动发布内容，保持账号活跃度。OpenClaw 会智能地选择合适的内容，避免重复发布。
-
-### 6.5 智能提醒
-
-```json
-{
-  "cron": {
-    "jobs": [
-      {
-        "name": "meeting_reminder",
-        "schedule": "0 8 * * 1-5",
-        "prompt": "读取今天的日历事件，如果有会议就提前 30 分钟提醒我，包含会议主题、时间、参会人员",
-        "enabled": true
-      }
-    ]
-  }
-}
-```
-
-工作日早上 8 点检查今天的日程，有会议就提前提醒。比手机自带的日历提醒更智能，因为可以根据会议重要性调整提醒时间。
+更完整的命令列表见[附录 A：命令速查表](/cn/appendix/appendix-a)。
 
 </details>
 
-## 7. 最佳实践
+## 5. 配置文件
 
-**合理设置执行频率**：不要让任务执行得太频繁，否则会消耗大量 API token。一般来说，监控类任务 5-10 分钟一次即可，数据同步 15-30 分钟，报告生成每天或每周一次。
+OpenClaw 的所有配置存储在 `~/.openclaw/openclaw.json`（Windows 上是 `C:\Users\你的用户名\.openclaw\openclaw.json`）。
 
-**使用条件判断减少通知**：不要每次执行都发送通知，只在有重要信息时才通知。比如监控任务只在出现问题时告警，而不是每次都报告"一切正常"。
-
-**设置超时时间**：对于可能执行很久的任务，设置超时时间避免卡死：
+### 5.1 配置文件结构
 
 ```json
 {
-  "cron": {
-    "jobs": [
-      {
-        "name": "long_task",
-        "schedule": "0 2 * * *",
-        "timeout": 3600,
-        "prompt": "执行耗时的数据处理任务",
-        "enabled": true
+  "env": {
+    "SILICONFLOW_API_KEY": "sk-你的密钥"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "siliconflow": {
+        "baseUrl": "https://api.siliconflow.cn/v1",
+        "apiKey": "${SILICONFLOW_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
+        ]
       }
-    ]
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
+    }
   }
 }
 ```
 
-**分离关键任务和非关键任务**：把重要的任务（如备份、监控）和不重要的任务（如内容发布）分开配置，这样可以在需要时单独禁用非关键任务。
+> **模型标识格式**：`提供商/模型名`，例如 `siliconflow/deepseek-ai/DeepSeek-V3`。
 
-**定期检查任务执行情况**：每周查看一次任务执行统计，确保所有任务都正常运行。可以设置一个"健康检查"任务，每天汇总所有任务的执行情况。
+### 5.2 添加多个模型
+
+你可以在 `providers` 中添加多个提供商，然后在 `agents.defaults.model` 中选择默认使用哪个：
+
+```json
+{
+  "models": {
+    "providers": {
+      "siliconflow": {
+        "baseUrl": "https://api.siliconflow.cn/v1",
+        "apiKey": "${SILICONFLOW_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" },
+          { "id": "Qwen/Qwen2.5-72B-Instruct", "name": "Qwen 2.5 72B" }
+        ]
+      }
+    }
+  }
+}
+```
+
+更深入的多模型配置和成本优化见[第八章 多模型与成本优化](/cn/adopt/chapter8/)。
+
+### 5.3 常见配置修改
+
+**切换默认模型**：
+
+修改 `agents.defaults.model.primary` 的值即可。例如切换到 Qwen：
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": { "primary": "siliconflow/Qwen/Qwen2.5-72B-Instruct" }
+    }
+  }
+}
+```
+
+修改后运行 `openclaw gateway restart` 生效。
+
+> **完整配置参考**：所有可用配置项见[附录 B：配置文件详解](/cn/appendix/appendix-b)。
+
+## 6. 常见问题
+
+**Q: 向导配置错了，怎么重新配置？**
+
+A: 运行 `openclaw configure` 重新进入配置向导，或直接编辑 `~/.openclaw/openclaw.json`。
+
+**Q: 提示"API key not found"怎么办？**
+
+A: 检查 `~/.openclaw/openclaw.json` 中的 API 密钥配置是否正确。确保 `env` 中的密钥变量名和 `providers` 中引用的变量名一致。
+
+**Q: Web 面板无法访问？**
+
+A: 检查防火墙设置，确保端口 18789 未被占用。也可以尝试 `openclaw gateway restart` 重启服务。
+
+**Q: OpenClaw 只会聊天不干活？**
+
+A: 原因是 Tools Profile 被设置成了 `messaging`，运行以下命令修复：
+
+```bash
+openclaw config set tools.profile full
+openclaw gateway restart
+```
 
 ---
 
-**下一步**：[第五章 Skills 技能系统](/cn/adopt/chapter5/)
-
+**下一步**：
+- 想接入飞书或 Telegram？→ [第三章 移动端接入](/cn/adopt/chapter3/)
+- 想让 OpenClaw 定时执行任务？→ [第五章 定时任务：让龙虾自动干活](/cn/adopt/chapter5/)
+- 想安装和使用技能？→ [第六章 技能系统入门](/cn/adopt/chapter6/)

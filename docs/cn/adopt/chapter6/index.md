@@ -1,324 +1,531 @@
-# 第六章 外部服务集成
+# 第六章 技能系统入门
 
-> **前提**：本章假设你已完成第一章的安装配置和第五章的技能安装。本章涉及的服务（Google、Notion、数据库等）需要你已有对应的账号。没有这些服务账号的读者可以跳过对应小节，只看自己用得到的部分。
+> **前提**：本章假设你已完成第二章的安装配置。技能系统是 OpenClaw 的核心扩展机制，所有用户都建议了解。
 
-在第五章中，我们学会了安装和使用技能。本章将深入实战，通过 Google Workspace、Notion 等技能将 OpenClaw 与你的日常工具连接起来，打造真正的自动化工作流。
+OpenClaw 的技能系统就像手机的 App Store，让你可以为龙虾安装各种能力扩展。想让它查天气？安装天气技能。想让它管理 Gmail？安装邮件技能。截至 2026 年 3 月，社区维护的 ClawHub 注册表已有超过 **16,000** 个技能，覆盖生产力、开发、运维、内容创作等多个领域。
 
-## 1. Google Workspace 集成
+## 1. 什么是技能
 
-> **网络提示**：Google 服务在中国大陆无法直接访问，需要网络代理。如果你没有代理，可以跳过本节，直接看第 2 节 Notion 集成或第 3 节飞书深度集成。
+技能（Skill）本质上是一组提示词指令的集合，以 `SKILL.md` 文件为核心。技能从三个位置按优先级加载：
 
-Google Workspace（gog）技能提供了 Gmail、Calendar、Drive、Docs、Sheets 的统一访问接口，是最常用的外部服务集成之一。
+1. **工作区技能**（workspace）：项目目录下的技能，优先级最高
+2. **托管技能**（managed）：`~/.openclaw/skills/` 目录下通过 `clawhub` 安装的技能
+3. **内置技能**（bundled）：OpenClaw 自带的基础技能（web-search、web-fetch、browser、filesystem、shell）
 
-### 1.1 安装与配置
+> **路径说明**：`~/` 是 Linux/macOS 中"用户主目录"的简写。在 Windows 上对应 `C:\Users\你的用户名\`。例如 `~/.openclaw/` 在 Windows 上就是 `C:\Users\你的用户名\.openclaw\`。
 
-gog 技能依赖一个独立的命令行工具 `gog`，需要分三步完成配置：安装 gog CLI → 创建 Google OAuth 凭证 → 授权登录。
+每个技能包含两个核心部分：
 
-**第一步：安装 gog 技能和 gog CLI**
+**元数据（YAML frontmatter）**：文件顶部用 `---` 包围的一段结构化信息，定义技能名称、描述、版本号等。你可以把它理解为技能的"身份证"，OpenClaw 通过它识别技能的基本信息。
+
+**提示词指令（Markdown 正文）**：元数据下方的文本内容，教 OpenClaw 如何使用工具完成任务。比如"查询天气时优先使用用户所在城市"。Markdown 是一种简单的文本排版格式，类似于写笔记时用 `#` 表示标题、`-` 表示列表。
+
+技能在会话启动时会被"快照"固定，确保本次对话中技能行为不变。技能配置统一存放在工作区级的 `openclaw.json`（JSON 格式）中，而非技能目录内部。
+
+<details>
+<summary>展开阅读：技能的形式化定义（学术视角，可跳过）</summary>
+
+### 1.1 技能的形式化定义
+
+从计算理论的视角，OpenClaw 的技能系统可以用有限自动机（Finite Automaton）来形式化描述。一个技能的生命周期可表示为一个确定性有限自动机（DFA）五元组：
+
+$$M = (Q, \Sigma, \delta, q_0, F)$$
+
+其中：
+
+- **Q**（状态集）= {Unregistered, Installed, Disabled, Gated, Active, HotReloading, SoftDeleted}，共 7 个状态
+- **Σ**（输入字母表）= {install, uninstall, enable, disable, gate, grant, revoke, edit, hot-reload, soft-delete, restore}，共 11 个输入符号
+- **δ**（转移函数）：定义状态之间的转换规则（见下方状态图）
+- **q₀**（初始状态）= Unregistered
+- **F**（接受状态集）= {Active}
+
+状态转移关系如下：
+
+```
+Unregistered --install--> Installed --enable--> Active
+Active --disable--> Disabled --enable--> Active
+Active --gate--> Gated --grant--> Active
+Gated --revoke--> Disabled
+Active --edit--> HotReloading --hot-reload--> Active
+Active --soft-delete--> SoftDeleted --restore--> Installed
+Active --uninstall--> Unregistered
+Disabled --uninstall--> Unregistered
+SoftDeleted --uninstall--> Unregistered
+```
+
+其中 **Gated** 状态表示技能需要满足门控条件（如 API Key 配置）才能激活，**HotReloading** 状态用于开发时实时编辑技能而不中断会话。
+
+这个形式化模型的意义在于：
+
+1. **状态可预测**：技能在任意时刻只能处于一个确定状态，避免了"薛定谔的插件"问题
+2. **转换可验证**：每个操作（输入符号）只能在特定状态下执行，非法操作会被拒绝
+3. **生命周期可追踪**：通过记录状态转移序列，可以完整还原技能的使用历史
+4. **会话一致性**：技能在会话启动时快照固定，保证了行为的形式正则性（formal regularity）
+
+> 参考文献：*Agents as Automata*（arxiv.org/html/2510.23487v1）将 Agent 行为建模为有限自动机，*MetaAgent FSM*（arxiv.org/html/2507.22606v1）进一步将此框架扩展到多 Agent 编排。
+
+在实际使用中，`clawhub install` 会自动将技能从 Unregistered → Installed → Active（合并为一步），但底层仍然遵循这个状态机模型。
+
+</details>
+
+## 2. ClawHub：技能注册表
+
+OpenClaw 社区维护了一个名为 [ClawHub](https://clawhub.ai) 的技能注册表（类似 npm 之于 Node.js），源码托管在 `github.com/openclaw/clawhub`。你可以通过 `clawhub` 命令行工具或 [clawhub.ai](https://clawhub.ai) 网站浏览和管理技能。
+
+### 2.0 安装 clawhub CLI
+
+`clawhub` 是 ClawHub 技能注册表的命令行工具，需要单独安装：
 
 ```bash
-# 安装 OpenClaw 技能
-clawhub install gog
-
-# 安装 gog 命令行工具
-brew install steipete/tap/gogcli
+npm i -g clawhub
 ```
 
-> **没有 Homebrew？** macOS 用户先运行：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`。Linux 用户参考 [gog 官网](https://gogcli.sh) 的安装方式。
+安装后需要登录才能使用：
 
-验证安装成功：
+1. 访问 [clawhub.ai](https://clawhub.ai)，注册并登录
+2. 点击右上角**用户头像**，选择 **Settings**
+3. 在设置页面找到 **API tokens** 栏，点击 **Create token**
+4. 复制生成的 Token（只显示一次，请立即保存）
+
+![ClawHub API Token 创建页面](/clawhub-token.png)
+
+5. 在终端执行：
 
 ```bash
-gog --version
+clawhub login --token <你的token>
 ```
 
-**第二步：创建 Google OAuth 凭证**
-
-> **什么是 OAuth？** OAuth 是一种安全的授权方式，让 gog 可以代你访问 Google 服务，而不需要你提供 Google 密码。你需要在 Google Cloud Console 创建一个"凭证"，相当于给 gog 一把专属钥匙。
-
-整个过程分三小步：启用 API → 配置同意屏幕 → 创建凭证。
-
-**2a. 启用 Google API**
-
-1. 访问 [Google Cloud Console](https://console.cloud.google.com/)，登录你的 Google 账号
-2. 如果已有项目（顶部会显示项目名），直接使用即可；如果没有，点击顶部**项目选择器**（Google Cloud 标志旁边的下拉框）→ **New Project** 创建一个
-
-![Google Cloud 项目创建](/google-cloud-project.png)
-
-3. 在左侧菜单点击 **APIs & Services → Library**
-4. 在搜索栏中输入 API 名称，逐个搜索并启用以下 API（点击进入后点蓝色 **Enable** 按钮）：
-
-![在 API Library 搜索栏中搜索需要的 API](/google-library-search.png)
-
-   - Gmail API
-   - Google Calendar API
-   - Google Drive API
-   - Google Sheets API
-
-**2b. 配置 OAuth 同意屏幕**
-
-> 这一步告诉 Google"谁在请求访问用户数据"。不配置就无法创建凭证。
-
-1. 在左侧菜单点击 **Google Auth platform → Branding**（如果首次进入会显示 **Get Started**，点击它）
-2. 填写 **App name**（随便起，如"gog-cli"）和 **User support email**（填你自己的邮箱），点击 **Next**
-3. **Audience** 选择 **External**（个人用户选这个），点击 **Next**
-4. **Contact Information** 填写你的邮箱，点击 **Next**
-5. 勾选同意 Google API Services User Data Policy，点击 **Continue** → **Create**
-6. 进入 **Google Auth platform → Audience**，在 **Test users** 区域点击 **Add users**，添加你自己的 Gmail 地址，点击 **Save**
-
-> **为什么要添加测试用户？** 选择 External 后，应用处于"测试"状态，只有被添加为测试用户的 Google 账号才能完成授权。把你自己的 Gmail 加进去就行。
-
-**2c. 创建 OAuth 凭证并下载**
-
-1. 在左侧菜单点击 **Google Auth platform → Clients**
-2. 点击 **Create Client**
-3. **Application type** 选择 **Desktop app**，名称随便填（如"gog"），点击 **Create**
-4. 创建成功后，在凭证列表中找到刚创建的条目，点击右侧的**下载图标**（↓）
-5. 下载得到 `client_secret_xxx.json` 文件，保存到你记得住的位置
-
-**第三步：授权登录**
+验证登录成功：
 
 ```bash
-# 导入 OAuth 凭证
-gog auth credentials /path/to/client_secret_xxx.json
-
-# 授权你的 Google 账号（会自动打开浏览器完成登录）
-gog auth add you@gmail.com --services gmail,calendar,drive,contacts,sheets,docs
+clawhub whoami
 ```
 
-> 把 `you@gmail.com` 替换成你的实际 Gmail 地址，`/path/to/client_secret_xxx.json` 替换成你下载的凭证文件路径。
 
-运行后会自动打开浏览器进入 Google 授权页面。按以下步骤完成授权：
+### 2.1 浏览和搜索技能
 
-1. 登录你的 Google 账号（就是你添加为测试用户的那个 Gmail）
-2. 一路点击 **Continue** 前进
-3. 当出现 **Select what gog-cli can access** 页面时，点击 **Select all** 选中所有权限，然后点击 **Continue**
-
-![Google OAuth 授权页面](/google-oauth.png)
-
-验证授权成功：
+![clawhub search 终端输出](/clawhub-search.png)
 
 ```bash
-gog auth list
+# 列出所有可用技能
+clawhub list
+
+# 搜索特定类型的技能
+clawhub search agent
+clawhub search email
+clawhub search database
 ```
 
-![gog 授权成功状态](/gog-connection-status.png)
+### 2.2 安装技能
 
-> **提示**：为了方便使用，建议设置默认账号环境变量，这样每次调用 gog 时不用重复指定账号：
-> ```bash
-> export GOG_ACCOUNT=you@gmail.com
-> # 写入 shell 配置使其永久生效
-> echo 'export GOG_ACCOUNT=you@gmail.com' >> ~/.bashrc
-> ```
+安装技能有两种方式：
 
-### 1.2 Gmail 管理
-
-安装完成后，你可以用自然语言管理邮件：
-
-```
-查看今天的未读邮件，按重要程度排序
-```
-
-```
-帮我回复张三的邮件，告诉他周五下午 3 点可以开会
-```
-
-```
-搜索所有来自 hr@company.com 的邮件，生成摘要
-```
-
-### 1.3 Google Calendar
-
-```
-查看我这周的日程安排
-```
-
-```
-帮我在周三下午 2 点创建一个 30 分钟的会议，邀请 alice@company.com
-```
-
-```
-我下周哪天下午有空？帮我找出连续 2 小时的空闲时间段
-```
-
-### 1.4 Google Drive & Docs
-
-```
-在 Google Drive 中搜索包含"季度报告"的文档
-```
-
-```
-创建一个新的 Google Sheets，包含本月销售数据的表格模板
-```
-
-## 2. Notion 集成
-
-Notion 技能让 OpenClaw 成为你的知识库管理助手。
-
-### 2.1 安装与配置
+**方式一：通过 clawhub CLI（推荐）**
 
 ```bash
-clawhub install notion
+clawhub install weather
 ```
 
-需要创建 Notion Integration（集成接口，让 OpenClaw 获得访问你 Notion 数据的权限）并获取 API Token：
+OpenClaw 会自动下载技能文件到 `~/.openclaw/skills/weather/`，解析配置需求，然后引导你完成配置。
 
-1. 访问 https://www.notion.so/profile/integrations
-2. 点击 **"+ New integration"**，填写集成名称、选择关联的 Workspace，其余必填项（Website、Privacy Policy URL 等）可以随意填写，然后点击 **Create**
-3. 创建成功后会弹出 "Integration successfully created" 提示，点击 **Configure integration settings** 进入设置页面
-4. 在设置页面找到 **OAuth Client Secret**（默认隐藏，点击旁边的显示按钮），点击复制——这就是你的 API Token
+**方式二：通过聊天粘贴 GitHub URL**
 
-![Notion Integration 设置页面](/notion-integration.png)
-5. 在 Notion 中打开需要访问的页面/数据库，点击右上角 **"..."** → **"Connections"** → 添加你刚创建的 Integration
+直接在对话中粘贴包含 `SKILL.md` 的 GitHub 仓库 URL，OpenClaw 会自动识别并安装。
 
-### 2.2 数据库操作
+安装完成后可以立即测试：
 
 ```
-在"项目任务"数据库中添加一条记录：任务名"完成前端重构"，状态"进行中"，优先级"高"
+帮我查一下明天的天气
 ```
 
-```
-查询"Bug 追踪"数据库中所有状态为"待修复"的记录
-```
-
-### 2.3 页面管理
-
-```
-创建一个新的 Notion 页面"2026年3月周报"，包含本周 Git 提交摘要
-```
-
-```
-更新"产品需求文档"页面，在功能列表中添加"暗黑模式支持"
-```
-
-## 3. 飞书深度集成
-
-在第三章中我们介绍了飞书作为消息渠道的接入。通过飞书插件的完整能力，OpenClaw 可以深度操作飞书的办公生态（详见第五章第 7 节）。
-
-### 3.1 云文档操作
-
-```
-帮我创建一个飞书文档，标题是"技术方案评审"，包含背景、方案、风险三个部分
-```
-
-### 3.2 多维表格
-
-```
-在"OKR 跟踪"多维表格中，将我负责的所有 KR 状态更新为最新进度
-```
-
-### 3.3 日程与任务
-
-```
-查看团队成员这周的忙闲情况，找一个所有人都有空的时间安排周会
-```
-
-## 4. 数据库集成
-
-### 4.1 SQL Toolkit
+### 2.3 管理已安装的技能
 
 ```bash
-clawhub install sql-toolkit
+# 查看已安装的技能
+clawhub list
+
+# 更新单个技能
+clawhub update weather
+
+# 更新所有技能
+clawhub update --all
+
+# 卸载技能
+clawhub uninstall weather
 ```
 
-支持 PostgreSQL、MySQL、SQLite 的只读查询（这三种都是常见的数据库软件，用来存储和管理结构化数据，类似于功能更强大的 Excel 表格）：
+<details>
+<summary>展开：技能文件结构详解（开发者参考）</summary>
+
+## 3. 技能文件结构
+
+### 3.1 SKILL.md 格式
+
+每个技能的核心是一个 `SKILL.md` 文件，使用 YAML frontmatter 定义元数据：
+
+```markdown
+---
+name: weather
+description: 查询全球城市天气预报和空气质量
+version: 1.2.0
+requirements:
+  - curl
+---
+
+# Weather Skill
+
+当用户询问天气相关问题时，使用以下工具获取数据。
+
+## 使用规则
+
+1. 优先使用用户所在城市
+2. 默认返回未来 3 天的天气
+3. 如果用户关心空气质量，一并返回 AQI 数据
+
+## 工具
+
+### get_weather
+- 参数：city (string), days (number, default: 3)
+- 用途：获取指定城市未来 N 天的天气预报
+```
+
+frontmatter 字段说明：
+
+| 字段 | 说明 | 必填 |
+|------|------|------|
+| name | 技能标识符（即技能的唯一英文短名，如 `weather`），用于安装和引用 | 是 |
+| description | 一句话功能描述 | 是 |
+| version | 语义化版本号 | 是 |
+| requirements | 系统依赖列表（如 python3, curl） | 否 |
+| user-invocable | 是否可由用户通过斜杠命令手动调用 | 否 |
+| disable-model-invocation | 禁止模型自动调用，只能用户手动触发 | 否 |
+| metadata | 单行 JSON，定义门控条件等高级配置 | 否 |
+
+### 3.2 目录结构
+
+一个完整的技能目录结构：
 
 ```
-连接生产数据库，查询最近 7 天的新增用户数，按天分组
+~/.openclaw/skills/weather/
+├── SKILL.md          # 核心：技能说明和指令（唯一必需文件）
+├── scripts/          # 可选：辅助脚本
+│   └── fetch.sh
+└── examples/         # 可选：使用示例
+    └── demo.md
 ```
 
+> **注意**：技能目录内没有 `config.yaml` 或 `tools.yaml`。所有技能配置统一在工作区级的 `openclaw.json` 中管理，而非分散在各技能目录中。
+
+</details>
+
+## 4. 新手必装：十大推荐技能
+
+ClawHub 上有超过 16,000 个技能，质量参差不齐——有的非常实用，有的只是披着 Skill 壳的模型伪装，甚至有的会窃取你的 API Key。以下是从中精选的 10 个**安全且实用**的技能，建议按顺序安装：
+
+### 第一个必装：安全守卫
+
+```bash
+clawhub install skill-vetter
 ```
-查看 orders 表的结构，列出所有字段和类型
-```
 
-> **安全提示**：SQL Toolkit 默认只支持只读查询（SELECT），不允许执行 INSERT、UPDATE、DELETE 等写入操作。这是一个重要的安全设计。
+**Skill Vetter** 会自动检测你后续安装的每一个技能，扫描是否存在危险行为（如窃取 API Key、上传个人信息）。**请务必第一个安装它**。
 
-### 4.2 配置数据库连接
+### 核心能力技能
 
-```jsonc
-// openclaw.json 中的 sql-toolkit 配置
+| 序号 | 技能 | 安装命令 | 一句话说明 |
+|------|------|---------|-----------|
+| 2 | **Tavily Web Search** | `clawhub install tavily-search` | 专为 Agent 设计的联网搜索，结果全、新、简洁 |
+| 3 | **Agent Browser** | `clawhub install agent-browser` | 让龙虾打开浏览器，抓取信息、填写表单、操作网页 |
+| 4 | **Summarize** | `clawhub install summarize` | 对网页、PDF、图像、音频、YouTube 等内容生成摘要 |
+| 5 | **Gog** | `clawhub install gog` | Google 全家桶：Gmail、Calendar、Drive、Docs 一键打包 |
+| 6 | **GitHub** | `clawhub install github` | PR 管理、Issue 追踪、代码搜索、仓库操作，开发者必备 |
+| 7 | **Obsidian** | `clawhub install obsidian` | 接入本地 Obsidian 笔记库，整理笔记、知识关联 |
+
+### 进阶能力技能
+
+| 序号 | 技能 | 安装命令 | 一句话说明 |
+|------|------|---------|-----------|
+| 8 | **Self-Improving Agent** | `clawhub install self-improving-agent` | 记录经验教训和纠正措施，让龙虾持续自我改进 |
+| 9 | **Proactive Agent** | `clawhub install proactive-agent` | 赋予龙虾主动性，记住历史行为并根据环境变化自动执行任务 |
+| 10 | **Capability Evolver** | `clawhub install capability-evolver` | 让龙虾自主进化——分析已有流程，在薄弱环节创造新 Skill 辅助迭代 |
+
+> **一键安装全部**：你也可以直接告诉龙虾"帮我安装 skill-vetter、tavily-search、agent-browser"，它会帮你逐个下载安装。
+
+### 更多精选技能
+
+ClawHub 上技能数量庞大，社区项目 [awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) 从中精选了 **5,000+** 个高质量技能，按场景分类，过滤了大量低质和危险技能。如果上面 10 个不够用，去那里逛逛。
+
+---
+
+## 5. 技能分类速查
+
+以下按使用场景分类列出更多常用技能，方便按需选装：
+
+<!-- TODO: 补充每个技能的使用截图 -->
+
+### 5.1 生产力套件
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| Google Workspace (gog) | `clawhub install gog` | Gmail、Calendar、Drive、Docs、Sheets 统一访问 |
+| Notion | `clawhub install notion` | 数据库、页面同步，长期记忆存储 |
+| Todoist | `clawhub install todoist` | 任务管理、标签、优先级、周期规则 |
+| Slack | `clawhub install slack` | 消息发送、频道管理、文件上传 |
+| Obsidian | `clawhub install obsidian` | Markdown 笔记库管理，支持 wikilink |
+
+### 5.2 开发工具
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| GitHub | `clawhub install github` | 仓库、Issue、PR 管理，REST API + GraphQL |
+| Git Operations | `clawhub install git-ops` | 安全的 Git 命令执行 |
+| Code Reviewer | `clawhub install code-reviewer` | Diff 分析、代码审查、Commit 消息生成 |
+| SQL Toolkit | `clawhub install sql-toolkit` | PostgreSQL/MySQL/SQLite 只读查询 |
+| CI/CD Pipeline | `clawhub install cicd-pipeline` | GitHub/GitLab/Jenkins 流水线控制 |
+
+### 5.3 运维与基础设施
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| DevOps Toolkit | `clawhub install devops` | Docker 编排、进程管理、健康监控 |
+| AWS Infrastructure | `clawhub install aws-infra` | EC2、S3、Lambda 对话式管理 |
+| Azure DevOps | `clawhub install azure-devops` | 项目、仓库、看板、流水线管理 |
+
+### 5.4 内容与社交
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| LinkedIn | `clawhub install linkedin` | 帖子生成、轮播图、定时发布 |
+| X (Twitter) | `clawhub install x-api` | 推文、线程、媒体附件 |
+| Blogburst | `clawhub install blogburst` | 长文内容自动拆分为社交媒体帖子 |
+
+### 5.5 个人助理
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| Weather | `clawhub install weather` | 天气、交通、航班实时数据 |
+| Calendar Pro | `clawhub install caldav-calendar` | 多日历集成、冲突检测 |
+| AgentMail | `clawhub install agentmail` | IMAP/SMTP 邮件管理、线程摘要、自动回复 |
+| Home Assistant | `clawhub install home-assistant` | 智能家居设备控制 |
+
+### 5.6 特殊技能
+
+| 技能 | 安装命令 | 功能 |
+|------|---------|------|
+| Playwright | `clawhub install playwright` | 无头浏览器自动化、表单填写、数据提取 |
+| Hacker News | `clawhub install hackernews` | 技术新闻摘要和个性化推送 |
+| Self-Improving | `clawhub install self-improving` | 记录成功/失败执行，自我优化模式识别 |
+
+## 6. 配置技能
+
+安装后可以随时修改技能配置。技能配置统一存放在工作区级的 `openclaw.json` 中：
+
+```json
 {
   "skills": {
-    "sql-toolkit": {
-      "connections": {
-        "production": {
-          "type": "postgresql",
-          "host": "localhost",
-          "port": 5432,
-          "database": "myapp",
-          "user": "readonly_user",
-          "password": "your_password"
-        },
-        "analytics": {
-          "type": "mysql",
-          "host": "analytics.company.com",
-          "port": 3306,
-          "database": "analytics"
-        }
-      }
+    "weather": {
+      "api_key": "your_api_key",
+      "default_city": "Beijing",
+      "units": "metric",
+      "language": "zh_CN"
     }
   }
 }
 ```
 
-## 5. 浏览器自动化
-
-### 5.1 Playwright 技能
+也可以通过交互式命令配置：
 
 ```bash
-clawhub install playwright
+openclaw config
 ```
 
-Playwright 技能让 OpenClaw 可以控制无头浏览器，执行网页操作：
+对于需要 API Key 的技能，安装时会自动引导你输入。你也可以后续通过 `openclaw config` 或直接编辑 `openclaw.json` 修改。
 
+<details>
+<summary>展开：创建和发布自定义技能</summary>
+
+## 7. 创建自定义技能
+
+如果 ClawHub 上没有你需要的技能，可以自己创建。
+
+### 7.1 最小化技能
+
+创建一个查询 IP 地址的技能，只需要一个 `SKILL.md`：
+
+```markdown
+---
+name: my-ip
+description: 查询当前公网 IP 地址和地理位置
+version: 1.0.0
+---
+
+# IP 查询技能
+
+当用户询问 IP 地址或网络位置时，执行以下命令：
+
+curl -s https://ipinfo.io/json
+
+返回结果中包含 IP、城市、地区、国家、运营商等信息。
 ```
-打开 https://example.com/dashboard，截图保存当前页面
-```
 
-```
-登录公司内部系统，导出本月考勤数据为 CSV
-```
-
-```
-监控竞品网站的定价页面，如果价格变化就通知我
-```
-
-### 5.2 注意事项
-
-- 浏览器自动化消耗资源较多，建议在服务器上运行
-- 需要安装 Playwright 浏览器依赖：`npx playwright install chromium`
-- 涉及登录的操作需要妥善管理凭证
-
-## 6. 智能家居
-
-### 6.1 Home Assistant 集成
+### 7.2 安装自定义技能
 
 ```bash
-clawhub install home-assistant
+# 从本地目录安装
+clawhub install ./my-ip
+
+# 或直接复制到技能目录
+cp -r my-ip ~/.openclaw/skills/
+```
+
+### 7.3 发布到 ClawHub
+
+如果你的技能对他人有用，可以提交到 ClawHub：
+
+```bash
+# 1. Fork github.com/openclaw/clawhub
+# 2. 添加你的技能目录
+# 3. 提交 Pull Request
+```
+
+### 7.4 使用 Skill Seekers 自动生成技能
+
+如果你想为特定技术栈或文档快速生成技能，可以使用 **Skill Seekers** 工具。它能自动将文档网站、GitHub 仓库、PDF 和视频转换为 Claude/Gemini/OpenAI Skills。
+
+**安装**：
+```bash
+pip install skill-seekers
+```
+
+**从文档网站生成技能**：
+```bash
+# 为 React 文档生成技能
+skill-seekers create https://docs.react.dev/
+
+# 从 GitHub 仓库生成
+skill-seekers create facebook/react
+
+# 从本地项目生成
+skill-seekers create ./my-project
+```
+
+**导出为 OpenClaw 可用格式**：
+```bash
+# 打包为 Claude Skill（可导入 OpenClaw）
+skill-seekers package output/react --target claude
+```
+
+**Skill Seekers 的优势**：
+- ⚡ 99%  faster — 数天的手动准备 → 15-45 分钟
+- 🎯 高质量 SKILL.md — 500+ 行的完整技能文件
+- 📊 RAG-ready 分块 — 智能分块保留代码块和上下文
+- 🌐 多源支持 — 文档 + GitHub + PDF + 视频
+
+> 📖 更多信息：[Skill Seekers GitHub](https://github.com/yusufkaraaslan/Skill_Seekers)
+
+</details>
+
+## 8. 飞书插件：技能实战案例
+
+飞书官方插件是一个典型的复合技能，展示了技能如何深度集成外部服务。安装飞书插件后（安装步骤参见第三章 2.4 节），OpenClaw 不仅能通过飞书收发消息，还能直接操作飞书的办公数据：
+
+| 能力 | 说明 |
+|------|------|
+| 消息 | 群聊/单聊历史搜索、消息发送、文件下载 |
+| 文档 | 创建和编辑飞书云文档 |
+| 多维表格 | 表格管理与数据操作（类似 Airtable） |
+| 日程 | 日历查看、会议创建、忙闲查询 |
+| 任务 | 任务和清单的创建与管理 |
+
+使用示例：
+
+```
+帮我在飞书上创建一个项目周报文档，包含本周完成的任务和下周计划
 ```
 
 ```
-打开客厅的灯，亮度调到 60%
+查看我今天的飞书日程，如果有冲突的会议帮我标记出来
 ```
 
 ```
-每天晚上 11 点自动关闭所有灯光和空调
+在项目管理多维表格中添加一条新任务：完成 API 文档编写，截止日期下周五
 ```
 
+这种深度集成体现了技能系统的核心价值：通过标准化的 SKILL.md 接口，将复杂的外部服务能力无缝注入 OpenClaw 的执行循环中。
+
+<details>
+<summary>展开：性能考量与安全提示</summary>
+
+## 9. 技能系统的性能考量
+
+技能并非越多越好。每个活跃技能都会增加上下文加载量，影响响应速度。
+
+### 技能加载机制
+
+OpenClaw 采用**三级加载优先级**：
+
+| 优先级 | 来源 | 路径 | 说明 |
+|--------|------|------|------|
+| 1（最高） | 工作区级 | `~/.openclaw/workspace/skills/` | 你手动放置或针对当前工作区安装的技能 |
+| 2 | 共享级 | `~/.openclaw/skills/` | `clawhub install` 安装的全局技能 |
+| 3（最低） | 内置级 | OpenClaw 安装目录 | 随 OpenClaw 一起发布的默认技能 |
+
+同名技能按优先级覆盖——如果工作区有一个 `web-search`，它会屏蔽全局和内置的同名技能。
+
+每次对话开始时，OpenClaw 会生成一份**技能快照**（snapshot），将所有活跃技能的 SKILL.md 内容注入上下文。技能采用**懒加载**策略：只有在对话中被触发（匹配到关键词或被 AI 主动选用）时，才会执行技能脚本。
+
+### 性能影响与建议
+
+| 技能数量 | 上下文占用 | 响应速度影响 | 建议 |
+|---------|-----------|-------------|------|
+| 1-5 个 | 低 | 几乎无感 | 新手推荐 |
+| 5-10 个 | 中等 | 略有延迟 | 日常使用合理上限 |
+| 10-20 个 | 较高 | 明显变慢 | 建议禁用不常用的 |
+| 20+ 个 | 很高 | 严重影响 | 不推荐 |
+
+**按需安装**：只安装真正需要的技能。5-10 个常用技能是一个合理的数量。
+
+**定期清理**：用 `clawhub list` 查看所有已安装技能，用 `clawhub uninstall <技能名>` 卸载不再使用的技能，保持系统精简。
+
+```bash
+# 查看当前安装了哪些技能
+clawhub list
+
+# 只看活跃的技能
+clawhub list --active
+
+# 卸载不需要的技能
+clawhub uninstall old-unused-skill
 ```
-查看家里所有设备的状态
+
+**保护敏感信息**：技能配置中的 API 密钥存储在本地，但仍要注意不要将 `~/.openclaw/skills/` 目录上传到公开仓库。
+
+**测试后再用**：新安装的技能先在测试环境试用，确认没问题后再用于生产任务。对于未经审计的第三方技能，建议在 Docker 沙箱中运行。
+
+> **安全警告**：2026 年 2 月的安全审计（ClawHavoc 事件）发现 ClawHub 上约 12% 的技能存在恶意行为或安全漏洞。OpenClaw 团队已进行清理，但安装第三方技能时仍需保持警惕。建议优先使用高星标技能，并检查 SKILL.md 中的指令内容。
+
+**安装安全守卫**：强烈建议安装 `skill-vetter`（详见本章第 4 节），它会自动扫描你后续安装的每一个技能，检测是否存在窃取 API Key、上传个人信息等危险行为：
+
+```bash
+clawhub install skill-vetter
 ```
 
-## 7. 集成最佳实践
+</details>
 
-**最小权限原则**：每个技能只授予必要的权限。Gmail 技能不需要 Drive 权限，数据库技能只需要只读权限。
+<details>
+<summary>展开阅读：技能与 MCP 的关系</summary>
 
-**凭证安全**：所有 API Key 和 Token 存储在本地 `openclaw.json` 中，不要提交到 Git 仓库。建议将 `openclaw.json` 加入 `.gitignore`。
+## 10. 技能与 MCP 的关系
 
-**错误处理**：外部服务可能出现超时、限流等问题。OpenClaw 会自动重试，但如果持续失败，检查 API 配额和网络连接。
+OpenClaw 的技能系统与 MCP（Model Context Protocol）是两个不同层面的概念：
 
-**测试环境先行**：对于涉及写入操作的集成（如创建文档、发送邮件），先在测试账号上验证，确认行为符合预期后再切换到正式账号。
+- **技能（Skills）**：提示词层面的指令包，定义 Agent 的行为规则和工具使用方式
+- **MCP**：工具层面的进程协议，提供外部工具的标准化接口
+
+截至目前，OpenClaw 并未原生支持 MCP（相关 Issue #4834 已关闭，状态为"not planned"）。但社区已有大量 MCP 包装器（wrapper），可将 MCP 服务器的能力通过技能接口暴露给 OpenClaw 使用。
+
+</details>
 
 ---
 
-**下一步**：[第七章 生产环境部署](/cn/adopt/chapter7/)
+**下一步**：[第七章 外部服务集成](/cn/adopt/chapter7/)

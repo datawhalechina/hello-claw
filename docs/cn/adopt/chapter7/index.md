@@ -1,371 +1,651 @@
-# 第七章 生产环境部署
+# 第七章 多平台进阶与外部服务
 
-> **本章适合谁？** 如果你只是个人使用，在自己电脑上运行 OpenClaw 就够了，可以跳过本章。本章面向需要 24/7 不间断运行的用户——比如你想让定时任务在你睡觉时也能执行，或者想在手机上随时控制 OpenClaw。
+> **前提**：本章假设你已完成[第三章](/cn/adopt/chapter3/)的平台接入和[第六章](/cn/adopt/chapter6/)的技能安装。
 
-到目前为止，你可能一直在本地运行 OpenClaw。但要让它真正成为 24/7 待命的 AI 助手，你需要将它部署到服务器上持续运行。
+本章分为两部分：多平台的进阶配置（快捷命令、文件传输、多渠道协同、QQ 进阶方案）和外部服务集成（Google、Notion 等）。
 
-**什么是服务器？** 简单说就是一台 24 小时开机、连着网的电脑。你可以租一台云服务器（VPS），每月几十元，就像租了一台永远在线的远程电脑。本章介绍 VPS 选择、Docker 部署和远程管理的完整流程。
+## 第一部分：多平台进阶
 
-## 1. 为什么需要服务器部署
+## 4. 使用技巧
 
-本地运行的限制很明显：电脑关机就停了，网络不稳定会断连，而且你无法随时随地使用。部署到服务器后：
+### 4.1 命令快捷方式
 
-- 定时任务（第四章）可以 24/7 准时执行
-- 移动端（第三章）可以随时发送指令
-- 多人可以共享同一个 OpenClaw 实例
-- 系统资源更充足，处理速度更快
+在移动端输入长指令不方便，可以在配置文件中设置快捷命令：
 
-## 2. VPS 选择
-
-### 2.1 国内推荐
-
-| 服务商 | 最低配置 | 月费参考 | 适合场景 |
-|--------|---------|---------|---------|
-| 阿里云 ECS | 2 核 4G | ~70 元 | 飞书集成、国内服务 |
-| 腾讯云 CVM | 2 核 4G | ~65 元 | 微信生态集成 |
-| 火山引擎 | 2 核 4G | ~60 元 | 字节系产品集成 |
-
-### 2.2 海外推荐
-
-| 服务商 | 最低配置 | 月费参考 | 适合场景 |
-|--------|---------|---------|---------|
-| Hetzner | 2 核 4G | ~$5 | 性价比最高 |
-| DigitalOcean | 2 核 4G | ~$12 | Telegram 集成 |
-| AWS Lightsail | 2 核 4G | ~$10 | AWS 生态集成 |
-
-### 2.3 配置建议
-
-- **最低要求**：2 核 CPU、4GB 内存、40GB SSD
-- **推荐配置**：4 核 CPU、8GB 内存、80GB SSD
-- **操作系统**：Ubuntu 22.04 LTS 或 Debian 12
-
-### 2.4 托管替代方案：ArkClaw
-
-如果你不想自己购买和管理服务器，可以考虑云厂商提供的 OpenClaw 托管服务。例如火山引擎的 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供了完全托管的 OpenClaw 云端实例，无需购买 VPS、无需配置 Docker，订阅 Coding Plan 后即可获得 24/7 运行的 OpenClaw 服务（Lite ¥9.90/月起，新用户享 7 天免费试用）。
-
-适合不想运维服务器、希望快速上线的用户。本章后续内容面向自建部署，如果你选择托管方案可以跳过。
-
-## 3. 基础部署
-
-### 3.1 安装 OpenClaw
-
-> Node.js 安装和 API Key 获取的详细步骤请参考[第一章](/cn/adopt/chapter1/)，这里只列出服务器部署的关键命令。
-
-```bash
-# SSH 连接到服务器（SSH 是远程登录工具，用你的终端连接到远程服务器）
-# 将 user 替换为你的用户名，your-server-ip 替换为服务器 IP 地址
-ssh user@your-server-ip
-
-# 安装 Node.js 22（详见第一章第 2 节）
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
-sudo apt-get install -y nodejs
-
-# 安装 OpenClaw
-npm install -g openclaw
-
-# 验证安装
-openclaw --version
+```jsonc
+// openclaw.json
+{
+  "shortcuts": {
+    "/status": "检查服务器状态，包括 CPU、内存、磁盘使用情况",
+    "/logs": "显示最近 50 行应用日志",
+    "/backup": "执行数据库备份并上传到云存储",
+    "/deploy": "拉取最新代码并重启服务"
+  }
+}
 ```
 
-### 3.2 配置 LLM API Key
+这样你只需要发送 `/status`，OpenClaw 就会执行完整的检查流程。这些快捷命令本质上是预定义的 prompt，OpenClaw 会把它们展开成完整的指令再执行。
 
-使用第一章获取的 API Key 配置服务器端（以硅基流动为例）：
+<details>
+<summary>展开：带参数的快捷命令</summary>
 
-在部署目录下创建或编辑 `openclaw.json`，填入你的 API Key：
+你还可以设置带参数的快捷命令：
 
-```json
+```jsonc
+// openclaw.json
 {
-  "env": {
-    "SILICONFLOW_API_KEY": "sk-你的密钥"
-  },
-  "models": {
-    "mode": "merge",
-    "providers": {
-      "siliconflow": {
-        "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "${SILICONFLOW_API_KEY}",
-        "api": "openai-completions",
-        "models": [
-          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
-        ]
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
+  "shortcuts": {
+    "/search": "在项目中搜索包含 {query} 的文件",
+    "/git": "执行 git 命令: {command}"
+  }
+}
+```
+
+使用时这样调用：`/search TODO` 或 `/git status`。
+
+</details>
+
+### 4.2 文件传输
+
+移动端接入的另一个强大功能是文件传输。你可以在手机上拍一张照片发给 OpenClaw，让它识别图片中的文字；或者发送一个 Excel 文件，让它生成数据分析报告。
+
+在 Telegram 中，直接发送文件即可。OpenClaw 会自动下载文件到服务器，然后根据文件类型选择合适的处理方式。比如：
+
+- 图片文件：自动调用 OCR 识别文字
+- CSV/Excel：生成数据统计和可视化图表
+- PDF：提取文本内容并总结
+- 代码文件：进行代码审查和优化建议
+
+处理完成后，OpenClaw 会把结果文件发回给你。整个过程完全自动化，不需要你手动上传下载。
+
+<details>
+<summary>展开：语音输入配置</summary>
+
+### 4.3 语音输入
+
+如果你在开车或不方便打字，可以使用语音输入。Telegram 和飞书都支持语音消息，OpenClaw 会自动将语音转换成文字，然后执行对应的指令。
+
+在配置中启用语音识别：
+
+```jsonc
+// openclaw.json
+{
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "botToken": "xxxxx",
+      "voiceRecognition": true,
+      "language": "zh-CN"
     }
   }
 }
 ```
 
-> **安全提示**：生产环境建议将密钥写入系统环境变量，再在 `openclaw.json` 中用 `${SILICONFLOW_API_KEY}` 引用，避免密钥明文出现在配置文件里。
-
-> **提示**：如果还没有 API Key，请先完成[第一章第 2 节](/cn/adopt/chapter1/#_2-配置-ai-模型)的注册步骤。
-
-### 3.3 使用 systemd 保持运行
-
-> **什么是 systemd？** systemd 是 Linux 系统自带的"服务管理器"，可以让程序在后台自动运行，并在崩溃时自动重启。你不需要深入了解它，只需运行下面一条命令即可。
-
-创建系统服务让 OpenClaw 在后台持续运行。OpenClaw 提供了自动生成 systemd 配置的命令：
-
-```bash
-# 自动安装 systemd 服务（推荐）
-openclaw onboard --install-daemon
-```
-
-<!-- TODO: 补充 systemd 服务状态截图（systemctl status openclaw 输出） -->
-
-<details>
-<summary>展开：手动配置 systemd 服务</summary>
-
-如果需要手动配置：
-
-```bash
-sudo tee /etc/systemd/system/openclaw.service > /dev/null << 'EOF'
-[Unit]
-Description=OpenClaw AI Agent
-After=network.target
-
-[Service]
-Type=simple
-User=openclaw
-WorkingDirectory=/home/openclaw
-ExecStart=/usr/bin/openclaw gateway start
-Restart=always
-RestartSec=10
-Environment=NODE_ENV=production
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reload
-sudo systemctl enable openclaw
-sudo systemctl start openclaw
-```
-
-管理服务：
-
-```bash
-sudo systemctl status openclaw    # 查看状态
-sudo systemctl restart openclaw   # 重启
-journalctl -u openclaw -f         # 查看实时日志
-```
+发送语音消息后，OpenClaw 会先回复"正在识别语音..."，然后显示识别出的文字，最后执行指令并返回结果。
 
 </details>
 
-## 4. Docker 部署（推荐）
-
-Docker 提供了更好的隔离性和可移植性。
-
-### 4.1 使用官方安装脚本（推荐）
-
-OpenClaw 官方提供了 `docker-setup.sh` 一键部署脚本，这是最简单的 Docker 部署方式：
-
-```bash
-# 克隆官方仓库
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
-
-# 使用预构建镜像运行（推荐，省去编译时间）
-export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
-./docker-setup.sh
-```
-
-脚本会自动完成以下步骤：
-1. 拉取或构建 Docker 镜像
-2. 运行初始化配置向导
-3. 生成访问令牌（Token）
-4. 启动 Gateway 服务
-
-完成后访问 `http://127.0.0.1:18789/` 打开控制台，在设置中粘贴脚本输出的 Token 即可使用。
-
 <details>
-<summary>展开：启用沙箱模式（Docker-in-Docker）</summary>
+<summary>展开：安全加固建议</summary>
 
-如果你希望 AI 执行的命令在隔离环境中运行（更安全），可以启用沙箱模式：
+### 4.4 安全建议
+
+移动端接入意味着 OpenClaw 可以从互联网访问，务必注意安全：
+
+**使用白名单**：始终配置 `allowed_users`，限制只有你信任的人才能使用。即使是团队共享的机器人，也要明确列出所有成员的 ID。
+
+**敏感操作二次确认**：对于删除文件、修改配置、重启服务等危险操作，可以设置二次确认：
+
+```jsonc
+// openclaw.json
+{
+  "security": {
+    "requireConfirmation": ["delete", "rm", "restart", "shutdown"]
+  }
+}
+```
+
+当你发送包含这些关键词的指令时，OpenClaw 会先询问"确定要执行吗？回复 yes 确认"，只有收到确认后才会真正执行。
+
+**定期检查日志**：OpenClaw 会记录所有通过移动端执行的操作。定期查看日志，确保没有异常活动：
 
 ```bash
-export OPENCLAW_SANDBOX=1
-export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
-./docker-setup.sh
-```
-
-> **什么是沙箱？** 沙箱是一种安全机制，让 AI 执行的命令在一个独立的容器中运行，即使出错也不会影响你的主系统。
-
-如果你使用 rootless Docker（非 root 用户运行 Docker），还需要指定 socket 路径：
-
-```bash
-export OPENCLAW_SANDBOX=1
-export OPENCLAW_DOCKER_SOCKET=/run/user/1000/docker.sock
-./docker-setup.sh
-```
-
-</details>
-
-### 4.2 使用官方镜像
-
-<!-- TODO: 补充 Docker 部署流程截图 -->
-
-```bash
-# 拉取镜像
-docker pull ghcr.io/openclaw/openclaw:latest
-
-# 创建配置目录
-mkdir -p ~/openclaw-data
-
-# 运行容器
-docker run -d \
-  --name openclaw \
-  --restart always \
-  -v ~/openclaw-data:/home/openclaw/.openclaw \
-  -e LLM_API_KEY="sk-xxxxx" \
-  -p 18789:18789 \
-  ghcr.io/openclaw/openclaw:latest gateway start
-```
-
-> **注意**：容器内运行用户为 uid 1000（node）。宿主机挂载目录需确保权限正确：
-> ```bash
-> chown -R 1000:1000 ~/openclaw-data
-```
-
-### 4.3 使用 Docker Compose
-
-> **什么是 Docker Compose？** Docker Compose 是 Docker 的"编排工具"，让你用一个配置文件（`docker-compose.yml`）定义和管理容器，比手动输入长串 `docker run` 命令更方便。
-
-```yaml
-# docker-compose.yml
-services:
-  openclaw:
-    image: ghcr.io/openclaw/openclaw:latest
-    container_name: openclaw
-    restart: always
-    volumes:
-      - ./data:/home/openclaw/.openclaw
-    ports:
-      - "18789:18789"
-    environment:
-      - LLM_API_KEY=${LLM_API_KEY}
-      - NODE_ENV=production
-    command: gateway start
-```
-
-启动：
-
-```bash
-# 创建 .env 文件
-echo "LLM_API_KEY=sk-xxxxx" > .env
-
-# 启动服务
-docker compose up -d
-
-# 查看日志
-docker compose logs -f
-```
-
-### 4.4 更新版本
-
-```bash
-docker compose pull
-docker compose up -d
-```
-
-<details>
-<summary>展开：安全加固配置</summary>
-
-## 5. 安全加固
-
-### 5.1 创建专用用户
-
-```bash
-sudo useradd -m -s /bin/bash openclaw
-sudo su - openclaw
-```
-
-### 5.2 防火墙配置
-
-```bash
-# 只开放必要端口
-sudo ufw allow ssh
-sudo ufw allow 443/tcp    # HTTPS（如果需要 Webhook）
-sudo ufw enable
-```
-
-### 5.3 API Key 安全
-
-- 使用环境变量而非明文配置文件
-- 定期轮换 API Key
-- 设置 API 调用上限
-
-### 5.4 日志审计
-
-```bash
-# 查看 OpenClaw 最近日志
-openclaw logs --limit 100
-
-# 实时监控日志
 openclaw logs --follow
 ```
 
+**不要在公共网络下暴露端口**：如果你的 OpenClaw 运行在公网服务器上，务必配置防火墙，只允许来自飞书或 Telegram 官方服务器的请求。
+
 </details>
 
 <details>
-<summary>展开：监控与维护</summary>
+<summary>展开：多渠道协同配置</summary>
 
-## 6. 监控与维护
+### 4.5 多渠道协同
 
-### 6.1 健康检查
+你可以同时启用飞书和 Telegram，在不同场景使用不同渠道。例如工作相关的任务通过飞书，个人事务通过 Telegram。所有对话历史都会同步到 OpenClaw 的记忆系统中，不会因为切换渠道而丢失上下文。
 
-OpenClaw 提供内置健康检查端点（默认端口 18789）：
+在配置中可以为不同渠道设置不同的权限：
 
-```bash
-# 存活检查（liveness）
-curl http://localhost:18789/healthz
-
-# 就绪检查（readiness）
-curl http://localhost:18789/readyz
+```jsonc
+// openclaw.json
+{
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "allowedOperations": ["read", "write", "execute"]
+    },
+    "telegram": {
+      "enabled": true,
+      "allowedOperations": ["read", "execute"]
+    }
+  }
+}
 ```
 
-也可以设置一个定时任务让 OpenClaw 自我检查：
-
-```
-每小时检查一次自身状态，如果发现异常就发送告警到 Telegram
-```
-
-### 6.2 自动备份
-
-```bash
-# 备份配置和记忆
-tar -czf openclaw-backup-$(date +%Y%m%d).tar.gz ~/openclaw-data/
-
-# 设置定时备份（每天凌晨 3 点）
-echo '0 3 * * * tar -czf /backups/openclaw-$(date +\%Y\%m\%d).tar.gz ~/openclaw-data/' | crontab -
-```
-
-### 6.3 磁盘管理
-
-OpenClaw 的对话历史和日志会随时间增长。定期清理：
-
-```bash
-# 清理 30 天前的对话历史
-openclaw cleanup --older-than 30d
-
-# 查看磁盘使用
-du -sh ~/openclaw-data/*
-```
+这样可以实现更细粒度的权限控制，比如在 Telegram 上只能查询信息，不能修改文件。
 
 </details>
 
-## 7. 常见问题
+## 5. 实战案例
 
-**服务启动失败**：检查 Node.js 版本（需要 22+）、API Key 是否正确、端口是否被占用。
+### 5.1 通勤路上处理紧急问题
 
-**内存不足**：OpenClaw 运行时通常占用 500MB-1GB 内存。如果服务器内存紧张，考虑升级配置或使用 swap。
+早上你在地铁上，突然收到告警：生产服务器 CPU 使用率 100%。你立即打开 Telegram，发送：
 
-**网络超时**：如果使用海外 API 提供商，国内服务器可能需要代理。可以配置 HTTP_PROXY 环境变量。推荐使用硅基流动等国内提供商避免此问题。
+```
+/status
+```
 
-**Docker 容器自动重启**：检查 `docker logs openclaw` 查看崩溃原因，通常是 API Key 过期或配置文件格式错误。
+OpenClaw 返回详细的系统状态，发现是某个进程占用了大量 CPU。你继续发送：
+
+```
+帮我找出占用 CPU 最高的进程并重启它
+```
+
+OpenClaw 执行 `top` 命令找到问题进程，确认后重启。几分钟内问题解决，你甚至不需要打开电脑。
+
+### 5.2 会议中快速生成报告
+
+你在客户会议上，客户突然要求看最新的数据报告。你在桌下悄悄给飞书机器人发消息：
+
+```
+@OpenClaw 生成本周销售数据报告，包括总销售额、增长率、TOP 10 产品
+```
+
+OpenClaw 连接数据库，提取数据，生成 Excel 报告，然后发送到飞书。你下载后投屏给客户，整个过程不到 2 分钟。
+
+### 5.3 旅行途中管理服务器
+
+你在国外旅行，时差 8 小时。国内凌晨需要执行数据库备份，但你不想半夜起来操作。你提前设置了定时任务，但还是不放心，想在备份完成后确认一下。
+
+你在 Telegram 上发送：
+
+```
+备份完成后通知我，并告诉我备份文件大小
+```
+
+OpenClaw 会在备份任务完成后主动给你发消息，即使你没有在线。这种异步通知让你可以安心睡觉，不用担心错过重要事件。
+
+## 6. QQ 进阶接入
+
+> **QQ 官方原生接入**已在[第二章](/cn/adopt/chapter2/#_3-创建-qq-机器人)完成。本节介绍更灵活的第三方方案。
+
+### NapCat 接入
+
+如果你需要更灵活的配置，或者官方接入无法满足需求，可以使用 NapCat 框架将 OpenClaw 接入 QQ 个人账号。
+
+#### 6.1 前置准备
+
+在开始之前，需要：
+- 已安装 OpenClaw（版本 >= 2026.2.1）
+- 一个 QQ 账号用于登录机器人
+- 安装 NapCat 框架
+
+#### 6.2 安装 NapCat
+
+NapCat 是一个第三方 QQ 机器人框架，可以让 OpenClaw 通过你的 QQ 账号收发消息。
+
+> **什么是 Docker？** Docker 是一种"容器"技术，可以把软件和它需要的所有依赖打包在一起运行，避免环境配置问题。如果你没有安装 Docker，可以参考 [Docker 官方安装指南](https://docs.docker.com/get-docker/) 或跳过此方式，使用上面的官方原生接入。
+
+**使用 Docker 安装（推荐）**：
+
+```bash
+docker run -d \
+  --name napcat \
+  -p 3001:3001 \
+  -v $(pwd)/napcat/config:/app/napcat/config \
+  mlikiowa/napcat-docker:latest
+```
+
+启动后访问 `http://localhost:3001` 进入 WebUI，使用 QQ 账号扫码登录。
+
+**配置 WebSocket 服务**：
+
+在 NapCat 配置中启用 WebSocket（通常在 `config/onebot11_<QQ号>.json`）：
+
+```json
+{
+  "ws": {
+    "enable": true,
+    "host": "0.0.0.0",
+    "port": 3001
+  }
+}
+```
+
+#### 6.3 安装 OpenClaw QQ 插件
+
+```bash
+openclaw plugins install @izhimu/qq
+```
+
+#### 6.4 配置 OpenClaw
+
+**方法一：交互式配置**
+
+```bash
+openclaw onboard
+```
+
+按提示输入 NapCat 的 WebSocket 地址。
+
+**方法二：手动配置**
+
+```bash
+openclaw config set channels.qq.wsUrl "ws://127.0.0.1:3001"
+openclaw config set channels.qq.enabled true
+```
+
+#### 6.5 启动服务
+
+```bash
+openclaw gateway restart
+```
+
+#### 6.6 测试连接
+
+在 QQ 中给机器人账号发送消息"你好"，如果收到回复说明接入成功。
+
+#### 6.7 支持的功能
+
+- ✅ 私聊消息收发
+- ✅ 群聊消息（需 @机器人）
+- ✅ 图片、文件、语音
+- ✅ 消息回复
+- ✅ 自动重连
+
+#### 6.8 常见问题
+
+**连接失败**：检查 NapCat 是否正常运行，确认 WebSocket 地址正确。
+
+**消息无响应**：确认已完成 QQ 登录，检查配置 `openclaw config get channels.qq`。
+
+---
+
+### 官方接入 vs NapCat 对比
+
+| 特性 | [官方原生接入](/cn/adopt/chapter2/#_3-创建-qq-机器人) | NapCat 接入 |
+|------|-------------|-------------|
+| 配置难度 | ⭐ 简单（见第二章） | ⭐⭐⭐ 复杂 |
+| 稳定性 | ⭐⭐⭐ 官方支持 | ⭐⭐ 依赖第三方 |
+| 功能丰富度 | ⭐⭐ 基础功能 | ⭐⭐⭐ 完整功能 |
+| 语音消息 | ❌ | ✅ |
+| 账号限制 | 5个机器人/账号 | 无限制 |
+
+**建议**：大多数用户使用[第二章](/cn/adopt/chapter2/)的**官方原生接入**即可。NapCat 适合需要语音消息或无账号限制的高级用户。
+
+---
+
+## 7. QClaw：腾讯官方一键启动方案
+
+除了手动接入方式，腾讯还推出了 **QClaw** —— 一款 OpenClaw 一键启动包，让零基础用户也能轻松部署和使用小龙虾。
+
+### 7.1 QClaw 核心特性
+
+- **一键本地部署**：无需复杂配置，本地电脑轻松部署 OpenClaw
+- **微信直连**：除飞书、钉钉、QQ 外，支持**个人微信**直接对话
+- **混合路由模型**：集成国内多家热门大模型，智能选择最优模型
+- **预制实用技能**：
+  - 远程操控电脑、手机远程办公
+  - 社媒自动运营涨粉
+  - GitHub 项目自动开发
+
+### 7.2 使用场景示例
+
+**社媒运营**：让龙虾自动发小红书笔记，去热门帖子下面互动引流。
+
+**智能关注**：让龙虾到平台上找 Claw 类产品博主，然后自动关注并给出总结。
+
+**GitHub 自动开发**：点击后龙虾会本地拉起浏览器，自动登录 GitHub、建立仓库、提交代码。
+
+### 7.3 获取方式
+
+> 📢 **内测阶段**：目前 QClaw 处于内测阶段，邀请码可在相关社群获取，正式上线后将第一时间通知。
+
+访问 [QClaw 官网](https://qclaw.qq.com) 了解更多详情。
+
+---
+
+## 第二部分：外部服务集成
+
+> **网络提示**：本章部分服务（如 Google）在中国大陆无法直接访问，需要网络代理。如果你没有代理，可以跳过对应小节，只看自己用得到的部分。本章涉及的服务（Google、Notion、数据库等）需要你已有对应的账号。
+
+在[第六章](/cn/adopt/chapter6/)中，我们学会了安装和使用技能。本节将深入实战，通过 Google Workspace、Notion 等技能将 OpenClaw 与你的日常工具连接起来，打造真正的自动化工作流。
+
+## 1. Google Workspace 集成
+
+> **网络提示**：Google 服务在中国大陆无法直接访问，需要网络代理。如果你没有代理，可以跳过本节，直接看第 2 节 Notion 集成或第 3 节飞书深度集成。
+
+Google Workspace（gog）技能提供了 Gmail、Calendar、Drive、Docs、Sheets 的统一访问接口，是最常用的外部服务集成之一。
+
+### 1.1 安装与配置
+
+gog 技能依赖一个独立的命令行工具 `gog`，需要分三步完成配置：安装 gog CLI → 创建 Google OAuth 凭证 → 授权登录。
+
+**第一步：安装 gog 技能和 gog CLI**
+
+```bash
+# 安装 OpenClaw 技能
+clawhub install gog
+
+# 安装 gog 命令行工具
+brew install steipete/tap/gogcli
+```
+
+> **没有 Homebrew？** macOS 用户先运行：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`。Linux 用户参考 [gog 官网](https://gogcli.sh) 的安装方式。
+
+验证安装成功：
+
+```bash
+gog --version
+```
+
+**第二步：创建 Google OAuth 凭证**
+
+> **什么是 OAuth？** OAuth 是一种安全的授权方式，让 gog 可以代你访问 Google 服务，而不需要你提供 Google 密码。你需要在 Google Cloud Console 创建一个"凭证"，相当于给 gog 一把专属钥匙。
+
+整个过程分三小步：启用 API → 配置同意屏幕 → 创建凭证。
+
+**2a. 启用 Google API**
+
+1. 访问 [Google Cloud Console](https://console.cloud.google.com/)，登录你的 Google 账号
+2. 如果已有项目（顶部会显示项目名），直接使用即可；如果没有，点击顶部**项目选择器**（Google Cloud 标志旁边的下拉框）→ **New Project** 创建一个
+
+![Google Cloud 项目创建](/google-cloud-project.png)
+
+3. 在左侧菜单点击 **APIs & Services → Library**
+4. 在搜索栏中输入 API 名称，逐个搜索并启用以下 API（点击进入后点蓝色 **Enable** 按钮）：
+
+![在 API Library 搜索栏中搜索需要的 API](/google-library-search.png)
+
+   - Gmail API
+   - Google Calendar API
+   - Google Drive API
+   - Google Sheets API
+
+**2b. 配置 OAuth 同意屏幕**
+
+> 这一步告诉 Google"谁在请求访问用户数据"。不配置就无法创建凭证。
+
+1. 在左侧菜单点击 **Google Auth platform → Branding**（如果首次进入会显示 **Get Started**，点击它）
+2. 填写 **App name**（随便起，如"gog-cli"）和 **User support email**（填你自己的邮箱），点击 **Next**
+3. **Audience** 选择 **External**（个人用户选这个），点击 **Next**
+4. **Contact Information** 填写你的邮箱，点击 **Next**
+5. 勾选同意 Google API Services User Data Policy，点击 **Continue** → **Create**
+6. 进入 **Google Auth platform → Audience**，在 **Test users** 区域点击 **Add users**，添加你自己的 Gmail 地址，点击 **Save**
+
+> **为什么要添加测试用户？** 选择 External 后，应用处于"测试"状态，只有被添加为测试用户的 Google 账号才能完成授权。把你自己的 Gmail 加进去就行。
+
+**2c. 创建 OAuth 凭证并下载**
+
+1. 在左侧菜单点击 **Google Auth platform → Clients**
+2. 点击 **Create Client**
+3. **Application type** 选择 **Desktop app**，名称随便填（如"gog"），点击 **Create**
+4. 创建成功后，在凭证列表中找到刚创建的条目，点击右侧的**下载图标**（↓）
+5. 下载得到 `client_secret_xxx.json` 文件，保存到你记得住的位置
+
+**第三步：授权登录**
+
+```bash
+# 导入 OAuth 凭证
+gog auth credentials /path/to/client_secret_xxx.json
+
+# 授权你的 Google 账号（会自动打开浏览器完成登录）
+gog auth add you@gmail.com --services gmail,calendar,drive,contacts,sheets,docs
+```
+
+> 把 `you@gmail.com` 替换成你的实际 Gmail 地址，`/path/to/client_secret_xxx.json` 替换成你下载的凭证文件路径。
+
+运行后会自动打开浏览器进入 Google 授权页面。按以下步骤完成授权：
+
+1. 登录你的 Google 账号（就是你添加为测试用户的那个 Gmail）
+2. 一路点击 **Continue** 前进
+3. 当出现 **Select what gog-cli can access** 页面时，点击 **Select all** 选中所有权限，然后点击 **Continue**
+
+![Google OAuth 授权页面](/google-oauth.png)
+
+验证授权成功：
+
+```bash
+gog auth list
+```
+
+![gog 授权成功状态](/gog-connection-status.png)
+
+> **提示**：为了方便使用，建议设置默认账号环境变量，这样每次调用 gog 时不用重复指定账号：
+> ```bash
+> export GOG_ACCOUNT=you@gmail.com
+> # 写入 shell 配置使其永久生效
+> echo 'export GOG_ACCOUNT=you@gmail.com' >> ~/.bashrc
+> ```
+
+### 1.2 Gmail 管理
+
+安装完成后，你可以用自然语言管理邮件：
+
+```
+查看今天的未读邮件，按重要程度排序
+```
+
+```
+帮我回复张三的邮件，告诉他周五下午 3 点可以开会
+```
+
+```
+搜索所有来自 hr@company.com 的邮件，生成摘要
+```
+
+### 1.3 Google Calendar
+
+```
+查看我这周的日程安排
+```
+
+```
+帮我在周三下午 2 点创建一个 30 分钟的会议，邀请 alice@company.com
+```
+
+```
+我下周哪天下午有空？帮我找出连续 2 小时的空闲时间段
+```
+
+### 1.4 Google Drive & Docs
+
+```
+在 Google Drive 中搜索包含"季度报告"的文档
+```
+
+```
+创建一个新的 Google Sheets，包含本月销售数据的表格模板
+```
+
+## 2. Notion 集成
+
+Notion 技能让 OpenClaw 成为你的知识库管理助手。
+
+### 2.1 安装与配置
+
+```bash
+clawhub install notion
+```
+
+需要创建 Notion Integration（集成接口，让 OpenClaw 获得访问你 Notion 数据的权限）并获取 API Token：
+
+1. 访问 https://www.notion.so/profile/integrations
+2. 点击 **"+ New integration"**，填写集成名称、选择关联的 Workspace，其余必填项（Website、Privacy Policy URL 等）可以随意填写，然后点击 **Create**
+3. 创建成功后会弹出 "Integration successfully created" 提示，点击 **Configure integration settings** 进入设置页面
+4. 在设置页面找到 **OAuth Client Secret**（默认隐藏，点击旁边的显示按钮），点击复制——这就是你的 API Token
+
+![Notion Integration 设置页面](/notion-integration.png)
+5. 在 Notion 中打开需要访问的页面/数据库，点击右上角 **"..."** → **"Connections"** → 添加你刚创建的 Integration
+
+### 2.2 数据库操作
+
+```
+在"项目任务"数据库中添加一条记录：任务名"完成前端重构"，状态"进行中"，优先级"高"
+```
+
+```
+查询"Bug 追踪"数据库中所有状态为"待修复"的记录
+```
+
+### 2.3 页面管理
+
+```
+创建一个新的 Notion 页面"2026年3月周报"，包含本周 Git 提交摘要
+```
+
+```
+更新"产品需求文档"页面，在功能列表中添加"暗黑模式支持"
+```
+
+## 3. 飞书深度集成
+
+在第三章中我们介绍了飞书作为消息渠道的接入。通过飞书插件的完整能力，OpenClaw 可以深度操作飞书的办公生态（详见第六章第 7 节）。
+
+### 3.1 云文档操作
+
+```
+帮我创建一个飞书文档，标题是"技术方案评审"，包含背景、方案、风险三个部分
+```
+
+### 3.2 多维表格
+
+```
+在"OKR 跟踪"多维表格中，将我负责的所有 KR 状态更新为最新进度
+```
+
+### 3.3 日程与任务
+
+```
+查看团队成员这周的忙闲情况，找一个所有人都有空的时间安排周会
+```
+
+## 4. 数据库集成
+
+### 4.1 SQL Toolkit
+
+```bash
+clawhub install sql-toolkit
+```
+
+支持 PostgreSQL、MySQL、SQLite 的只读查询（这三种都是常见的数据库软件，用来存储和管理结构化数据，类似于功能更强大的 Excel 表格）：
+
+```
+连接生产数据库，查询最近 7 天的新增用户数，按天分组
+```
+
+```
+查看 orders 表的结构，列出所有字段和类型
+```
+
+> **安全提示**：SQL Toolkit 默认只支持只读查询（SELECT），不允许执行 INSERT、UPDATE、DELETE 等写入操作。这是一个重要的安全设计。
+
+### 4.2 配置数据库连接
+
+```jsonc
+// openclaw.json 中的 sql-toolkit 配置
+{
+  "skills": {
+    "sql-toolkit": {
+      "connections": {
+        "production": {
+          "type": "postgresql",
+          "host": "localhost",
+          "port": 5432,
+          "database": "myapp",
+          "user": "readonly_user",
+          "password": "your_password"
+        },
+        "analytics": {
+          "type": "mysql",
+          "host": "analytics.company.com",
+          "port": 3306,
+          "database": "analytics"
+        }
+      }
+    }
+  }
+}
+```
+
+## 5. 浏览器自动化
+
+### 5.1 Playwright 技能
+
+```bash
+clawhub install playwright
+```
+
+Playwright 技能让 OpenClaw 可以控制无头浏览器，执行网页操作：
+
+```
+打开 https://example.com/dashboard，截图保存当前页面
+```
+
+```
+登录公司内部系统，导出本月考勤数据为 CSV
+```
+
+```
+监控竞品网站的定价页面，如果价格变化就通知我
+```
+
+### 5.2 注意事项
+
+- 浏览器自动化消耗资源较多，建议在服务器上运行
+- 需要安装 Playwright 浏览器依赖：`npx playwright install chromium`
+- 涉及登录的操作需要妥善管理凭证
+
+## 6. 智能家居
+
+### 6.1 Home Assistant 集成
+
+```bash
+clawhub install home-assistant
+```
+
+```
+打开客厅的灯，亮度调到 60%
+```
+
+```
+每天晚上 11 点自动关闭所有灯光和空调
+```
+
+```
+查看家里所有设备的状态
+```
+
+## 7. 集成最佳实践
+
+**最小权限原则**：每个技能只授予必要的权限。Gmail 技能不需要 Drive 权限，数据库技能只需要只读权限。
+
+**凭证安全**：所有 API Key 和 Token 存储在本地 `openclaw.json` 中，不要提交到 Git 仓库。建议将 `openclaw.json` 加入 `.gitignore`。
+
+**错误处理**：外部服务可能出现超时、限流等问题。OpenClaw 会自动重试，但如果持续失败，检查 API 配额和网络连接。
+
+**测试环境先行**：对于涉及写入操作的集成（如创建文档、发送邮件），先在测试账号上验证，确认行为符合预期后再切换到正式账号。
 
 ---
 

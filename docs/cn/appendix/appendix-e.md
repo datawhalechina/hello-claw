@@ -94,12 +94,12 @@
 
 火山引擎（字节跳动旗下）提供 ECS 云服务器，需手动安装 OpenClaw。
 
-**部署方式**：购买 ECS 实例 → SSH 登录 → 按[第七章](/cn/adopt/chapter7/)步骤手动安装。
+**部署方式**：购买 ECS 实例 → SSH 登录 → 按[第十章](/cn/adopt/chapter10/)步骤手动安装。
 
 **优势**：
 - 与飞书等字节系产品协同使用体验最佳
 - 「方舟 Coding Plan」提供 doubao-seed 等字节系模型 API
-- 托管方案 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供完全免运维的云端 OpenClaw，需订阅 Coding Plan（详见[导言](/cn/adopt/chapter0/#_6-1-四种使用方式)）
+- 托管方案 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供完全免运维的云端 OpenClaw，需订阅 Coding Plan（详见[导言](/cn/adopt/intro/#_6-1-四种使用方式)）
 
 **注意**：无一键部署镜像，适合已有服务器运维经验的用户。
 
@@ -115,7 +115,7 @@
 | 运维成本 | 需自行维护 | 半托管 | 零运维 |
 | 月费 | VPS 费用（¥30-100） | ¥45-100 | 按用量计费 |
 | 灵活性 | 最高 | 中等 | 最低 |
-| 上手难度 | 需看第七章 | 买了就能用 | 注册就能用 |
+| 上手难度 | 需看第十章 | 买了就能用 | 注册就能用 |
 | 适合谁 | 想深入学习的用户 | 想省事但保留控制的用户 | 只想用不想管的用户 |
 
 ---

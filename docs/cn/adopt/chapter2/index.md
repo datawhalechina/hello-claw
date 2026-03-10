@@ -1,102 +1,231 @@
-# 第二章 命令行与配置详解
+# 第二章 手动安装 OpenClaw
 
-> **前提**：本章假设你已完成[第一章](/cn/adopt/chapter1/)的安装，拥有了一个可以正常使用的 QQ AI 助手。
+> 本章带你手动安装 OpenClaw 并配置 AI 模型。完成后你将拥有一个可以在终端对话的 AI 助手。
 
-第一章带你用最短路径拥有了 QQ AI 助手。本章深入介绍 OpenClaw 的配置向导、命令行工具和 Web 控制面板——帮你全面掌握 OpenClaw 的配置与管理能力。
+> **想跳过这些？** 如果你只想最快用上 AI 助手，[第一章 AutoClaw 一键安装](/cn/adopt/chapter1/)是更简单的选择。
 
-## 1. 配置向导详解
+## 1. 安装环境
 
-第一章中我们快速跑完了 `openclaw onboard --install-daemon` 向导。这里详细解说每个步骤，方便你理解和日后重新配置。
+OpenClaw 需要 Node.js 22+ 运行环境。如果你已经装过，跳到[第 2 步](#_2-配置-ai-模型)。
 
-### 1.1 启动向导
+> **什么是终端（Terminal）？** 本教程需要在"终端"中输入命令。终端是一个文字界面，你输入命令，电脑执行：
+>
+> - **Windows**：按 `Win + X`，选择"终端"或"PowerShell"
+>   <details>
+>   <summary>查看 Windows 终端截图</summary>
+>
+>   ![Windows PowerShell 终端](/windows-powershell.png)
+>
+>   </details>
+>
+> - **macOS**：按 `Cmd + 空格`，搜索"Terminal"
+> - **Linux**：按 `Ctrl + Alt + T`
+>   <details>
+>   <summary>查看 Linux 终端截图</summary>
+>
+>   ![Linux 终端](/linux-terminal.png)
+>
+>   </details>
+
+::: tip 用 Trae CN 当安装助手（更省事）
+如果你安装了 [Trae CN](https://www.trae.cn/)（字节跳动推出的免费 AI 编程助手），可以把它当作你的"本地安装/排障助手"，你只需要描述目标与当前报错即可。
+
+- 安装环境：`帮我安装 Node.js 22，并告诉我如何验证安装是否成功（我的系统是 Windows/macOS/Linux）`
+- 安装 OpenClaw：`帮我安装 openclaw@latest，并运行 openclaw --version 验证`
+- 解决问题：`我执行 openclaw onboard 报错了，错误信息如下：... 请定位原因并给出修复步骤`
+- 修改配置：`帮我打开并修改 openclaw.json，把模型 API Key 配好（Windows 路径是 C:\\Users\\用户名\\.openclaw\\openclaw.json；macOS/Linux 是 ~/.openclaw/openclaw.json）`
+:::
+
+### 1.1 安装 Node.js
+
+> **什么是 Node.js？** OpenClaw 是用 JavaScript 编写的，Node.js 让它能在你的电脑上运行。你不需要学 JavaScript，装好就行。
+
+根据你的操作系统选择安装方式：
+
+**Windows 用户**：打开 PowerShell（管理员模式），运行一键安装脚本：
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+iwr -useb https://openclaw.ai/install.ps1 | iex
+```
+
+> 这个脚本会自动安装 Node.js 和 OpenClaw，装完可以直接跳到[第 2 步](#_2-配置-ai-模型)。
+
+**macOS 用户**：
+
+```bash
+brew install node@22
+```
+
+> 没有 Homebrew？先运行：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
+**Linux 用户（含 WSL2）**：
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+sudo apt install -y nodejs
+```
+
+验证安装：
+
+```bash
+node --version
+```
+
+看到 `v22.x.x` 说明成功。
+
+<details>
+<summary>查看验证截图</summary>
+
+![node --version 终端输出](/node-version.png)
+
+</details>
+
+<details>
+<summary>Windows 用户：什么是 WSL2？如何安装？</summary>
+
+WSL2（Windows Subsystem for Linux 2）让你在 Windows 上运行完整的 Linux 环境。**如果你不想折腾，直接用 PowerShell 即可，跳过此步骤。**
+
+1. 以管理员身份打开 PowerShell
+2. 运行：`wsl --install`
+3. 重启电脑，按提示设置用户名和密码
+
+之后在开始菜单搜索"Ubuntu"即可打开 WSL2 终端，按上面 Linux 的步骤安装 Node.js。
+
+</details>
+
+::: details 国内镜像加速（下载太慢时使用）
+**Linux / macOS / WSL2**：
+
+```bash
+# nvm 镜像
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node
+echo 'export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node' >> ~/.bashrc
+
+# npm 镜像
+npm config set registry https://registry.npmmirror.com
+```
+
+**Windows**：
+
+```powershell
+nvm node_mirror https://npmmirror.com/mirrors/node
+npm config set registry https://registry.npmmirror.com
+```
+:::
+
+### 1.2 安装 OpenClaw
+
+> Windows 一键脚本已包含此步骤，如果你用了一键脚本可以跳过。
+
+```bash
+npm install -g openclaw@latest
+```
+
+> **什么是 npm？** npm 是 Node.js 自带的"软件安装器"，`-g` 表示全局安装。
+
+验证：
+
+```bash
+openclaw --version
+```
+
+<details>
+<summary>查看验证截图</summary>
+
+![openclaw --version 终端输出](/openclaw-version.png)
+
+</details>
+
+## 2. 配置 AI 模型
+
+OpenClaw 本身不包含 AI 大脑，需要连接一个"模型提供商"来获得智能。运行配置向导：
 
 ```bash
 openclaw onboard --install-daemon
 ```
 
-> **什么是 daemon？** daemon（守护进程）是一种在后台持续运行的程序。`--install-daemon` 参数让 OpenClaw 安装一个后台服务（Gateway），这样即使你关闭终端，QQ 机器人和其他功能也能继续工作。
+![openclaw onboard 配置向导界面](/openclaw-onboard.png)
 
-### 1.2 安全确认
+向导会引导你完成所有配置。关键步骤：
 
-向导首先会询问安全确认：
+**安全确认** → 选 **Yes**
+**配置模式** → 选 **QuickStart**
+**模型提供商** → 选 **Custom Provider**
 
-```
-◇  Do you want to proceed?
-│  Yes
-```
-
-选择 **Yes** 继续。这一步确认你了解 OpenClaw 会在你的电脑上执行操作（如读写文件、运行命令）。
-
-### 1.3 配置模式
+然后输入以下信息（以 OpenRouter 免费模型为例）：
 
 ```
-◇  Select configuration mode
-│  QuickStart
+◇  API Base URL
+│  https://openrouter.ai/api/v1
+
+◇  API Key
+│  sk-or-v1-你的密钥
+
+◇  Endpoint compatibility
+│  OpenAI-compatible
+
+◇  Model ID
+│  stepfun/step-3.5-flash:free
 ```
 
-- **QuickStart**：推荐新用户使用，自动应用合理的默认配置
-- **Advanced**：适合有经验的用户，可以逐项自定义所有设置
+**推荐 OpenRouter**——注册即可使用免费模型（如 Step 3.5 Flash），无需充值，零成本完成全部教程练习。
 
-QuickStart 模式下，OpenClaw 会展示默认配置摘要：
+向导后续会询问渠道、技能等配置，**建议都先跳过**——后续章节会详细介绍。
 
-```
-◇  These are the defaults for QuickStart mode:
-│  System prompt:  default
-│  Timezone:       auto-detected
-│  Tools profile:  full
-│  Memory:         enabled
-│  ...
-```
+> **还没有 API Key？** 展开下方指南获取。
 
-> **什么是 Tools Profile？** `full` 表示 OpenClaw 可以执行命令、读写文件等完整操作。如果设为 `messaging`，它只能聊天不能干活。建议保持 `full`。
+<details>
+<summary>获取 API Key：注册 OpenRouter（免费模型，零成本入门）</summary>
 
-::: warning 3.7 之前版本的已知问题
-OpenClaw 3.7 之前的版本存在一个 bug：即使向导中显示 `Tools profile: full`，实际默认值可能是 `messaging`，导致 OpenClaw 只会聊天、不会执行任何操作。如果你发现 OpenClaw 只给建议而不干活，大概率是这个问题。
+**第一步：注册账号**
 
-**修复方法**：
+1. 访问 [OpenRouter 官网](https://openrouter.ai)
+2. 点击右上角 **Sign In**，支持 Google、GitHub、邮箱等多种方式快速注册
 
-```bash
-# 命令行修复（推荐）
-openclaw config set tools.profile full
-openclaw gateway restart
-```
+![OpenRouter 注册页面](/openrouter-signup.png)
 
-如果你使用 Trae CN 等 IDE，也可以直接编辑 `~/.openclaw/openclaw.json`，在顶层添加：
+**第二步：创建 API 密钥**
 
-```json
-{
-  "tools": {
-    "profile": "full"
-  }
-}
-```
+1. 注册登录后，点击右上角**头像** → 选择 **Settings**
+2. 在左侧菜单选择 **API Keys**
+3. 点击 **Create** 创建一个新的 API Key
+4. 复制生成的密钥（以 `sk-or-v1-` 开头）
 
-修改后运行 `openclaw gateway restart` 生效。
-:::
+![OpenRouter API Key 创建页面](/openrouter-token.png)
 
-::: danger full 模式安全提示
-`full` 模式意味着 OpenClaw 可以在你的电脑上执行任意命令、读写任意文件。这正是它强大的原因，但也意味着：
-- **不要在生产服务器上使用 `full` 模式**，除非你清楚自己在做什么
-- **不要把 OpenClaw 暴露到公网**，确保只有你自己能访问
-- 如果只需要聊天功能（如给家人使用），可以设为 `messaging` 模式来限制权限
+> **重要**：API 密钥只会显示一次，请立即复制保存。丢失需重新创建。
 
-个人电脑上使用 `full` 模式是安全的，OpenClaw 执行每个操作前都会请求你确认。
-:::
+**第三步：充值（可选）**
 
-### 1.4 配置 AI 模型
+OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-flash:free`，日常学习足够使用。如果你想使用更强的付费模型：
 
-这是向导的核心步骤。OpenClaw 本身不包含 AI 大脑，需要连接一个"模型提供商"。
+1. 点击左侧菜单的 **Credits** 进入充值页面
+2. 点击 **Add Credits** 进行充值
+3. OpenRouter 支持银联、VISA 等常见卡型，甚至还支持虚拟货币支付，非常方便
+4. 建议第一次充值最低限额 **5 美金**，够练手了
 
-```
-◇  Select AI model provider
-│  Custom Provider
-```
+![OpenRouter 充值页面](/openrouter-credits.png)
 
-选择 **Custom Provider** 可以接入任何兼容 OpenAI 的提供商。
+> **省心提示**：如果后期使用量较大，可以在充值页面开启 **Auto Top Up**（自动充值），余额不足时自动补充，避免使用中断。
 
-> **提示**：如果你在第一章中已经配置了 OpenRouter 免费模型，这里会显示你之前的配置，无需重复操作。下面以硅基流动为例展示如何切换到国内付费提供商。
+</details>
 
-以硅基流动为例，依次输入：
+<details>
+<summary>备选方案：使用硅基流动（SiliconFlow）</summary>
+
+如果你更倾向使用国内提供商，推荐硅基流动——新注册送 **16 元免费算力券**，支持支付宝/微信充值。
+
+**注册与获取 API Key**：
+
+1. 访问 [硅基流动官网](https://cloud.siliconflow.cn)，使用手机号注册
+2. 登录后进入 [控制台](https://cloud.siliconflow.cn/account/ak)，创建 API 密钥（以 `sk-` 开头）
+
+![硅基流动注册页面](/siliconflow-register.png)
+
+![API 密钥创建页面](/siliconflow-api-key.png)
+
+**向导中填写**：
 
 ```
 ◇  API Base URL
@@ -105,155 +234,97 @@ openclaw gateway restart
 ◇  API Key
 │  sk-你的密钥
 
-◇  Endpoint compatibility
-│  OpenAI-compatible
-
 ◇  Model ID
 │  deepseek-ai/DeepSeek-V3
 ```
 
-> **国内付费场景推荐硅基流动（SiliconFlow）**——新注册送 **16 元免费算力券**，支持更多模型选择。如何注册和获取 API Key，详见[第一章第 2 节](/cn/adopt/chapter1/#_2-配置-ai-模型)的折叠指南。如果你用的是第一章推荐的 OpenRouter 免费模型，继续使用即可。
+> **费用参考**：DeepSeek V3 模型，16 元约可进行 800-1500 次对话。
 
 <details>
-<summary>其他模型提供商配置参考</summary>
+<summary>更多提供商的 API Key 获取方式</summary>
 
-| 提供商 | API Base URL | 推荐模型 | 备注 |
-|-------|-------------|---------|------|
-| 硅基流动 | `https://api.siliconflow.cn/v1` | `deepseek-ai/DeepSeek-V3` | 国内首推，新用户送 16 元 |
-| 深度求索 | `https://api.deepseek.com/v1` | `deepseek-chat` | DeepSeek 官方 |
-| 通义千问 | `https://dashscope.aliyuncs.com/compatible-mode/v1` | `qwen-max` | 阿里云旗下 |
-| 月之暗面 | `https://api.moonshot.cn/v1` | `moonshot-v1-8k` | Kimi |
-| 阶跃星辰 | `https://api.stepfun.com/v1` | `step-2-16k` | 有免费模型 |
-| 混元 | `https://api.hunyuan.cloud.tencent.com/v1` | `hunyuan-lite` | 腾讯，hunyuan-lite 免费 |
-
-所有提供商均选择 **OpenAI-compatible** 兼容模式。
+- **阶跃星辰（StepFun）**：访问 https://platform.stepfun.com 获取官方 API Key；或在 [OpenRouter](https://openrouter.ai/stepfun/step-3.5-flash:free) 直接使用 `stepfun/step-3.5-flash:free` 免费模型，零成本入门（推荐）
+- **深度求索（DeepSeek）**：访问 https://platform.deepseek.com ，支持支付宝充值
+- **通义千问（Qwen）**：访问 https://dashscope.console.aliyun.com ，阿里云旗下
+- **月之暗面（Moonshot/Kimi）**：访问 https://platform.moonshot.cn
+- **豆包（Doubao）**：访问 https://console.volcengine.com/ark ，火山方舟平台
+- **混元（Hunyuan）**：访问 https://cloud.tencent.com/product/tclm ，hunyuan-lite 免费无限量
+- **稀宇科技（MiniMax）**：访问 https://platform.minimaxi.com
+- **智谱（GLM）**：访问 https://open.bigmodel.cn
+- **文心一言（ERNIE）**：访问 https://console.bce.baidu.com/qianfan
+- **OpenAI（GPT）**：访问 https://platform.openai.com ，需国际信用卡
+- **Anthropic（Claude）**：访问 https://console.anthropic.com ，需国际信用卡
+- **Google（Gemini）**：访问 https://aistudio.google.com ，有免费额度
+- **xAI（Grok）**：访问 https://console.x.ai ，需国际信用卡
 
 </details>
 
-### 1.5 配置聊天渠道（可选）
+</details>
 
-向导会列出可用的聊天渠道：
+::: info Token 消耗提醒
+随着对话轮数增加，上下文会越来越长，Token 消耗也会显著增加。即使是免费模型，长时间对话后也可能触发速率限制。建议：
+- 使用更便宜的模型（如 `stepfun/step-3.5-flash:free` 等免费模型）
+- 对于复杂任务，考虑使用 coding plan 模式进行操作
+- 使用一段时间后注意检查 API 开销，避免意外费用
+:::
 
-```
-◇  Select channels to configure
-│  ○ Telegram
-│  ○ Discord
-│  ○ Slack
-│  ○ WhatsApp
-│  ...
-```
+<details>
+<summary>进阶：跳过向导，手动编辑配置文件</summary>
 
-如果你已在第一章配置了 QQ 机器人，这里可以**直接跳过**。后续需要接入其他渠道时，参见[第三章 移动端接入](/cn/adopt/chapter3/)。
+直接编辑 `~/.openclaw/openclaw.json`：
 
-### 1.6 完成向导
-
-向导最后会询问是否启用 Web 搜索、Skills（技能）和 Hooks（钩子）等功能。**新手建议都先跳过**，这些功能会在后续章节详细介绍。
-
-向导完成后，Gateway（网关服务）会自动启动：
-
-```
-✔  Configuration saved
-✔  Gateway daemon installed and started
-```
-
-## 2. Web 控制面板
-
-OpenClaw 提供了一个本地 Web 控制面板，让你可以在浏览器中管理和使用 OpenClaw。
-
-### 2.1 打开控制面板
-
-```bash
-openclaw dashboard
-```
-
-![openclaw dashboard 终端输出](/openclaw-dashboard-terminal.png)
-
-浏览器会自动打开 `http://localhost:18789`：
-
-![Web 控制面板浏览器界面](/openclaw-dashboard-browser.png)
-
-> **什么是 localhost？** `localhost` 就是"本机"的意思，这个网页只有你自己能打开。`18789` 是端口号，就像门牌号一样区分不同的服务。
-
-### 2.2 面板功能
-
-Web 控制面板提供以下功能：
-
-- **对话界面**：直接在浏览器中与 OpenClaw 聊天，和 QQ 机器人一样的 AI 能力
-- **状态监控**：查看 Gateway 运行状态、已连接的渠道、模型配置
-- **日志查看**：实时查看 OpenClaw 的运行日志
-- **配置管理**：修改模型、渠道等配置（修改后需重启 Gateway）
-
-## 3. 第一次 CLI 对话
-
-除了 QQ 和 Web 面板，你还可以直接在终端中与 OpenClaw 对话：
-
-```bash
-openclaw chat
+```json
+{
+  "env": {
+    "OPENROUTER_API_KEY": "sk-or-v1-你的密钥"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "openrouter": {
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "apiKey": "${OPENROUTER_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "stepfun/step-3.5-flash:free", "name": "Step 3.5 Flash (Free)" }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "openrouter/stepfun/step-3.5-flash:free" }
+    }
+  }
+}
 ```
 
-进入交互式对话后，试试让它执行一些任务：
+</details>
 
-```
-帮我创建一个文件叫 hello.txt，写上今天的日期和"Hello from OpenClaw!"
-```
+## 4. 验证与管理
 
-如果 OpenClaw 成功创建了文件，说明它不仅能聊天，还能帮你干活。再试试更有趣的：
-
-```
-用 Python 写一个猜数字小游戏，保存为 game.py 并运行它
-```
-
-> **提示**：如果 OpenClaw 只给建议而不执行命令，可能是 Tools Profile 被设为了 `messaging`。运行以下命令修复：
-> ```bash
-> openclaw config set tools.profile full
-> openclaw gateway restart
-> ```
-
-## 4. 状态检查与管理
-
-### 4.1 查看运行状态
+安装配置完成后，通过以下命令验证运行状态：
 
 ```bash
 openclaw status
 ```
 
+<details>
+<summary>查看 status 输出截图</summary>
+
 ![openclaw status 输出](/openclaw-status.png)
 
-这会显示 Gateway 是否在运行、已连接的渠道、使用的模型等关键信息。
-
-### 4.2 深度健康检查
+</details>
 
 ```bash
-openclaw status --deep
+openclaw dashboard
 ```
 
-深度检查会额外验证 API 连接、模型可用性等。
+浏览器会自动打开控制面板 `http://localhost:18789`：
 
-### 4.3 系统诊断
+![Web 控制面板浏览器界面](/openclaw-dashboard-browser.png)
 
-遇到问题时，运行诊断工具：
-
-```bash
-openclaw doctor
-```
-
-它会自动检查常见问题并给出修复建议。
-
-### 4.4 查看日志
-
-```bash
-openclaw logs --follow
-```
-
-`--follow` 参数让日志实时滚动显示，按 `Ctrl + C` 退出。
-
-### 4.5 重启 Gateway
-
-修改配置后需要重启 Gateway 才能生效：
-
-```bash
-openclaw gateway restart
-```
+> **什么是 localhost？** `localhost` 就是"本机"的意思，这个网页只有你自己能打开。
 
 <details>
 <summary>常用命令速查</summary>
@@ -274,121 +345,72 @@ openclaw gateway restart
 # 查看日志
 openclaw logs --follow
 
-# 重新运行配置向导
+# 重新配置
 openclaw configure
-
-# 打开 Web 控制面板
-openclaw dashboard
 ```
-
-更完整的命令列表见[附录 A：命令速查表](/cn/appendix/appendix-a)。
 
 </details>
 
-## 5. 配置文件
+<details>
+<summary>如何卸载 OpenClaw</summary>
 
-OpenClaw 的所有配置存储在 `~/.openclaw/openclaw.json`（Windows 上是 `C:\Users\你的用户名\.openclaw\openclaw.json`）。
+### 方式一：使用内置卸载命令（推荐）
 
-### 5.1 配置文件结构
+```bash
+# 交互式卸载
+openclaw uninstall
 
-```json
-{
-  "env": {
-    "SILICONFLOW_API_KEY": "sk-你的密钥"
-  },
-  "models": {
-    "mode": "merge",
-    "providers": {
-      "siliconflow": {
-        "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "${SILICONFLOW_API_KEY}",
-        "api": "openai-completions",
-        "models": [
-          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
-        ]
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
-    }
-  }
-}
+# 完全卸载（非交互式，适用于自动化）
+openclaw uninstall --all --yes
 ```
 
-> **模型标识格式**：`提供商/模型名`，例如 `siliconflow/deepseek-ai/DeepSeek-V3`。
+### 方式二：手动卸载
 
-### 5.2 添加多个模型
+如果 CLI 已删除但服务仍在运行，按步骤手动清理：
 
-你可以在 `providers` 中添加多个提供商，然后在 `agents.defaults.model` 中选择默认使用哪个：
-
-```json
-{
-  "models": {
-    "providers": {
-      "siliconflow": {
-        "baseUrl": "https://api.siliconflow.cn/v1",
-        "apiKey": "${SILICONFLOW_API_KEY}",
-        "api": "openai-completions",
-        "models": [
-          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" },
-          { "id": "Qwen/Qwen2.5-72B-Instruct", "name": "Qwen 2.5 72B" }
-        ]
-      }
-    }
-  }
-}
+**1. 停止网关服务：**
+```bash
+openclaw gateway stop
 ```
 
-更深入的多模型配置和成本优化见[第八章 多模型与成本优化](/cn/adopt/chapter8/)。
-
-### 5.3 常见配置修改
-
-**切换默认模型**：
-
-修改 `agents.defaults.model.primary` 的值即可。例如切换到 Qwen：
-
-```json
-{
-  "agents": {
-    "defaults": {
-      "model": { "primary": "siliconflow/Qwen/Qwen2.5-72B-Instruct" }
-    }
-  }
-}
+**2. 卸载系统服务：**
+```bash
+openclaw gateway uninstall
 ```
 
-修改后运行 `openclaw gateway restart` 生效。
+**3. 删除配置和状态数据：**
+```bash
+rm -rf ~/.openclaw
+```
 
-> **完整配置参考**：所有可用配置项见[附录 B：配置文件详解](/cn/appendix/appendix-b)。
+**4. 删除 CLI（根据安装方式选择）：**
+```bash
+# npm 安装
+npm rm -g openclaw
 
-## 6. 常见问题
+# pnpm 安装
+pnpm remove -g openclaw
 
-**Q: 向导配置错了，怎么重新配置？**
+# bun 安装
+bun remove -g openclaw
+```
 
-A: 运行 `openclaw configure` 重新进入配置向导，或直接编辑 `~/.openclaw/openclaw.json`。
+> **注意**：卸载前建议备份你的 workspace 目录（`~/.openclaw/workspace`），其中包含重要数据。
+
+</details>
+
+## 5. 常见问题
 
 **Q: 提示"API key not found"怎么办？**
 
-A: 检查 `~/.openclaw/openclaw.json` 中的 API 密钥配置是否正确。确保 `env` 中的密钥变量名和 `providers` 中引用的变量名一致。
+A: 编辑 `~/.openclaw/openclaw.json`（Windows 上是 `C:\Users\你的用户名\.openclaw\openclaw.json`），确保 API 密钥配置正确。参考[第 2 步](#_2-配置-ai-模型)的配置示例。
 
-**Q: Web 面板无法访问？**
+**Q: 机器人回复很慢或超时？**
 
-A: 检查防火墙设置，确保端口 18789 未被占用。也可以尝试 `openclaw gateway restart` 重启服务。
-
-**Q: OpenClaw 只会聊天不干活？**
-
-A: 原因是 Tools Profile 被设置成了 `messaging`，运行以下命令修复：
-
-```bash
-openclaw config set tools.profile full
-openclaw gateway restart
-```
+A: 可能是模型响应慢，尝试换一个更快的模型（如 `deepseek-ai/DeepSeek-V3`），或检查网络连接。
 
 ---
 
 **下一步**：
-- 想接入飞书或 Telegram？→ [第三章 移动端接入](/cn/adopt/chapter3/)
-- 想让 OpenClaw 定时执行任务？→ [第四章 自动化任务入门](/cn/adopt/chapter4/)
-- 想安装和使用技能？→ [第五章 Skills 技能系统](/cn/adopt/chapter5/)
+- 接入 QQ、飞书或 Telegram → [第三章 接入你的第一个聊天平台](/cn/adopt/chapter3/)
+- 想深入了解配置和命令行？→ [第四章 命令行与基础配置](/cn/adopt/chapter4/)

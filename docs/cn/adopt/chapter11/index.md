@@ -1,259 +1,221 @@
-# 第十一章 故障排查与优化
+# 第十一章 开发者效率提升
 
-使用 OpenClaw 的过程中难免会遇到各种问题。本章汇总了常见问题的解决方案、性能调优技巧和社区资源。
+> **本章适合谁**：本章面向有一定编程基础的开发者。如果你不是开发者，可以跳过本章，直接看[第十二章 故障排查与系统维护](/cn/adopt/chapter12/)。
+>
+> **前提**：已完成第二章的安装配置。
 
-> **阅读建议**：第 1 节"常见问题速查"建议每个人都过一遍，遇到问题时能快速定位。后面的日志诊断、性能优化等内容可以等遇到具体问题时再展开阅读。
+OpenClaw 对开发者而言不只是聊天机器人，它是可以直接操作代码、运行命令、管理 Git 的执行引擎。本章介绍如何用 OpenClaw 优化开发工作流。
 
-## 1. 常见问题速查
+## 1. 代码生成与辅助
 
-### 1.1 安装问题
+### 1.1 功能实现
 
-| 问题 | 原因 | 解决方案 |
-|------|------|---------|
-| `npm install -g openclaw` 失败 | Node.js 版本过低 | 升级到 Node.js 22+ |
-| 权限错误 | npm 全局安装权限不足 | 使用 `sudo` 或配置 npm prefix |
-| 网络超时 | npm 源不可访问 | 切换为淘宝源：`npm config set registry https://registry.npmmirror.com` |
+```
+在 src/api/ 下创建一个用户注册接口，要求：
+- Express.js 路由
+- 参数校验（email 格式、密码强度）
+- bcrypt 加密密码
+- 返回 JWT token
+```
 
-### 1.2 API 连接问题
+OpenClaw 会直接创建文件、写入代码、安装依赖（如果缺少），而不只是给你看代码片段。
 
-| 问题 | 原因 | 解决方案 |
-|------|------|---------|
-| `401 Unauthorized` | API Key 无效或过期 | 检查并更新 API Key |
-| `429 Too Many Requests` | 达到 API 调用限制 | 减少并发任务，或升级 API 套餐 |
-| 连接超时 | 网络问题（尤其访问海外 API） | 配置网络代理（HTTP_PROXY 环境变量）或改用国内提供商（如硅基流动，参考第一章） |
-| `503 Service Unavailable` | API 服务暂时不可用 | 等待恢复，或切换到备用模型 |
-| 助理"失忆"（忘记之前交代的信息） | 长对话超出上下文窗口，原生记忆压缩丢失细节 | 将关键信息写入 USER.md 或 MEMORY.md（详见[第九章](/cn/adopt/chapter9/)）；长程场景可安装 [OpenViking](https://github.com/volcengine/OpenViking) 记忆插件 |
+### 1.2 代码解释
 
-### 1.3 渠道接入问题
+```
+解释 src/auth/middleware.ts 中的 JWT 验证逻辑，特别是 token 刷新机制
+```
 
-| 问题 | 原因 | 解决方案 |
-|------|------|---------|
-| Telegram 无响应 | Bot Token 错误或网络问题 | 检查 Token，确认代理配置 |
-| 飞书消息不回复 | 权限未开通或未完成配对 | 检查飞书开放平台权限设置 |
-| QQ 断线 | NapCat WebSocket 断开 | 检查 NapCat 运行状态，重新登录 |
+### 1.3 重构建议
 
-### 1.4 技能问题
+```
+src/utils/helpers.js 太大了（800 行），帮我按功能拆分成多个模块
+```
 
-| 问题 | 原因 | 解决方案 |
-|------|------|---------|
-| `clawhub install` 失败 | 网络问题或技能名称错误 | 检查网络，确认技能名称（slug）正确 |
-| 技能安装后不可用 | 缺少系统依赖 | 检查 SKILL.md 中的 requirements |
-| API Key 配置后仍报错 | openclaw.json 格式错误 | 用 `openclaw config` 交互式配置 |
+## 2. Git 自动化
+
+### 2.1 安装 Git 技能
+
+```bash
+clawhub install github
+clawhub install git-ops
+```
+
+### 2.2 日常 Git 操作
+
+```
+查看当前分支的所有未提交更改，生成一个有意义的 commit message
+```
+
+```
+创建一个新分支 feature/user-profile，基于 main 的最新代码
+```
+
+```
+帮我把最近 3 个 commit squash 成一个，commit message 用中文
+```
+
+> **什么是 squash？** 把多个小的 Git 提交合并成一个，让提交历史更整洁。适合在功能开发完成后清理提交记录。
+
+### 2.3 PR 管理
+
+<!-- TODO: 补充 GitHub PR 自动生成截图（OpenClaw 创建的 PR 描述示例） -->
+
+```
+为当前分支创建一个 PR 到 main：
+- 自动生成 PR 描述（基于 commit 历史）
+- 列出所有改动的文件
+- 添加 reviewer: @zhangsan
+```
+
+```
+查看 PR #42 的所有评论，逐一回复：对于代码建议直接修改，对于讨论给出我的观点
+```
+
+## 3. 自动化测试
+
+### 3.1 测试生成
+
+```
+为 src/api/users.ts 中的所有导出函数生成单元测试，使用 Jest
+```
+
+```
+查看测试覆盖率报告，为覆盖率低于 80% 的文件补充测试
+```
+
+### 3.2 CI/CD 集成
+
+> **什么是 CI/CD？** CI（持续集成）是指代码提交后自动运行测试；CD（持续部署）是指测试通过后自动发布。GitHub Actions、GitLab CI 都是常见的 CI/CD 工具。
+
+```bash
+clawhub install cicd-pipeline
+```
+
+```
+当 CI 失败时，分析错误日志并尝试修复
+```
+
+## 4. 文档生成
+
+### 4.1 API 文档
+
+```
+扫描 src/api/ 下所有路由文件，生成 OpenAPI 3.0 规范的 API 文档
+```
+
+### 4.2 README 维护
+
+```
+根据项目当前状态更新 README.md：
+- 更新安装步骤
+- 添加最新的功能列表
+- 更新技术栈版本号
+```
+
+### 4.3 CHANGELOG
+
+```
+根据最近 2 周的 Git 历史生成 CHANGELOG，按 Added/Changed/Fixed 分类
+```
 
 <details>
-<summary>展开：日志诊断</summary>
+<summary>展开：进阶开发功能（代码审查、调试排错、环境管理）</summary>
 
-## 2. 日志诊断
+## 5. 代码审查
 
-### 2.1 查看日志
-
-<!-- TODO: 补充 openclaw logs 终端输出截图（实时日志流示例） -->
+### 5.1 自动审查
 
 ```bash
-# 查看实时日志（持续输出）
-openclaw logs --follow
-
-# 查看最近 100 条日志
-openclaw logs --limit 100
-
-# 以 JSON 格式输出（方便用 jq 等数据处理工具过滤，新手可忽略此选项）
-openclaw logs --limit 100 --json
-
-# 纯文本输出（无颜色）
-openclaw logs --limit 50 --plain
+clawhub install code-reviewer
 ```
 
-### 2.2 日志级别
-
-```jsonc
-// openclaw.json 中的 logging 配置
-{
-  "logging": {
-    "level": "info",
-    "file": true,
-    "maxSize": "50mb",
-    "maxFiles": 10
-  }
-}
+```
+审查 PR #56 的代码变更，关注以下方面：
+- 安全漏洞（SQL 注入、XSS）
+- 性能问题
+- 代码规范
+- 逻辑正确性
 ```
 
-开发调试时可以临时开启 debug 级别：
+### 5.2 持续审查
+
+设置自动化审查任务：
+
+```
+每当有新的 PR 时，自动进行代码审查并评论
+```
+
+## 6. 调试与排错
+
+### 6.1 错误分析
+
+```
+这个错误是什么意思？帮我找到根因并修复：
+TypeError: Cannot read properties of undefined (reading 'map')
+  at UserList.render (src/components/UserList.tsx:23)
+```
+
+### 6.2 性能分析
+
+```
+运行 npm run build，分析构建输出，找出最大的 3 个包并给出优化建议
+```
+
+### 6.3 日志分析
+
+```
+分析 logs/error.log 中最近 24 小时的错误日志，按频率排序，找出最常见的问题
+```
+
+## 7. 开发环境管理
+
+### 7.1 依赖管理
+
+```
+检查 package.json 中的过期依赖，列出可以安全升级的包
+```
+
+```
+添加 ESLint + Prettier 配置，使用 Airbnb 规范
+```
+
+### 7.2 数据库操作
 
 ```bash
-openclaw config set logging.level debug
-openclaw gateway restart
+clawhub install sql-toolkit
+```
+
+```
+查看 users 表最近一周新增的记录数，按天统计
+```
+
+```
+比较 staging 和 production 数据库的 schema 差异
 ```
 
 </details>
 
-<details>
-<summary>展开：性能优化</summary>
+## 8. 实战工作流
 
-## 3. 性能优化
-
-### 3.1 响应速度
-
-**减少活跃技能**：每个技能增加约 200-500 tokens 的上下文。10 个技能可能增加 3000-5000 tokens。
-
-```bash
-# 查看当前活跃技能数量
-clawhub list --active
-
-# 禁用不常用的技能
-clawhub uninstall rarely-used-skill
-```
-
-**使用更快的模型**：对于简单任务，Haiku 比 Opus 快 5-10 倍。
-
-**启用缓存**：
-
-```json
-{
-  "cache": {
-    "enabled": true,
-    "ttl": 3600,
-    "maxSize": "100mb"
-  }
-}
-```
-
-### 3.2 内存优化
-
-```bash
-# 查看 OpenClaw 内存使用
-openclaw status --verbose
-
-# 清理对话历史缓存
-openclaw cleanup --conversations --older-than 7d
-
-# 清理技能缓存
-openclaw cleanup --skill-cache
-```
-
-### 3.3 Token 优化
-
-```bash
-# 查看每次调用的 Token 消耗
-openclaw usage --detail
-
-# 按技能统计
-openclaw usage --by-skill --period month
-```
-
-</details>
-
-<details>
-<summary>展开：数据备份与恢复</summary>
-
-## 4. 数据备份与恢复
-
-### 4.1 需要备份的内容
+### 8.1 从 Issue 到代码
 
 ```
-~/.openclaw/
-├── openclaw.json        # 配置文件（API Key、渠道设置）
-├── workspace/           # 工作区（详见第九章第 7 节）
-│   ├── IDENTITY.md      # 助理身份（名字、风格）
-│   ├── SOUL.md          # 人格设定和行为准则
-│   ├── USER.md          # 你的个人信息和偏好
-│   ├── AGENTS.md        # 工作流程和操作规范
-│   ├── TOOLS.md         # 环境专属信息（服务器、设备等）
-│   ├── MEMORY.md        # 长期记忆
-│   ├── HEARTBEAT.md     # 定期巡检清单
-│   ├── BOOT.md          # 网关启动时执行的任务
-│   ├── BOOTSTRAP.md     # 首次运行初始化（完成后自动删除）
-│   └── memory/          # 每日工作日志
-├── skills/              # 已安装技能及配置
-├── cron/                # 定时任务
-└── conversations/       # 对话历史
+查看 GitHub Issue #123 的描述，
+分析需求，创建开发分支，
+实现功能，编写测试，
+创建 PR 并关联 Issue
 ```
 
-### 4.2 备份命令
+### 8.2 紧急修复
 
-```bash
-# 完整备份
-tar -czf openclaw-backup-$(date +%Y%m%d).tar.gz ~/.openclaw/
-
-# 只备份配置和工作区（不含对话历史）
-tar -czf openclaw-config-$(date +%Y%m%d).tar.gz \
-  ~/.openclaw/openclaw.json \
-  ~/.openclaw/workspace/ \
-  ~/.openclaw/skills/ \
-  ~/.openclaw/cron/
+```
+生产环境报错了，错误信息如下：[粘贴错误]
+帮我定位问题，创建 hotfix 分支，修复并部署
 ```
 
-### 4.3 恢复
-
-```bash
-# 恢复备份
-tar -xzf openclaw-backup-20260307.tar.gz -C ~/
-
-# 重启服务
-openclaw gateway restart
-```
-
-</details>
-
-<details>
-<summary>展开：升级指南</summary>
-
-## 5. 升级指南
-
-### 5.1 升级 OpenClaw
-
-```bash
-# 查看当前版本
-openclaw --version
-
-# 升级到最新版
-npm update -g openclaw
-
-# Docker 用户
-docker pull ghcr.io/openclaw/openclaw:latest
-docker compose up -d
-```
-
-### 5.2 升级注意事项
-
-- 升级前备份 `~/.openclaw/` 目录
-- 查看 Release Notes 了解破坏性变更
-- 大版本升级后可能需要重新配置部分技能
-
-</details>
-
-## 6. 社区资源
-
-### 6.1 官方资源
-
-| 资源 | 地址 |
-|------|------|
-| 官方文档 | https://openclaw.ai/docs |
-| GitHub 仓库 | https://github.com/openclaw/openclaw |
-| ClawHub 技能市场 | https://github.com/openclaw/clawhub |
-| Discord 社区 | https://discord.gg/openclaw |
-
-### 6.2 中文社区
-
-| 资源 | 地址 |
-|------|------|
-| 本教程在线版 | https://datawhalechina.github.io/hello-claw |
-| Datawhale 社区 | https://github.com/datawhalechina |
-
-### 6.3 获取帮助
-
-遇到问题时的排查步骤：
-
-1. 先查本章的"常见问题速查"
-2. 搜索 GitHub Issues
-3. 到 Discord 社区提问
-4. 提交 GitHub Issue（附上日志和复现步骤）
+这就是 OpenClaw 对开发者的价值——它不只是帮你写代码，而是参与整个开发流程。
 
 ---
 
-恭喜你完成了"领养 Claw"的全部内容！现在你已经掌握了 OpenClaw 的安装配置、移动端接入、自动化任务、技能系统、外部服务集成、生产部署、多模型优化和实际应用场景。
-
-如果你想进一步了解 OpenClaw 的内部原理，或者从零构建自己的 AI Agent，请继续阅读第二部分"构建 Claw"。
-
----
-
-**下一步**：[第二部分：构建 Claw](/cn/build/)
+**下一步**：[第十二章 故障排查与系统维护](/cn/adopt/chapter12/)

@@ -1,221 +1,372 @@
-# 第十章 开发者效率提升
+# 第十章 生产环境部署
 
-> **本章适合谁**：本章面向有一定编程基础的开发者。如果你不是开发者，可以跳过本章，直接看[第十一章 故障排查与优化](/cn/adopt/chapter11/)。
->
-> **前提**：已完成第一章的安装配置。
+> **本章适合谁？** 如果你只是个人使用，在自己电脑上运行 OpenClaw 就够了，可以跳过本章。本章面向需要 24/7 不间断运行的用户——比如你想让定时任务在你睡觉时也能执行，或者想在手机上随时控制 OpenClaw。
 
-OpenClaw 对开发者而言不只是聊天机器人，它是可以直接操作代码、运行命令、管理 Git 的执行引擎。本章介绍如何用 OpenClaw 优化开发工作流。
+到目前为止，你可能一直在本地运行 OpenClaw。但要让它真正成为 24/7 待命的 AI 助手，你需要将它部署到服务器上持续运行。
 
-## 1. 代码生成与辅助
+**什么是服务器？** 简单说就是一台 24 小时开机、连着网的电脑。你可以租一台云服务器（VPS），每月几十元，就像租了一台永远在线的远程电脑。本章介绍 VPS 选择、Docker 部署和远程管理的完整流程。
 
-### 1.1 功能实现
+## 1. 为什么需要服务器部署
 
-```
-在 src/api/ 下创建一个用户注册接口，要求：
-- Express.js 路由
-- 参数校验（email 格式、密码强度）
-- bcrypt 加密密码
-- 返回 JWT token
-```
+本地运行的限制很明显：电脑关机就停了，网络不稳定会断连，而且你无法随时随地使用。部署到服务器后：
 
-OpenClaw 会直接创建文件、写入代码、安装依赖（如果缺少），而不只是给你看代码片段。
+- 定时任务（第五章）可以 24/7 准时执行
+- 移动端（第三章）可以随时发送指令
+- 多人可以共享同一个 OpenClaw 实例
+- 系统资源更充足，处理速度更快
 
-### 1.2 代码解释
+## 2. VPS 选择
 
-```
-解释 src/auth/middleware.ts 中的 JWT 验证逻辑，特别是 token 刷新机制
-```
+### 2.1 国内推荐
 
-### 1.3 重构建议
+| 服务商 | 最低配置 | 月费参考 | 适合场景 |
+|--------|---------|---------|---------|
+| 阿里云 ECS | 2 核 4G | ~70 元 | 飞书集成、国内服务 |
+| 腾讯云 CVM | 2 核 4G | ~65 元 | 微信生态集成 |
+| 火山引擎 | 2 核 4G | ~60 元 | 字节系产品集成 |
 
-```
-src/utils/helpers.js 太大了（800 行），帮我按功能拆分成多个模块
-```
+### 2.2 海外推荐
 
-## 2. Git 自动化
+| 服务商 | 最低配置 | 月费参考 | 适合场景 |
+|--------|---------|---------|---------|
+| Hetzner | 2 核 4G | ~$5 | 性价比最高 |
+| DigitalOcean | 2 核 4G | ~$12 | Telegram 集成 |
+| AWS Lightsail | 2 核 4G | ~$10 | AWS 生态集成 |
 
-### 2.1 安装 Git 技能
+### 2.3 配置建议
 
-```bash
-clawhub install github
-clawhub install git-ops
-```
+- **最低要求**：2 核 CPU、4GB 内存、40GB SSD
+- **推荐配置**：4 核 CPU、8GB 内存、80GB SSD
+- **操作系统**：Ubuntu 22.04 LTS 或 Debian 12
 
-### 2.2 日常 Git 操作
+### 2.4 托管替代方案：ArkClaw
 
-```
-查看当前分支的所有未提交更改，生成一个有意义的 commit message
-```
+如果你不想自己购买和管理服务器，可以考虑云厂商提供的 OpenClaw 托管服务。例如火山引擎的 [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 提供了完全托管的 OpenClaw 云端实例，无需购买 VPS、无需配置 Docker，订阅 Coding Plan 后即可获得 24/7 运行的 OpenClaw 服务（Lite ¥9.90/月起，新用户享 7 天免费试用）。
 
-```
-创建一个新分支 feature/user-profile，基于 main 的最新代码
-```
+适合不想运维服务器、希望快速上线的用户。本章后续内容面向自建部署，如果你选择托管方案可以跳过。
 
-```
-帮我把最近 3 个 commit squash 成一个，commit message 用中文
-```
+## 3. 基础部署
 
-> **什么是 squash？** 把多个小的 Git 提交合并成一个，让提交历史更整洁。适合在功能开发完成后清理提交记录。
+### 3.1 安装 OpenClaw
 
-### 2.3 PR 管理
-
-<!-- TODO: 补充 GitHub PR 自动生成截图（OpenClaw 创建的 PR 描述示例） -->
-
-```
-为当前分支创建一个 PR 到 main：
-- 自动生成 PR 描述（基于 commit 历史）
-- 列出所有改动的文件
-- 添加 reviewer: @zhangsan
-```
-
-```
-查看 PR #42 的所有评论，逐一回复：对于代码建议直接修改，对于讨论给出我的观点
-```
-
-## 3. 自动化测试
-
-### 3.1 测试生成
-
-```
-为 src/api/users.ts 中的所有导出函数生成单元测试，使用 Jest
-```
-
-```
-查看测试覆盖率报告，为覆盖率低于 80% 的文件补充测试
-```
-
-### 3.2 CI/CD 集成
-
-> **什么是 CI/CD？** CI（持续集成）是指代码提交后自动运行测试；CD（持续部署）是指测试通过后自动发布。GitHub Actions、GitLab CI 都是常见的 CI/CD 工具。
+> Node.js 安装和 API Key 获取的详细步骤请参考[第二章](/cn/adopt/chapter2/)，这里只列出服务器部署的关键命令。
 
 ```bash
-clawhub install cicd-pipeline
+# SSH 连接到服务器（SSH 是远程登录工具，用你的终端连接到远程服务器）
+# 将 user 替换为你的用户名，your-server-ip 替换为服务器 IP 地址
+ssh user@your-server-ip
+
+# 安装 Node.js 22（详见第二章第 2 节）
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+sudo apt-get install -y nodejs
+
+# 安装 OpenClaw
+npm install -g openclaw
+
+# 验证安装
+openclaw --version
 ```
 
-```
-当 CI 失败时，分析错误日志并尝试修复
+### 3.2 配置 LLM API Key
+
+使用第二章获取的 API Key 配置服务器端（以硅基流动为例）：
+
+在部署目录下创建或编辑 `openclaw.json`，填入你的 API Key：
+
+```json
+{
+  "env": {
+    "SILICONFLOW_API_KEY": "sk-你的密钥"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "siliconflow": {
+        "baseUrl": "https://api.siliconflow.cn/v1",
+        "apiKey": "${SILICONFLOW_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-ai/DeepSeek-V3", "name": "DeepSeek V3" }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "siliconflow/deepseek-ai/DeepSeek-V3" }
+    }
+  }
+}
 ```
 
-## 4. 文档生成
+> **安全提示**：生产环境建议将密钥写入系统环境变量，再在 `openclaw.json` 中用 `${SILICONFLOW_API_KEY}` 引用，避免密钥明文出现在配置文件里。
 
-### 4.1 API 文档
+> **提示**：如果还没有 API Key，请先完成[第二章第 2 节](/cn/adopt/chapter2/#_2-配置-ai-模型)的注册步骤。
 
-```
-扫描 src/api/ 下所有路由文件，生成 OpenAPI 3.0 规范的 API 文档
-```
+### 3.3 使用 systemd 保持运行
 
-### 4.2 README 维护
+> **什么是 systemd？** systemd 是 Linux 系统自带的"服务管理器"，可以让程序在后台自动运行，并在崩溃时自动重启。你不需要深入了解它，只需运行下面一条命令即可。
 
-```
-根据项目当前状态更新 README.md：
-- 更新安装步骤
-- 添加最新的功能列表
-- 更新技术栈版本号
+创建系统服务让 OpenClaw 在后台持续运行。OpenClaw 提供了自动生成 systemd 配置的命令：
+
+```bash
+# 自动安装 systemd 服务（推荐）
+openclaw onboard --install-daemon
 ```
 
-### 4.3 CHANGELOG
-
-```
-根据最近 2 周的 Git 历史生成 CHANGELOG，按 Added/Changed/Fixed 分类
-```
+<!-- TODO: 补充 systemd 服务状态截图（systemctl status openclaw 输出） -->
 
 <details>
-<summary>展开：进阶开发功能（代码审查、调试排错、环境管理）</summary>
+<summary>展开：手动配置 systemd 服务</summary>
 
-## 5. 代码审查
-
-### 5.1 自动审查
+如果需要手动配置：
 
 ```bash
-clawhub install code-reviewer
+sudo tee /etc/systemd/system/openclaw.service > /dev/null << 'EOF'
+[Unit]
+Description=OpenClaw AI Agent
+After=network.target
+
+[Service]
+Type=simple
+User=openclaw
+WorkingDirectory=/home/openclaw
+ExecStart=/usr/bin/openclaw gateway start
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable openclaw
+sudo systemctl start openclaw
 ```
 
-```
-审查 PR #56 的代码变更，关注以下方面：
-- 安全漏洞（SQL 注入、XSS）
-- 性能问题
-- 代码规范
-- 逻辑正确性
-```
-
-### 5.2 持续审查
-
-设置自动化审查任务：
-
-```
-每当有新的 PR 时，自动进行代码审查并评论
-```
-
-## 6. 调试与排错
-
-### 6.1 错误分析
-
-```
-这个错误是什么意思？帮我找到根因并修复：
-TypeError: Cannot read properties of undefined (reading 'map')
-  at UserList.render (src/components/UserList.tsx:23)
-```
-
-### 6.2 性能分析
-
-```
-运行 npm run build，分析构建输出，找出最大的 3 个包并给出优化建议
-```
-
-### 6.3 日志分析
-
-```
-分析 logs/error.log 中最近 24 小时的错误日志，按频率排序，找出最常见的问题
-```
-
-## 7. 开发环境管理
-
-### 7.1 依赖管理
-
-```
-检查 package.json 中的过期依赖，列出可以安全升级的包
-```
-
-```
-添加 ESLint + Prettier 配置，使用 Airbnb 规范
-```
-
-### 7.2 数据库操作
+管理服务：
 
 ```bash
-clawhub install sql-toolkit
-```
-
-```
-查看 users 表最近一周新增的记录数，按天统计
-```
-
-```
-比较 staging 和 production 数据库的 schema 差异
+sudo systemctl status openclaw    # 查看状态
+sudo systemctl restart openclaw   # 重启
+journalctl -u openclaw -f         # 查看实时日志
 ```
 
 </details>
 
-## 8. 实战工作流
+## 4. Docker 部署（推荐）
 
-### 8.1 从 Issue 到代码
+Docker 提供了更好的隔离性和可移植性。
+
+### 4.1 使用官方安装脚本（推荐）
+
+OpenClaw 官方提供了 `docker-setup.sh` 一键部署脚本，这是最简单的 Docker 部署方式：
+
+```bash
+# 克隆官方仓库
+git clone https://github.com/openclaw/openclaw.git
+cd openclaw
+
+# 使用预构建镜像运行（推荐，省去编译时间）
+export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+./docker-setup.sh
+```
+
+脚本会自动完成以下步骤：
+1. 拉取或构建 Docker 镜像
+2. 运行初始化配置向导
+3. 生成访问令牌（Token）
+4. 启动 Gateway 服务
+
+完成后访问 `http://127.0.0.1:18789/` 打开控制台，在设置中粘贴脚本输出的 Token 即可使用。
+
+<details>
+<summary>展开：启用沙箱模式（Docker-in-Docker）</summary>
+
+如果你希望 AI 执行的命令在隔离环境中运行（更安全），可以启用沙箱模式：
+
+```bash
+export OPENCLAW_SANDBOX=1
+export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+./docker-setup.sh
+```
+
+> **什么是沙箱？** 沙箱是一种安全机制，让 AI 执行的命令在一个独立的容器中运行，即使出错也不会影响你的主系统。
+
+如果你使用 rootless Docker（非 root 用户运行 Docker），还需要指定 socket 路径：
+
+```bash
+export OPENCLAW_SANDBOX=1
+export OPENCLAW_DOCKER_SOCKET=/run/user/1000/docker.sock
+./docker-setup.sh
+```
+
+</details>
+
+### 4.2 使用官方镜像
+
+<!-- TODO: 补充 Docker 部署流程截图 -->
+
+```bash
+# 拉取镜像
+docker pull ghcr.io/openclaw/openclaw:latest
+
+# 创建配置目录
+mkdir -p ~/openclaw-data
+
+# 运行容器
+docker run -d \
+  --name openclaw \
+  --restart always \
+  -v ~/openclaw-data:/home/openclaw/.openclaw \
+  -e LLM_API_KEY="sk-xxxxx" \
+  -p 18789:18789 \
+  ghcr.io/openclaw/openclaw:latest gateway start
+```
+
+> **注意**：容器内运行用户为 uid 1000（node）。宿主机挂载目录需确保权限正确：
+> ```bash
+> chown -R 1000:1000 ~/openclaw-data
+```
+
+### 4.3 使用 Docker Compose
+
+> **什么是 Docker Compose？** Docker Compose 是 Docker 的"编排工具"，让你用一个配置文件（`docker-compose.yml`）定义和管理容器，比手动输入长串 `docker run` 命令更方便。
+
+```yaml
+# docker-compose.yml
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw
+    restart: always
+    volumes:
+      - ./data:/home/openclaw/.openclaw
+    ports:
+      - "18789:18789"
+    environment:
+      - LLM_API_KEY=${LLM_API_KEY}
+      - NODE_ENV=production
+    command: gateway start
+```
+
+启动：
+
+```bash
+# 创建 .env 文件
+echo "LLM_API_KEY=sk-xxxxx" > .env
+
+# 启动服务
+docker compose up -d
+
+# 查看日志
+docker compose logs -f
+```
+
+### 4.4 更新版本
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+<details>
+<summary>展开：安全加固配置</summary>
+
+## 5. 安全加固
+
+### 5.1 创建专用用户
+
+```bash
+sudo useradd -m -s /bin/bash openclaw
+sudo su - openclaw
+```
+
+### 5.2 防火墙配置
+
+```bash
+# 只开放必要端口
+sudo ufw allow ssh
+sudo ufw allow 443/tcp    # HTTPS（如果需要 Webhook）
+sudo ufw enable
+```
+
+### 5.3 API Key 安全
+
+- 使用环境变量而非明文配置文件
+- 定期轮换 API Key
+- 设置 API 调用上限
+
+### 5.4 日志审计
+
+```bash
+# 查看 OpenClaw 最近日志
+openclaw logs --limit 100
+
+# 实时监控日志
+openclaw logs --follow
+```
+
+</details>
+
+<details>
+<summary>展开：监控与维护</summary>
+
+## 6. 监控与维护
+
+### 6.1 健康检查
+
+OpenClaw 提供内置健康检查端点（默认端口 18789）：
+
+```bash
+# 存活检查（liveness）
+curl http://localhost:18789/healthz
+
+# 就绪检查（readiness）
+curl http://localhost:18789/readyz
+```
+
+也可以设置一个定时任务让 OpenClaw 自我检查：
 
 ```
-查看 GitHub Issue #123 的描述，
-分析需求，创建开发分支，
-实现功能，编写测试，
-创建 PR 并关联 Issue
+每小时检查一次自身状态，如果发现异常就发送告警到 Telegram
 ```
 
-### 8.2 紧急修复
+### 6.2 自动备份
 
-```
-生产环境报错了，错误信息如下：[粘贴错误]
-帮我定位问题，创建 hotfix 分支，修复并部署
+```bash
+# 备份配置和记忆
+tar -czf openclaw-backup-$(date +%Y%m%d).tar.gz ~/openclaw-data/
+
+# 设置定时备份（每天凌晨 3 点）
+echo '0 3 * * * tar -czf /backups/openclaw-$(date +\%Y\%m\%d).tar.gz ~/openclaw-data/' | crontab -
 ```
 
-这就是 OpenClaw 对开发者的价值——它不只是帮你写代码，而是参与整个开发流程。
+### 6.3 磁盘管理
+
+OpenClaw 的对话历史和日志会随时间增长。定期清理：
+
+```bash
+# 清理 30 天前的对话历史
+openclaw cleanup --older-than 30d
+
+# 查看磁盘使用
+du -sh ~/openclaw-data/*
+```
+
+</details>
+
+## 7. 常见问题
+
+**服务启动失败**：检查 Node.js 版本（需要 22+）、API Key 是否正确、端口是否被占用。
+
+**内存不足**：OpenClaw 运行时通常占用 500MB-1GB 内存。如果服务器内存紧张，考虑升级配置或使用 swap。
+
+**网络超时**：如果使用海外 API 提供商，国内服务器可能需要代理。可以配置 HTTP_PROXY 环境变量。推荐使用硅基流动等国内提供商避免此问题。
+
+**Docker 容器自动重启**：检查 `docker logs openclaw` 查看崩溃原因，通常是 API Key 过期或配置文件格式错误。
 
 ---
 
-**下一步**：[第十一章 故障排查与优化](/cn/adopt/chapter11/)
+**下一步**：[第十一章 开发者效率提升](/cn/adopt/chapter11/)

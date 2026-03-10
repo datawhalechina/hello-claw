@@ -27,8 +27,12 @@ export default defineConfig({
           label: '目录'
         },
         nav: [
+<<<<<<< Updated upstream
           { text: '领养龙虾', link: '/cn/adopt/chapter0' },
           { text: '🎓 龙虾大学', link: '/cn/adopt/lobster-university' },
+=======
+          { text: '领养龙虾', link: '/cn/adopt/intro' },
+>>>>>>> Stashed changes
           { text: '构建龙虾', link: '/cn/build/' },
           { text: 'GitHub', link: 'https://github.com/datawhalechina/hello-claw' },
         ],
@@ -56,18 +60,49 @@ export default defineConfig({
             {
               text: '领养 Claw（使用篇）',
               items: [
-                { text: '第0章 写在开头', link: '/cn/adopt/chapter0' },
-                { text: '第1章 拥有你的第一个 QQ AI 助手', link: '/cn/adopt/chapter1' },
-                { text: '第2章 命令行与配置详解', link: '/cn/adopt/chapter2' },
-                { text: '第3章 移动端接入', link: '/cn/adopt/chapter3' },
-                { text: '第4章 自动化任务入门', link: '/cn/adopt/chapter4' },
-                { text: '第5章 Skills 技能系统', link: '/cn/adopt/chapter5' },
-                { text: '第6章 外部服务集成', link: '/cn/adopt/chapter6' },
-                { text: '第7章 生产环境部署', link: '/cn/adopt/chapter7' },
-                { text: '第8章 多模型与成本优化', link: '/cn/adopt/chapter8' },
-                { text: '第9章 个人助理与内容创作', link: '/cn/adopt/chapter9' },
-                { text: '第10章 开发者效率提升', link: '/cn/adopt/chapter10' },
-                { text: '第11章 故障排查与优化', link: '/cn/adopt/chapter11' }
+                { text: '写在开头', link: '/cn/adopt/intro' },
+                {
+                  text: '🔵 光速上手',
+                  collapsed: false,
+                  items: [
+                    { text: '第1章 AutoClaw 一键安装', link: '/cn/adopt/chapter1' },
+                  ]
+                },
+                {
+                  text: '🟢 手动安装',
+                  collapsed: false,
+                  items: [
+                    { text: '第2章 手动安装 OpenClaw', link: '/cn/adopt/chapter2' },
+                    { text: '第3章 接入聊天平台', link: '/cn/adopt/chapter3' },
+                  ]
+                },
+                {
+                  text: '🟡 日常使用',
+                  collapsed: false,
+                  items: [
+                    { text: '第4章 命令行与基础配置', link: '/cn/adopt/chapter4' },
+                    { text: '第5章 定时任务', link: '/cn/adopt/chapter5' },
+                    { text: '第6章 技能系统入门', link: '/cn/adopt/chapter6' },
+                  ]
+                },
+                {
+                  text: '🟠 高级配置',
+                  collapsed: true,
+                  items: [
+                    { text: '第7章 多平台与外部服务', link: '/cn/adopt/chapter7' },
+                    { text: '第8章 多模型与成本优化', link: '/cn/adopt/chapter8' },
+                    { text: '第9章 个性化定制', link: '/cn/adopt/chapter9' },
+                  ]
+                },
+                {
+                  text: '🔴 高级场景',
+                  collapsed: true,
+                  items: [
+                    { text: '第10章 生产环境部署', link: '/cn/adopt/chapter10' },
+                    { text: '第11章 开发者效率提升', link: '/cn/adopt/chapter11' },
+                    { text: '第12章 故障排查与维护', link: '/cn/adopt/chapter12' },
+                  ]
+                },
               ]
             },
             {
@@ -87,18 +122,49 @@ export default defineConfig({
             {
               text: '领养 Claw（使用篇）',
               items: [
-                { text: '第0章 写在开头', link: '/cn/adopt/chapter0' },
-                { text: '第1章 拥有你的第一个 QQ AI 助手', link: '/cn/adopt/chapter1' },
-                { text: '第2章 命令行与配置详解', link: '/cn/adopt/chapter2' },
-                { text: '第3章 移动端接入', link: '/cn/adopt/chapter3' },
-                { text: '第4章 自动化任务入门', link: '/cn/adopt/chapter4' },
-                { text: '第5章 Skills 技能系统', link: '/cn/adopt/chapter5' },
-                { text: '第6章 外部服务集成', link: '/cn/adopt/chapter6' },
-                { text: '第7章 生产环境部署', link: '/cn/adopt/chapter7' },
-                { text: '第8章 多模型与成本优化', link: '/cn/adopt/chapter8' },
-                { text: '第9章 个人助理与内容创作', link: '/cn/adopt/chapter9' },
-                { text: '第10章 开发者效率提升', link: '/cn/adopt/chapter10' },
-                { text: '第11章 故障排查与优化', link: '/cn/adopt/chapter11' }
+                { text: '写在开头', link: '/cn/adopt/intro' },
+                {
+                  text: '🔵 光速上手',
+                  collapsed: false,
+                  items: [
+                    { text: '第1章 AutoClaw 一键安装', link: '/cn/adopt/chapter1' },
+                  ]
+                },
+                {
+                  text: '🟢 手动安装',
+                  collapsed: false,
+                  items: [
+                    { text: '第2章 手动安装 OpenClaw', link: '/cn/adopt/chapter2' },
+                    { text: '第3章 接入聊天平台', link: '/cn/adopt/chapter3' },
+                  ]
+                },
+                {
+                  text: '🟡 日常使用',
+                  collapsed: false,
+                  items: [
+                    { text: '第4章 命令行与基础配置', link: '/cn/adopt/chapter4' },
+                    { text: '第5章 定时任务', link: '/cn/adopt/chapter5' },
+                    { text: '第6章 技能系统入门', link: '/cn/adopt/chapter6' },
+                  ]
+                },
+                {
+                  text: '🟠 高级配置',
+                  collapsed: true,
+                  items: [
+                    { text: '第7章 多平台与外部服务', link: '/cn/adopt/chapter7' },
+                    { text: '第8章 多模型与成本优化', link: '/cn/adopt/chapter8' },
+                    { text: '第9章 个性化定制', link: '/cn/adopt/chapter9' },
+                  ]
+                },
+                {
+                  text: '🔴 高级场景',
+                  collapsed: true,
+                  items: [
+                    { text: '第10章 生产环境部署', link: '/cn/adopt/chapter10' },
+                    { text: '第11章 开发者效率提升', link: '/cn/adopt/chapter11' },
+                    { text: '第12章 故障排查与维护', link: '/cn/adopt/chapter12' },
+                  ]
+                },
               ]
             },
             {

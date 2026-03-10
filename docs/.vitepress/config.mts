@@ -27,12 +27,7 @@ export default defineConfig({
           label: '目录'
         },
         nav: [
-<<<<<<< Updated upstream
-          { text: '领养龙虾', link: '/cn/adopt/chapter0' },
-          { text: '🎓 龙虾大学', link: '/cn/adopt/lobster-university' },
-=======
           { text: '领养龙虾', link: '/cn/adopt/intro' },
->>>>>>> Stashed changes
           { text: '构建龙虾', link: '/cn/build/' },
           { text: 'GitHub', link: 'https://github.com/datawhalechina/hello-claw' },
         ],

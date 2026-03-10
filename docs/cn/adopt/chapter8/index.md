@@ -327,4 +327,4 @@ openclaw usage --by-skill
 
 ---
 
-**下一步**：[第九章 个人助理与内容创作](/cn/adopt/chapter9/)
+**下一步**：[第九章 个性化定制：工作区与记忆系统](/cn/adopt/chapter9/)

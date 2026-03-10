@@ -528,4 +528,4 @@ OpenClaw 的技能系统与 MCP（Model Context Protocol）是两个不同层面
 
 ---
 
-**下一步**：[第七章 外部服务集成](/cn/adopt/chapter7/)
+**下一步**：[第七章 多平台进阶与外部服务](/cn/adopt/chapter7/)

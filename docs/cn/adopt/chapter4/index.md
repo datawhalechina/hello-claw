@@ -143,7 +143,7 @@ openclaw gateway restart
 │  ...
 ```
 
-如果你已在第二章配置了 QQ 机器人，这里可以**直接跳过**。后续需要接入其他渠道时，参见[第三章 移动端接入](/cn/adopt/chapter3/)。
+如果你已在第二章配置了 QQ 机器人，这里可以**直接跳过**。后续需要接入其他渠道时，参见[第三章 接入聊天平台](/cn/adopt/chapter3/)。
 
 ### 1.6 完成向导
 
@@ -389,6 +389,6 @@ openclaw gateway restart
 ---
 
 **下一步**：
-- 想接入飞书或 Telegram？→ [第三章 移动端接入](/cn/adopt/chapter3/)
+- 想接入飞书或 Telegram？→ [第三章 接入聊天平台](/cn/adopt/chapter3/)
 - 想让 OpenClaw 定时执行任务？→ [第五章 定时任务：让龙虾自动干活](/cn/adopt/chapter5/)
 - 想安装和使用技能？→ [第六章 技能系统入门](/cn/adopt/chapter6/)

@@ -237,7 +237,7 @@ OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-fl
 
 ![API 密钥创建页面](/siliconflow-api-key.png)
 
-**向导中填写**：
+**向QuickStart导中填写**：
 
 ```
 ◇  API Base URL

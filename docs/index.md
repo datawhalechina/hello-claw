@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 开始使用
-      link: /cn/adopt/
+      link: /cn/adopt/intro
     - theme: alt
       text: 🎓 龙虾大学
       link: /cn/adopt/lobster-university

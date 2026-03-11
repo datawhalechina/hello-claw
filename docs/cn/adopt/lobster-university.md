@@ -98,7 +98,7 @@ clawhub install gog
 - 技能发布、版本与安装入口：  
   [clawhub.ai](https://clawhub.ai/)
 - 本教程 Skills 章节（安装、配置、实战）：  
-  [第五章 Skills 技能系统](/cn/adopt/chapter5/)
+  [第六章 技能系统入门](/cn/adopt/chapter6/)
 
 ---
 

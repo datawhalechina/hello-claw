@@ -219,7 +219,7 @@ export default defineConfig({
       themeConfig: {
         logo: '🦞',
         nav: [
-          { text: 'Adopt', link: '/en/adopt/chapter0' },
+          { text: 'Adopt', link: '/en/adopt/intro' },
           { text: 'Build', link: '/en/build/' },
           { text: 'GitHub', link: 'https://github.com/datawhalechina/hello-claw' },
         ],
@@ -228,7 +228,7 @@ export default defineConfig({
             {
               text: 'Adopt Claw (User Guide)',
               items: [
-                { text: 'Chapter 0: Introduction', link: '/en/adopt/chapter0' },
+                { text: 'Chapter 0: Introduction', link: '/en/adopt/intro' },
                 { text: 'Chapter 1: Quick Start', link: '/en/adopt/chapter1' },
                 { text: 'Chapter 2: Understanding OpenClaw', link: '/en/adopt/chapter2' },
                 { text: 'Chapter 3: Mobile Access', link: '/en/adopt/chapter3' },

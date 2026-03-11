@@ -103,7 +103,7 @@
             <span class="text-[#ff4d4d]">&gt;</span> 推荐章节
           </h3>
           <a :href="withBase('/cn/adopt/intro')" class="text-[#ff4d4d] hover:text-[#ff6b6b] text-sm font-medium flex items-center gap-1 transition-colors">
-            从「写在开头」开始 <span>→</span>
+            从第 0 章开始 <span>→</span>
           </a>
         </div>
 

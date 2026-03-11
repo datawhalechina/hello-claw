@@ -126,6 +126,16 @@ npm install -g openclaw@latest
 
 > **什么是 npm？** npm 是 Node.js 自带的"软件安装器"，`-g` 表示全局安装。
 
+::: warning Windows 用户请勿使用 npm 安装
+在 Windows 上通过 `npm install -g openclaw@latest` 安装后，可能会出现 `openclaw` 命令无法识别的问题。这是因为 Windows PowerShell 默认禁止执行脚本。请使用上方的 [一键安装脚本](#_1-1-安装-node-js)，它会自动处理执行策略。
+
+如果你已经用 npm 安装了但找不到命令，在 PowerShell（管理员模式）中运行：
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+然后重新打开终端即可。
+:::
+
 验证：
 
 ```bash

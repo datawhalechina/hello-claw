@@ -205,7 +205,7 @@ export default defineConfig({
             {
               text: '龙虾大学',
               items: [
-                { text: '🎓 龙虾大学：开始阅读', link: '/cn/university/finance' },
+                { text: '🎓 龙虾大学：首页', link: '/cn/university/' },
                 { text: '🧪 龙虾大学：金融实战', link: '/cn/university/finance' },
                 { text: '🧪 龙虾大学：邮件提醒实战', link: '/cn/university/email-reminder' }
               ]

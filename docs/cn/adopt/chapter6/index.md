@@ -23,14 +23,38 @@
 
 ## 1. 网关架构（Gateway）
 
+![OpenClaw Gateway 架构](/OpenClaw-Gateway.png)
+
 Gateway（网关）是 OpenClaw 的"中枢"，是一个常驻后台运行的服务。所有消息——无论来自飞书、QQ、Telegram 还是 Web 面板——都经过 Gateway 统一处理。
 
-```
-飞书 ──┐
-QQ ────┤
-Telegram──┤──→ Gateway ──→ Agent 运行时 ──→ AI 模型
-Web 面板──┤      ↕
-CLI ─────┘   WebSocket API
+```mermaid
+flowchart LR
+
+A["飞书"]
+B["QQ"]
+C["Telegram"]
+D["Web 面板"]
+E["CLI"]
+
+G["Gateway（网关）
+统一消息入口"]
+
+R["Agent 运行时"]
+
+M["AI 模型"]
+
+WS["WebSocket API"]
+
+A --> G
+B --> G
+C --> G
+D --> G
+E --> G
+
+G --> R
+R --> M
+
+G <---> WS
 ```
 
 ### 核心职责

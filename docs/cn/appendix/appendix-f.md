@@ -115,7 +115,7 @@ openclaw configure                   # 重新打开交互式配置向导
 openclaw dashboard                   # 启动 Web Dashboard（浏览器自动打开）
 ```
 
-> 详见[第 3 章 配置向导](/cn/adopt/chapter3/)。
+> 详见[第 3 章 初始配置向导](/cn/adopt/chapter3/)。
 
 ---
 

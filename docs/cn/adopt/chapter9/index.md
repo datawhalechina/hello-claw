@@ -327,12 +327,19 @@ openclaw gateway --tailscale funnel --auth password   # 启用 Funnel
 
 **适合场景**：笔记本经常合盖休眠，但需要 Gateway 始终在线。
 
-```
-┌─────────────────┐          ┌─────────────────┐
-│  VPS / 家庭服务器  │          │   你的笔记本     │
-│  运行 Gateway     │◄─────── │   SSH 隧道 / TS  │
-│  绑定 loopback    │          │   远程控制       │
-└─────────────────┘          └─────────────────┘
+![云服务器 24 小时在线部署架构：Gateway 部署在 VPS 上，笔记本通过 SSH 隧道远程连接](/OpenClaw云服务器.png)
+
+```mermaid
+flowchart LR
+
+A["VPS / 家庭服务器
+Gateway（24h Online）
+Loopback 绑定"]
+
+B["你的笔记本
+远程控制"]
+
+B -->|SSH / Tailscale Tunnel| A
 ```
 
 推荐配置：

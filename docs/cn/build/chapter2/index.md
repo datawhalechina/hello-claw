@@ -25,44 +25,54 @@
 
 OpenClaw 采用 **WebSocket Gateway** 架构，核心组件包括：
 
-```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      Clients                                │
-  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-  │  │  Control UI │  │    CLI      │  │   Web Dashboard     │  │
-  │  │   (macOS)   │  │  (Terminal) │  │    (Browser)        │  │
-  │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
-  └─────────────────────────────────────────────────────────────┘
-                                │
-                                │ HTTP / WebSocket
-                                ▼
-  ┌─────────────────────────────────────────────────────────────┐
-  │                     Gateway (WebSocket)                     │
-  │ ┌─────────────────────────────────────────────────────────┐ │
-  │ │              Message Router & Session Mgr               │ │
-  │ └─────────────────────────────────────────────────────────┘ │
-  └─────────────────────────────────────────────────────────────┘
-         ▲                    ▲                    ▲
-         │                    │                    │
-  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────┐
-  │  Telegram   │    │   Discord   │    │  WhatsApp (Baileys) │
-  │   Channel   │    │   Channel   │    │      Channel        │
-  │  (extension)│    │  (extension)│    │    (built-in)       │
-  └─────────────┘    └─────────────┘    └─────────────────────┘
-         ▲                    ▲                    ▲
-         │                    │                    │
-     Telegram            Discord API           WhatsApp Web
-      Bot API            (HTTP/WebSocket)       (WebSocket)
-                              │
-                              │ node.invoke (WebSocket)
-                              ▼
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      Nodes (Device Agents)                  │
-  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-  │  │  macOS Node │  │   iOS Node  │  │   Android Node      │  │
-  │  │(system.run) │  │(camera.snap)│  │  (screen.record)    │  │
-  │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
-  └─────────────────────────────────────────────────────────────┘
+![OpenClaw WebSocket Gateway 架构](/OpenClaw-WebSocket-Gateway.png)
+
+```mermaid
+flowchart TB
+
+subgraph Clients["客户端"]
+A["Control UI (macOS)"]
+B["CLI (终端)"]
+C["Web Dashboard (浏览器)"]
+end
+
+subgraph Gateway["Gateway（WebSocket 网关）"]
+G["消息路由 + 会话管理"]
+end
+
+subgraph Channels["渠道扩展"]
+T["Telegram 渠道"]
+D["Discord 渠道"]
+W["WhatsApp 渠道"]
+end
+
+subgraph APIs["外部平台 API"]
+TAPI["Telegram Bot API"]
+DAPI["Discord API"]
+WAPI["WhatsApp Web"]
+end
+
+subgraph Nodes["设备节点"]
+N1["macOS Node system.run"]
+N2["iOS Node camera.snap"]
+N3["Android Node screen.record"]
+end
+
+A -->|HTTP/WebSocket| G
+B -->|HTTP/WebSocket| G
+C -->|HTTP/WebSocket| G
+
+T --> G
+D --> G
+W --> G
+
+TAPI --> T
+DAPI --> D
+WAPI --> W
+
+G -->|node.invoke WS| N1
+G -->|node.invoke WS| N2
+G -->|node.invoke WS| N3
 ```
 
 一条消息的典型生命周期：
@@ -151,17 +161,32 @@ Command Queue 是一个**进程内队列**，基于"泳道"模型实现并发控
 
 Command Queue 的核心设计是 **泳道模型**：
 
-```
-  泳道内：串行保证（按 Session Key）       泳道间：并行处理
-  ┌──────────────────────────┐            ┌──────────┐ ┌──────────┐
-  │ Session A 的消息队列      │            │ 泳道 A   │ │ 泳道 B     │
-  │ ──────────────────────── │            │(SessionA)│ │(SessionB)│
-  │ 1. 创建 report           │            │ ──────── │ │ ──────── │
-  │ 2. 写入内容 ←─────────────┼── 排队等待  │ 长任务   │ │ 短查询     │
-  └──────────────────────────┘            │ (5分钟)  │ │ (1秒)     │
-                                          │ ──────── │ │ ──────── │
-                                          │          │ │ 立即响应  │
-                                          └──────────┘ └──────────┘
+![OpenClaw Command Queue](/OpenClaw-Command-Queue.png)
+
+```mermaid
+flowchart LR
+
+subgraph LANE1["泳道 A（Session A）"]
+    A1["1. 创建 report"]
+    A2["2. 写入内容"]
+    A1 --> A2
+end
+
+subgraph LANE2["泳道 B（Session B）"]
+    B1["短查询（1秒）"]
+end
+
+Q["Command Queue
+按 Session Key 排队"]
+
+TASK1["长任务（5分钟）"]
+TASK2["立即响应"]
+
+Q --> A1
+A2 --> TASK1
+
+Q --> B1
+B1 --> TASK2
 ```
 
 **泳道内的串行保证**：同一用户的消息按顺序处理。比如用户连续发送"创建 report.txt"和"写入内容"，第二条会等待第一条完成后再执行，防止因文件不存在而失败。
@@ -212,22 +237,31 @@ Command Queue 支持多种消息处理方式，可通过配置或命令切换：
 
 Agent Loop 的工作流程：
 
-```
-        ┌──────────┐
-        │  观察     │◄──────────────────────────┐
-        │ (Observe)│                           │
-        └────┬─────┘                           │
-             │ 接收当前状态                      │
-             │ (用户输入、工具结果、环境信息)       │
-             ▼                                 │
-        ┌──────────┐     ┌──────────┐          │
-        │  思考     │────►│  行动    │          │
-        │ (Think)  │     │  (Act)   │          │
-        └──────────┘     └────┬─────┘          │
-                              │                │
-                              │ 执行决策        │
-                              │ (调用工具/回复)  │
-                              └────────────────┘
+![OpenClaw Agent Loop](/OpenClaw-Agent-Loop.png)
+
+```mermaid
+flowchart LR
+
+A["观察（Observe）
+接收当前状态
+用户输入 / 工具结果 / 环境信息"]
+
+B["思考（Think）
+模型推理
+制定下一步决策"]
+
+C["行动（Act）
+执行决策
+调用工具 / 生成回复"]
+
+D["环境反馈
+工具执行结果
+状态更新"]
+
+A --> B
+B --> C
+C --> D
+D --> A
 ```
 
 循环持续进行，直到：
@@ -374,22 +408,53 @@ LLM 的输出是不确定的，经常会遇到各种问题。系统实现三层*
 
 ## 8. 组件协作示例
 
+![OpenClaw 组件协作示例](/OpenClaw组件协作示例.png)
+
 消息旅程（用户发送："查找所有包含 TODO 的 Python 文件"）：
 
-```
-Step 1: Gateway          Step 2: Command Queue     Step 3: Agent (Loop)
-───────────────          ───────────────────       ─────────────────────
-Telegram SDK ─────▶      确定会话标识              第1轮：观察 → 思考 → 行动
-提取消息内容      ───▶    放入队列 ─────────▶       (调用Glob) 得50个文件
-                         调度给Agent               第2轮：观察 → 思考 → 行动
-                                                   (调用Grep) 得12个匹配
-                                                   第3轮：观察 → 思考 → 行动
-                                                   任务完成，生成回复
+```mermaid
+flowchart LR
 
-Step 4: Command Queue    Step 5: Gateway
-───────────────────      ───────────────
-回复放入队列  ─────────▶   通过 Telegram SDK
-                          发送给用户
+A["Step 1：Gateway
+Telegram SDK
+解析用户消息"]
+
+B["Step 2：Command Queue
+确定会话标识
+调度 Agent"]
+
+subgraph C["Step 3：Agent Loop"]
+    
+    C1["第1轮
+观察 → 思考"]
+    C1a["调用 Glob
+得到 50 个文件"]
+
+    C2["第2轮
+观察 → 思考"]
+    C2a["调用 Grep
+得到 12 个匹配"]
+
+    C3["第3轮
+观察 → 思考"]
+    C3a["生成最终回复"]
+
+    C1 --> C1a --> C2
+    C2 --> C2a --> C3
+    C3 --> C3a
+end
+
+D["Step 4：Command Queue
+回复消息进入队列"]
+
+E["Step 5：Gateway
+Telegram SDK
+发送回复给用户"]
+
+A --> B
+B --> C
+C --> D
+D --> E
 ```
 
 **异常处理**：

@@ -63,7 +63,7 @@ export default defineConfig({
                   items: [
                     { text: '第1章 AutoClaw 一键安装', link: '/cn/adopt/chapter1' },
                     { text: '第2章 OpenClaw 手动安装', link: '/cn/adopt/chapter2' },
-                    { text: '第3章 配置向导', link: '/cn/adopt/chapter3' },
+                    { text: '第3章 初始配置向导', link: '/cn/adopt/chapter3' },
                   ]
                 },
                 {
@@ -106,7 +106,7 @@ export default defineConfig({
                   items: [
                     { text: '第1章 AutoClaw 一键安装', link: '/cn/adopt/chapter1' },
                     { text: '第2章 OpenClaw 手动安装', link: '/cn/adopt/chapter2' },
-                    { text: '第3章 配置向导', link: '/cn/adopt/chapter3' },
+                    { text: '第3章 初始配置向导', link: '/cn/adopt/chapter3' },
                   ]
                 },
                 {

@@ -1,4 +1,4 @@
-# 第三章 配置向导
+# 第三章 初始配置向导
 
 > 本章详解 OpenClaw 的首次配置体验——从「装好了，然后呢？」到「龙虾已就绪」的完整流程。
 
@@ -8,22 +8,34 @@
 
 安装完 OpenClaw 后，你需要通过 **Onboarding（配置向导）** 告诉龙虾三件事：用谁的大脑（模型）、怎么联系你（渠道）、在哪里工作（工作区）。OpenClaw 提供两条路径：
 
-```
-┌─────────────────────────────────────────────────────┐
-│              OpenClaw Onboarding 路径                │
-├─────────────────────────┬───────────────────────────┤
-│    CLI 配置向导          │     macOS 应用引导         │
-│    (所有平台)            │     (仅 macOS)            │
-│                         │                           │
-│  openclaw onboard       │  OpenClaw.app 首次启动     │
-│  终端交互式问答          │  图形化分步引导            │
-│  完全控制每个细节        │  自动申请系统权限          │
-│  支持脚本化/非交互       │  内置 Onboarding 对话      │
-└────────────┬────────────┴─────────────┬─────────────┘
-             │                          │
-             └──────────┬───────────────┘
-                        ▼
-              Gateway 启动 ✅ 龙虾就绪
+![OpenClaw Onboarding](/OpenClaw-Onboarding.png)
+
+```mermaid
+flowchart TB
+
+subgraph OB["OpenClaw Onboarding 路径"]
+
+subgraph CLI["CLI 配置向导（跨平台）"]
+A1["openclaw onboard"]
+A2["终端交互式配置"]
+A3["支持脚本化 / 非交互"]
+A1 --> A2 --> A3
+end
+
+subgraph MAC["macOS 应用引导（仅 macOS）"]
+B1["OpenClaw.app 启动"]
+B2["图形化分步引导"]
+B3["自动申请系统权限"]
+B1 --> B2 --> B3
+end
+
+end
+
+A3 --> C
+B3 --> C
+
+C["Gateway 启动
+龙虾就绪 ✅"]
 ```
 
 | 路径 | 适用场景 | 平台 |

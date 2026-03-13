@@ -71,7 +71,7 @@ https://datawhalechina.github.io/hello-claw
 | **🔵 安装** | | |
 | 第 1 章 AutoClaw 一键安装 | 下载 AutoClaw 桌面客户端，5 分钟零门槛体验 | ✅ |
 | 第 2 章 OpenClaw 手动安装 | 终端介绍、Node.js 安装、npm install、onboard 配置向导 | ✅ |
-| 第 3 章 配置向导 | CLI 向导、macOS 引导、Custom Provider、重新配置 | ✅ |
+| 第 3 章 初始配置向导 | CLI 向导、macOS 引导、Custom Provider、重新配置 | ✅ |
 | **🟢 场景配置** | | |
 | 第 4 章 聊天平台接入 | QQ / 飞书 / Telegram 三平台接入、配对与群聊 | ✅ |
 | 第 5 章 模型管理 | 模型概念、CLI 管理、多提供商配置、API Key 轮换、故障转移 | ✅ |

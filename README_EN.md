@@ -2,6 +2,8 @@
 
 <img src="asset/logo.png" alt="Hello Claw Logo" width="400">
 
+<p align="center"><em>In an unremarkable repository, a lobster was born.<br>Pick one and send it to school; or write your own undefined lobster.<br>Its dreams have been big from day one.</em></p>
+
 # Hello Claw: Learn OpenClaw from 0 to 1
 
 <p align="center"><em>Master OpenClaw from scratch: Adopt your AI lobster assistant or build your own agent</em></p>

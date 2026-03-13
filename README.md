@@ -2,6 +2,8 @@
 
 <img src="asset/logo.png" alt="Hello Claw Logo" width="400">
 
+<p align="center"><em>一个不起眼的仓库里，龙虾诞生了。<br>选一只，送它上学堂；或动手写一只不被定义的龙虾。<br>它的梦想，从第一天起就很大。</em></p>
+
 # 哈喽！龙虾 👋 零基础领养、成长你的第一只龙虾
 
 <p align="center"><em>Hello Claw：领养你的 AI 龙虾助理，从零构建属于你的智能助理，智能公司</em></p>

@@ -268,8 +268,8 @@
           <h3 class="!text-3xl md:!text-4xl !font-extrabold !leading-tight flex items-center gap-2">
             <span class="text-[#ff4d4d]">&gt;</span> 推荐章节
           </h3>
-          <a :href="withBase('/cn/adopt/intro')" class="text-[#ff4d4d] hover:text-[#ff6b6b] text-sm font-medium flex items-center gap-1 transition-colors">
-            从第 0 章开始 <span>→</span>
+          <a :href="withBase('/cn/adopt/chapter1')" class="inline-flex items-center justify-center rounded-full border border-[#ff4d4d]/40 bg-[#ff4d4d]/10 px-7 py-3 text-xl md:text-2xl font-extrabold text-[#ff6b6b] hover:bg-[#ff4d4d]/20 hover:text-[#ff7a7a] transition-colors">
+            快速开始
           </a>
         </div>
 

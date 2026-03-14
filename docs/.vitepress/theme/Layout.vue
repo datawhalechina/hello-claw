@@ -285,34 +285,34 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">🦞</div>
-            <h4 class="!text-2xl !font-extrabold text-white">领养你的龙虾</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">从安装配置到常用命令，再到自动化任务与 Skills，把 OpenClaw 真正用起来。</p>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">01</div>
+            <h4 class="!text-2xl !font-extrabold text-white">领养一只龙虾</h4>
+            <p class="text-gray-400 !text-base !leading-relaxed">安装、配置、日常指令、自动化任务。让 OpenClaw 真正为你所用。</p>
           </div>
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">🛠️</div>
-            <h4 class="!text-2xl !font-extrabold text-white">从零构建龙虾</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">拆解 OpenClaw 内部机制，理解提示词/工具/消息循环，并走向可定制的 Agent。</p>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">02</div>
+            <h4 class="!text-2xl !font-extrabold text-white">构建你的龙虾</h4>
+            <p class="text-gray-400 !text-base !leading-relaxed">深入核心机制，理解提示词、工具与消息循环。打造专属于你的智能助理。</p>
           </div>
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">📱</div>
-            <h4 class="!text-2xl !font-extrabold text-white">移动端随叫随到</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">把龙虾接入 QQ / 飞书 / Telegram，在常用聊天软件里完成日常工作流。</p>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">03</div>
+            <h4 class="!text-2xl !font-extrabold text-white">随时随地使用</h4>
+            <p class="text-gray-400 !text-base !leading-relaxed">接入 QQ、飞书、Telegram。在熟悉的聊天软件里，完成日常所需。</p>
           </div>
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">⚡</div>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">04</div>
             <h4 class="!text-2xl !font-extrabold text-white">让它自动做事</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">定时简报、自动化报告、周期性任务，从“对话”升级为“系统”。</p>
+            <p class="text-gray-400 !text-base !leading-relaxed">定时简报、自动化报告、周期性任务。从对话，进化为系统。</p>
           </div>
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">🧭</div>
-            <h4 class="!text-2xl !font-extrabold text-white">按路线学习</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">按章节递进：先上手、再实战、再拆解原理，最后进入定制与扩展。</p>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">05</div>
+            <h4 class="!text-2xl !font-extrabold text-white">一步步来</h4>
+            <p class="text-gray-400 !text-base !leading-relaxed">上手。实战。理解原理。定制扩展。</p>
           </div>
           <div class="bg-[#0f1623] border border-white/5 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl hover:-translate-y-1 transition-transform">
-            <div class="text-[#ff4d4d] mb-2 text-3xl">🤝</div>
-            <h4 class="!text-2xl !font-extrabold text-white">一起完善</h4>
-            <p class="text-gray-400 !text-base !leading-relaxed">欢迎提交 PR / Issue：补充案例、修正文档、一起把教程打磨成“能用”的版本。</p>
+            <div class="text-[#ff4d4d] mb-2 text-3xl font-light">06</div>
+            <h4 class="!text-2xl !font-extrabold text-white">与我们一起完善</h4>
+            <p class="text-gray-400 !text-base !leading-relaxed">欢迎提交 PR 和 Issue。补充案例、修正文档，一起把它打磨得更好。</p>
           </div>
         </div>
       </div>

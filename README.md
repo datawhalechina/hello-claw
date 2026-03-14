@@ -4,9 +4,9 @@
 
 <p align="center"><em>一个不起眼的仓库里，龙虾诞生了。<br>选一只，送它上学堂；或动手写一只不被定义的龙虾。<br>它的梦想，从第一天起就很大。</em></p>
 
-# 哈喽！龙虾 👋 零基础领养、成长你的第一只龙虾
+# 哈喽！龙虾 👋 零基础领养、上大学、从零构建你的第一只龙虾
 
-<p align="center"><em>Hello Claw：领养你的 AI 龙虾助理，从零构建属于你的智能助理，智能公司</em></p>
+<p align="center"><em>Hello Claw：领养你的 AI 龙虾助理，上龙虾大学学 Skills，从零构建属于你的智能助理</em></p>
 
 <p align="center">
   📌 <a href="https://datawhalechina.github.io/hello-claw/">在线阅读</a> | 💬 <a href="#交流群">加入交流群</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">还想学 vibecoding</a>
@@ -37,9 +37,9 @@
 
 **本项目包含三大核心模块：**
 
-1. **领养 Claw（使用篇）**：11 章 + 7 个附录，安装（Ch1-3）+ 核心配置（Ch4-6）+ 扩展运维（Ch7-9）+ 安全与客户端（Ch10-11），按需选读
-2. **构建 Claw（开发篇）**：10 章，从拆解 OpenClaw 源码到分析替代方案，深入理解 Agent 架构
-3. **龙虾大学（场景实战篇）**：围绕 Skills 选型与典型工作流，给出可直接复用的实战案例
+1. **领养龙虾（使用篇）**：11 章 + 7 个附录，安装（Ch1-3）+ 核心配置（Ch4-6）+ 扩展运维（Ch7-9）+ 安全与客户端（Ch10-11），按需选读
+2. **龙虾大学（场景实战篇）**：围绕 Skills 选型与典型工作流，给出可直接复用的实战案例
+3. **构建龙虾（开发篇）**：10 章，从拆解 OpenClaw 源码到分析替代方案，深入理解 Agent 架构
 
 **谁适合学习：**
 
@@ -50,8 +50,9 @@
 
 **学习建议：**
 
-- 零基础用户：从第一部分"领养 Claw"第 1 章开始，安装后按需选读核心配置、扩展运维等章节
-- 开发者：可直接进入第二部分"构建 Claw"，拆解底层实现原理
+- 零基础用户：从第一部分“领养龙虾”开始，先把安装与基础自动化跑通
+- 想做场景闭环：直接进入“龙虾大学”，按场景挑 5~10 个 Skills 快速落地
+- 开发者：进入“构建龙虾”，拆解底层实现原理并定制自己的 Claw
 
 ## 🔥 最新动态
 
@@ -122,9 +123,10 @@ https://datawhalechina.github.io/hello-claw
 | 文章 | 简介 | 状态 |
 | ---- | ---- | ---- |
 | [龙虾大学首页（Skills 选修指南）](./docs/cn/university/index.md) | ClawHub 与 SkillHub 双入口、技能分类地图、选课原则与推荐课表 | ✅ |
-| [Vibe Coding 实战](./docs/cn/university/vibe-coding.md) | 飞书对话驱动需求到 PR，全流程“对话即开发”闭环 | ✅ |
+| [Vibe Coding 实战](./docs/cn/university/vibe-coding/index.md) | 飞书对话驱动需求到 PR，全流程“对话即开发”闭环 | ✅ |
 | [邮箱助手实战（163）](./docs/cn/university/email-assistant/index.md) | 从 IMAP/SMTP 配置到脚本验证与 cron 定时，跑通邮件自动化 | ✅ |
 | [多智能体协作（Multi OpenClaw / HiClaw）](./docs/cn/university/multi-claw-hiclaw/index.md) | 从单 Worker 瓶颈到多智能体协作，落地可追踪的任务编排 | ✅ |
+| [安全防护清单](./docs/cn/university/security/index.md) | 技能与工具的安全边界、审计与防注入要点 | ✅ |
 | [金融简报实战](./docs/cn/university/finance.md) | 多源信息聚合 + 结构化输出 + 定时分发，构建盘前/周报金融助理 | ✅ |
 
 ---

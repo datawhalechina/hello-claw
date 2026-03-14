@@ -28,7 +28,7 @@ export default defineConfig({
         },
         nav: [
           { text: '领养龙虾', link: '/cn/adopt/intro' },
-          { text: '龙虾大学', link: '/cn/university/finance', activeMatch: '^/cn/university/' },
+          { text: '龙虾大学', link: '/cn/university/intro.html', activeMatch: '^/cn/university/' },
           { text: '构建龙虾', link: '/cn/build/' },
           { text: 'GitHub', link: 'https://github.com/datawhalechina/hello-claw' },
         ],
@@ -189,10 +189,13 @@ export default defineConfig({
             {
               text: '龙虾大学',
               items: [
-                { text: '龙虾大学：首页', link: '/cn/university/' },
-                { text: '龙虾大学：金融实战', link: '/cn/university/finance' },
-                { text: '龙虾大学：邮件提醒实战', link: '/cn/university/email-assistant/' },
-                { text: '龙虾大学：Vibe Coding 实战', link: '/cn/university/vibe-coding' }
+                { text: '写在开头', link: '/cn/university/intro' },
+                { text: 'Skills 选修指南', link: '/cn/university/' },
+                { text: '邮箱助手实战（163）', link: '/cn/university/email-assistant/' },
+                { text: '多智能体协作（HiClaw）', link: '/cn/university/multi-claw-hiclaw/' },
+                { text: '安全防护清单', link: '/cn/university/security/' },
+                { text: 'Vibe Coding 实战', link: '/cn/university/vibe-coding/' },
+                { text: '金融实战', link: '/cn/university/finance.html' }
               ]
             }
           ]

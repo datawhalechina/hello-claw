@@ -20,8 +20,6 @@
 - 但邮箱协议本身不依赖 `WSL`，只要你的 Python 运行环境能连到 `imap.163.com:993`，在 Windows、macOS、Linux 都可以跑
 - `WSL` 这次主要影响的是 `OpenClaw cron / gateway` 这一层的运行细节，不是邮件协议本身
 
----
-
 ## 1. 先拿走结论：163 邮箱自动化读取，主路径是 IMAP 加授权码
 
 很多人第一次做邮箱自动化，会先去找网页接口、Cookie，或者所谓的“邮箱 token”。  
@@ -39,8 +37,6 @@
 - 读信优先走 `IMAP`
 - 登录优先尝试授权码
 - 先跑通联通性，再做自动化编排
-
----
 
 ## 2. 先理解协议：为什么这里更推荐 IMAP
 
@@ -64,8 +60,6 @@
 - `POP3` 更像下载器
 - `IMAP` 更像同步协议
 
----
-
 ## 3. 第一步：进入 163 邮箱网页端
 
 先打开网易邮箱入口：<https://email.163.com/>
@@ -78,8 +72,6 @@
 
 到这里为止，你还只是完成了“网页邮箱登录”。  
 这一步离脚本可读邮件还差关键一步：开启邮件协议服务并生成授权码。
-
----
 
 ## 4. 第二步：从设置页进入 POP3/SMTP/IMAP
 
@@ -94,8 +86,6 @@
 - 根据实际需求开启服务并完成验证
 
 对这篇文章来说，重点只放在 `IMAP/SMTP`。
-
----
 
 ## 5. 第三步：优先开启 IMAP/SMTP
 
@@ -115,8 +105,6 @@
 ![POP3/SMTP 开启成功提示](./images/163-pop3-smtp-enable-success.png)
 
 但对 Python 自动化读取来说，第一优先级仍然是先把 `IMAP/SMTP` 跑通。
-
----
 
 ## 6. 第四步：进入授权码管理，并保存新授权码
 
@@ -142,8 +130,6 @@
 2. 立刻复制
 3. 先保存到安全位置
 4. 再去写脚本配置
-
----
 
 ## 7. 你真正要准备的脚本参数
 
@@ -173,8 +159,6 @@ MAIL_FETCH_LIMIT=10
 ![163 邮箱协议服务器地址说明](./images/163-mail-server-endpoints.png)
 
 这点也能和华为官方支持页里的第三方邮箱配置说明对上。
-
----
 
 ## 8. 3 分钟跑通：从配置到第一次读取
 
@@ -229,8 +213,6 @@ uv run --with python-dotenv imap_connect_test.py
 - `result = success`
 
 如果还能看到最近几封邮件的 `subject / from / date / preview`，说明脚本已经不只是连通，而是真的把邮件读出来了。
-
----
 
 ## 9. 第一版 Python 脚本：先验证“能不能连上”
 
@@ -382,8 +364,6 @@ if __name__ == "__main__":
 - 已验证的是：`WSL Ubuntu + Python + 163 IMAP + 授权码` 这条链路
 - 可以合理迁移的是：同样的 Python 脚本放到其他能联网的本机环境里，通常也能工作
 - 需要额外注意的是：如果你后面要接 `OpenClaw cron`，不同宿主环境的 gateway 启动方式可能会不一样
-
----
 
 ## 10. 让龙虾自己接管：脚本、环境变量、提示词、定时器
 
@@ -565,8 +545,6 @@ openclaw cron list --json
 ~/.openclaw/workspace/skills/
 ```
 
----
-
 ## 11. 脚本默认通常是轮询，先不用急着做实时监听
 
 第一次写邮箱助手时，一个很常见的问题是：`IMAP` 能不能像消息推送一样实时来信？
@@ -594,8 +572,6 @@ while True:
 - 对 163 邮箱接入来说，先把认证和协议跑通更重要
 
 如果后面你真的需要更强的实时性，再去研究 `IMAP IDLE` 和长连接重连策略会更稳。
-
----
 
 ## 12. 最容易踩的 4 个坑
 
@@ -625,8 +601,6 @@ while True:
 3. 最后再叠加规则、定时器、自动摘要和消息提醒
 
 这样排错成本会低很多。
-
----
 
 ## 13. 其他邮箱怎么迁移
 
@@ -659,8 +633,6 @@ while True:
 如果服务端允许 `IMAP + 密码认证`，脚本通常就能直接读取。  
 如果基础认证被关闭，只开放 OAuth 或其他认证方式，那就不能照搬 163 这一套。
 
----
-
 ## 14. 参考资料
 
 - 网易邮箱登录页：<https://email.163.com/>
@@ -682,8 +654,6 @@ while True:
   <https://support.mozilla.org/en-US/kb/manual-account-configuration>
 - Microsoft Support: POP, IMAP, and SMTP settings for Outlook.com  
   <https://support.microsoft.com/en-gb/office/pop-imap-and-smtp-settings-for-outlook-com-d088b986-291d-42b8-9564-9c414e2aa040>
-
----
 
 先做哪一步最划算？  
 先在网页端开启 `IMAP/SMTP`，保存授权码，然后用 `imap.163.com:993` 跑通第一版 Python 脚本。只要这一步成功，后面的邮箱助手就有了一个可靠起点。

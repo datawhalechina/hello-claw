@@ -467,33 +467,40 @@
         <p class="!text-lg md:!text-2xl text-gray-300 !mt-6 !mb-0 max-w-3xl !leading-relaxed">
           按场景挑对 Skills，让你的龙虾从“会聊”稳定进化成“会干活”。
         </p>
-        <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4 mt-10 mb-14">
-          <a href="https://clawhub.ai/" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#ff4d4d] hover:bg-[#ff6b6b] text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            ClawHub 原版入口 <span class="opacity-80 group-hover:opacity-100 transition-opacity">→</span>
-          </a>
-          <a href="https://skillhub.tencent.com/#categories" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#0f1623] hover:bg-white/10 border border-[#ff4d4d]/30 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            中文 ClawHub（腾讯 SkillHub） <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
-          </a>
-          <a href="https://github.com/VoltAgent/awesome-openclaw-skills" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#0f1623] hover:bg-white/10 border border-[#ff4d4d]/30 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            5494+ 分类清单 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
-          </a>
-          <a :href="withBase('/cn/adopt/intro')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            领养龙虾 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
-          </a>
-          <a :href="withBase('/cn/build/')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            构建龙虾 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
-          </a>
-          <a :href="withBase('/')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
-            返回首页 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
-          </a>
+        <div class="flex flex-col items-center justify-center gap-4 mt-10 mb-14 w-full">
+          <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4 w-full">
+            <a href="https://clawhub.ai/" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#ff4d4d] hover:bg-[#ff6b6b] text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              ClawHub 原版入口 <span class="opacity-80 group-hover:opacity-100 transition-opacity">→</span>
+            </a>
+            <a href="https://skillhub.tencent.com/#categories" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#0f1623] hover:bg-white/10 border border-[#ff4d4d]/30 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              中文 ClawHub（腾讯 SkillHub） <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+            </a>
+            <a href="https://github.com/VoltAgent/awesome-openclaw-skills" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-[#0f1623] hover:bg-white/10 border border-[#ff4d4d]/30 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              5494+ 分类清单 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+            </a>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4 w-full">
+            <a :href="withBase('/cn/adopt/intro')" @click.prevent="navigateTo('/cn/adopt/intro')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              领养龙虾 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+            </a>
+            <a :href="withBase('/cn/university/intro')" @click.prevent="navigateTo('/cn/university/intro')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              龙虾大学 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+            </a>
+            <a :href="withBase('/cn/build/')" @click.prevent="navigateTo('/cn/build/')" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              构建龙虾 <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">→</span>
+            </a>
+            <a href="https://github.com/datawhalechina/hello-claw" target="_blank" rel="noreferrer" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full py-3 px-7 transition-all duration-300 hover:scale-105 active:scale-95">
+              GitHub <span class="text-[#ff4d4d] group-hover:text-[#ff6b6b] transition-colors">↗</span>
+            </a>
+          </div>
         </div>
         <div class="w-full max-w-5xl mb-14">
           <div class="flex items-center justify-between mb-8">
             <h2 class="!text-3xl md:!text-4xl !font-extrabold !leading-tight flex items-center gap-2 !m-0">
               <span class="text-[#ff4d4d]">&gt;</span> 推荐文章
             </h2>
-            <a :href="withBase('/cn/adopt/chapter4')" class="text-[#ff4d4d] hover:text-[#ff6b6b] text-sm font-medium flex items-center gap-1 transition-colors">
-              看自动化基础 <span>→</span>
+            <a :href="withBase('/cn/university/vibe-coding/')" @click.prevent="navigateTo('/cn/university/vibe-coding/')" class="text-[#ff4d4d] hover:text-[#ff6b6b] text-sm font-medium flex items-center gap-1 transition-colors">
+              看 Vibe Coding <span>→</span>
             </a>
           </div>
           <div class="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0f1623] shadow-xl">
@@ -502,6 +509,7 @@
                 v-for="(item, idx) in lobsterUniversityTickerItems"
                 :key="`${item.title}-${idx}`"
                 :href="withBase(item.link)"
+                @click.prevent="navigateTo(item.link)"
                 class="block w-[280px] md:w-[360px] shrink-0 whitespace-normal bg-[#0a0f18] border border-white/5 rounded-2xl p-6 shadow-lg hover:-translate-y-1 transition-transform"
               >
                 <div class="flex items-center justify-between mb-3">
@@ -599,6 +607,7 @@ clawhub install github</pre>
             v-for="article in lobsterUniversityCollections"
             :key="article.title"
             :href="withBase(article.link)"
+            @click.prevent="navigateTo(article.link)"
             class="group block bg-[#0f1623] border border-white/5 rounded-2xl p-6 shadow-xl hover:-translate-y-1 transition-transform"
           >
             <div class="flex items-center justify-between mb-3">
@@ -817,13 +826,12 @@ const recommendedSections = ref(shuffle(baseRecommendedSections))
 const tickerItems = computed(() => [...recommendedSections.value, ...recommendedSections.value])
 
 const lobsterUniversityRecommendedSections = [
-  { track: '龙虾大学', title: '龙虾大学：金融简报实战', summary: '盘前信息聚合、风险提醒、人工复核三段式工作流示例。', link: '/cn/university/finance' },
-  { track: '龙虾大学', title: '龙虾大学：邮件提醒实战', summary: '紧急邮件识别、分级提醒、自动生成后续待办。', link: '/cn/university/email-reminder' },
-  { track: '龙虾大学', title: '龙虾大学：Vibe Coding 实战', summary: '对话描述需求，龙虾写代码提 PR，Copilot 审查，一句话合并。', link: '/cn/university/vibe-coding' },
-  { track: '领养龙虾', title: '第 4 章：自动化任务入门', summary: '定时提醒、自动化报告、周期性工作流，从“会聊”到“会做”。', link: '/cn/adopt/chapter4' },
-  { track: '领养龙虾', title: '第 5 章：Skills 技能系统', summary: '理解技能层次、安装市场技能、开发自定义技能并调试。', link: '/cn/adopt/chapter5' },
-  { track: '领养龙虾', title: '第 7 章：多平台与外部服务', summary: '打通邮件、日历、数据库和浏览器自动化。', link: '/cn/adopt/chapter7' },
-  { track: '构建龙虾', title: '第 5 章：消息循环与事件驱动', summary: 'ReAct 循环、心跳机制、重试与超时，Agent 如何“活起来”。', link: '/cn/build/chapter5' },
+  { track: '龙虾大学', title: 'Skills 选修地图', summary: '从 ClawHub 到清单，按场景选 5~10 个技能的最短路径。', link: '/cn/university/' },
+  { track: '龙虾大学', title: 'Vibe Coding 实战', summary: '对话驱动需求到 PR，全流程“对话即开发”。', link: '/cn/university/vibe-coding/' },
+  { track: '龙虾大学', title: '邮箱助手实战（163）', summary: '从 IMAP/SMTP 配置到脚本验证与 cron 定时，跑通邮件自动化。', link: '/cn/university/email-assistant/' },
+  { track: '龙虾大学', title: '多智能体协作（HiClaw）', summary: '从单 Worker 瓶颈到多智能体协作，落地可追踪的任务编排。', link: '/cn/university/multi-claw-hiclaw/' },
+  { track: '龙虾大学', title: '安全防护清单', summary: '技能与工具的安全边界、审计与防注入要点。', link: '/cn/university/security/' },
+  { track: '龙虾大学', title: '金融简报实战', summary: '盘前信息聚合、风险提醒、人工复核三段式工作流示例。', link: '/cn/university/finance.html' },
 ]
 
 const lobsterUniversityTickerItems = computed(
@@ -836,21 +844,21 @@ const lobsterUniversityCollections = [
     title: 'OpenClaw 用在金融：盘前简报与风险提醒',
     summary: '将新闻、日历、持仓和价格异动串成一个可复用的金融助理工作流。',
     chips: ['信息聚合', '风险提示', '人工复核'],
-    link: '/cn/university/finance',
+    link: '/cn/university/finance.html',
   },
   {
     badge: '实战场景',
-    title: 'OpenClaw 用在邮件提醒：高优先级邮件闭环',
-    summary: '按发件人、关键词和时段分级提醒，并同步待办与日程，减少漏处理。',
-    chips: ['邮件分级', '多端提醒', '待办同步'],
-    link: '/cn/university/email-reminder',
+    title: 'OpenClaw 用在邮件：163 邮箱提醒与自动化',
+    summary: '从 IMAP/SMTP 配置到脚本验证与 cron 定时，跑通邮件自动化闭环。',
+    chips: ['IMAP/SMTP', 'cron 定时', '自动化闭环'],
+    link: '/cn/university/email-assistant/',
   },
   {
     badge: '实战场景',
     title: 'OpenClaw 用在 Vibe Coding：对话即开发',
     summary: '从飞书对话到 GitHub PR，用自然语言完成需求→编码→审查→合并的完整开发闭环。',
     chips: ['对话驱动', 'GitHub PR', 'Copilot 审查'],
-    link: '/cn/university/vibe-coding',
+    link: '/cn/university/vibe-coding/',
   },
 ]
 

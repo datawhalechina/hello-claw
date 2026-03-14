@@ -9,8 +9,6 @@
 技能数量不宜过多。装太多会挤占上下文，导致响应变慢、判断变弱、排障成本升高。
 目标只有一个：按场景精选，先保证稳定与可维护。
 
----
-
 ## 1. 第一推荐：先学会用 ClawHub
 
 如果你只记住一个方法，就记这个：
@@ -42,16 +40,12 @@ npx clawhub@latest install <skill-slug>
 - `clawhub skills`
 - `clawhub openclaw`
 
----
-
 ## 2. 选课原则：龙虾变强的最短路径
 
 - 新手建议常驻 **5~10 个**高频技能
 - 先装“底盘技能”：搜索、浏览器、代码仓库、知识库、日历/邮件
 - 每新增 1 个技能，都要用真实任务跑一遍
 - 一周清理一次不常用技能，避免上下文污染
-
----
 
 ## 3. 技能菜单（按类别点菜）
 
@@ -73,8 +67,6 @@ npx clawhub@latest install <skill-slug>
 | PDF & Documents（111） | `summarize`、`add-watermark-to-pdf`、`agentmail` | 文档摘要、报告处理、附件工作流 |
 | Smart Home & IoT（43） | `home-assistant`、`weather`、`gog` | 家居自动化、生活助手联动 |
 
----
-
 ## 4. 建议课表（直接抄作业）
 
 ### 4.1 新手 5 件套
@@ -93,8 +85,6 @@ clawhub install gog
 - 运维工程：`devops`、`aws-infra`、`azure-devops`
 - 个人助理：`weather`、`caldav-calendar`、`agentmail`
 
----
-
 ## 5. 深入学习入口
 
 - 全量分类与海量技能库：  
@@ -105,8 +95,6 @@ clawhub install gog
   [第七章 工具与定时任务](/cn/adopt/chapter7/)
 - 技能开发与发布流程：
   [附录 D 技能开发与发布指南](/cn/appendix/appendix-d)
-
----
 
 **一句话毕业要求**：让龙虾“好用”的关键，不是装最多，而是装最合适。  
 从这份菜单里先挑 5 个，跑通你自己的第一个自动化闭环，再继续加课。

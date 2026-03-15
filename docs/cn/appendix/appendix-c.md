@@ -84,11 +84,13 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 |------|--------|------|------|--------|
 | **零成本入门** | [ClawX](#_4-桌面客户端) | OpenRouter `stepfun/step-3.5-flash:free` | ¥0 | 对小白最友好，免费 + GUI + 自选提供商 |
 | **零门槛体验** | [AutoClaw](#_4-桌面客户端) | 内置 Pony-Alpha-2 | ¥0（送积分） | 不想配置任何东西，开箱即用 |
-| **高性能方案** | OpenClaw 官方安装 | [火山方舟 Coding Plan](https://www.volcengine.com/activity/codingplan) 任意模型 | ¥9.9 起 | 想用顶级模型（Doubao-Seed-2.0 / DeepSeek-V3.2 等） |
+| **微信直连** | [WorkBuddy](https://workbuddy.tencent.com) | 混元 + 多模型 | 免费（送积分） | 微信/企业微信/QQ 用户，直接给助手发消息 |
+| **一键傅盛同款** | [EasyClaw](https://easyclaw.com/) | 自备 API Key | 免费 | 想要"三万"专属技能包，免配置体验 |
 
 - **组合一**：ClawX 是开源 GUI 客户端，配合 OpenRouter 的免费模型，完全零成本。注册 OpenRouter → 获取 API Key → 在 ClawX 中配置即可。详见[第 1 章](/cn/adopt/chapter1/) + [第 2 章](/cn/adopt/chapter2/)。
 - **组合二**：AutoClaw（澳龙）下载即用，内置智谱 Pony-Alpha-2 模型，新用户赠送积分。适合完全不想碰配置的用户。详见[第 1 章](/cn/adopt/chapter1/)。
-- **组合三**：OpenClaw 手动安装 + 火山方舟 Coding Plan，¥9.9 起享受多家顶级模型。需要终端操作，但拥有最完整的功能和最灵活的配置。详见[第 2 章](/cn/adopt/chapter2/) + [附录 E](/cn/appendix/appendix-e)。
+- **组合三**：WorkBuddy 是腾讯推出的职场 AI Agent，直接给微信助手发送需求即可，无需配置服务器。支持微信/企业微信/QQ 直连，方便有效，适合微信生态用户。
+- **组合四**：EasyClaw 是猎豹移动推出的一键安装客户端，支持 Windows/Mac 和 EasyClaw Cloud。立即下载，体验傅盛同款"三万"专属技能包，一键安装免除繁琐配置，集成各家顶级模型。
 
 ---
 

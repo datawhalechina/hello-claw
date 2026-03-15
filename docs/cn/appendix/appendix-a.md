@@ -66,6 +66,7 @@ next:
 | OpenClaw 中文文档 | <https://github.com/yeuxuan/openclaw-docs> | 276 篇深度教程与源码剖析 |
 | AI 驱动中文文档 | <https://github.com/wszhxz/openclaw-chinese-docs> | AI 自动化翻译维护的完整中文文档 |
 | 中文用例大全 | <https://github.com/AlexAnys/awesome-openclaw-usecases-zh> | 40 个真实场景，国内生态适配 |
+| 龙虾养成日记 | <https://sanwan.ai> | 傅盛 AI 龙虾"三万"自主运营实录，含技能配置、心跳机制、多 Agent 协作等实战教程 |
 
 ### 2.3 中文汉化与发行版
 

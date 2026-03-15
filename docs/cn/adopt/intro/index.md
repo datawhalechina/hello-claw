@@ -11,7 +11,9 @@ next:
 
 2026 年初，[OpenClaw](https://github.com/openclaw/openclaw) 两个月斩获 247,000 GitHub 星标，超越 Linux 成为史上增长最快的开源项目。13 家国内大厂跟进，掀起"[百虾大战](#百虾大战)"。
 
-它不是又一个聊天机器人。它是一个**住在你电脑里、真正能干活的 AI 员工**。
+它不是又一个聊天机器人。它是一个**住在你电脑里、真正能干活的 AI 员工**——而这背后，是 AI 交互范式的一次根本跃迁。
+
+从教 AI "怎么问"的提示词工程（Prompt Engineering），到教 AI "喂什么"的上下文工程（Context Engineering），再到今天的[**驾驭工程（Harness Engineering）**](https://openai.com/index/harness-engineering)——**把 AI 真正套上缰绳，让它持续、自主地替你干活**。OpenClaw 就是这根缰绳。
 
 ---
 

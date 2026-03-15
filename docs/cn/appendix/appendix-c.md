@@ -124,7 +124,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | **ClawX** | ValueCell AI | ✅ MIT | macOS / Windows / Linux | ❌ 需自备 | 通过 ClawHub | ❌ | 需手动配置 | 需配置 | — | — | — | — | ★★☆☆☆ | [GitHub](https://github.com/ValueCell-ai/ClawX) / [官网](https://clawx.com.cn) |
 | **OneClaw** | OneClaw 社区 | ✅ 开源 | macOS / Windows / Linux | ❌ 需自备 | 通过 ClawHub | ❌ | 需手动配置 | 需配置 | — | — | — | — | ★★☆☆☆ | [GitHub](https://github.com/oneclaw/oneclaw) |
 | **LobsterAI（有道龙虾）** | 网易有道 | ✅ MIT | macOS / Windows | ❌ 需自备 | 内置技能商店 | ❌ | ✅ 支持 | ✅ (v0.2.2+) | ✅ Alpine VM | ✅ | — | — | ★☆☆☆☆ | [官网](https://lobsterai.youdao.com) / [GitHub](https://github.com/netease-youdao/LobsterAI) |
-| **EasyClaw（猎豹）** | 猎豹移动 | ❌ 闭源 | macOS / Windows | ❌ 需自备 | 傅盛官方技能包 | ❌ | ✅ 支持 | 需配置 | — | — | ✅ WhatsApp/Telegram/飞书 | ✅ 企业出海专版 | ★☆☆☆☆ | [国内版](https://easyclaw.cn) / [国际版](https://easyclaw.com) |
+| **EasyClaw（猎豹）** | 猎豹移动 | ❌ 闭源 | macOS / Windows | ❌ 需自备 | 傅盛官方技能包（营销/小红书优化） | ❌ | ✅ 支持 | 需配置 | — | — | ✅ WhatsApp/Telegram/飞书 | ✅ 企业出海专版 | ★☆☆☆☆ | [国内版](https://easyclaw.cn) / [国际版](https://easyclaw.com) |
 
 **怎么选？**
 
@@ -132,7 +132,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 - **ClawX**：最适合想要 GUI 但不想绑定任何生态的用户。开源 + 三平台 + 提供商自选。内置 OpenClaw 运行时，无需另装 Node.js。
 - **OneClaw**：与 ClawX 定位相似的开源桌面客户端，同样支持三平台 + 提供商自选。适合偏好轻量开源 GUI 的用户。
 - **LobsterAI**：大厂出品（网易有道），IM 集成最广（钉钉/飞书/企微/QQ/Telegram/Discord），内置沙盒安全隔离，有自己的技能商店。适合想要安全 + 广泛 IM 支持的用户。
-- **EasyClaw**：猎豹移动 CEO 傅盛亲自推广，主打双击安装零配置、3 分钟上手。独家特色是通过 WhatsApp/Telegram/飞书远程控制电脑。国内版（[easyclaw.cn](https://easyclaw.cn)）+ 国际版（[easyclaw.com](https://easyclaw.com)）+ EasyClaw Cloud 三端覆盖，兼顾国内用户与跨境出海场景。
+- **EasyClaw**：猎豹移动 CEO 傅盛亲自推广，主打双击安装零配置、3 分钟上手。技能包针对市场运营和营销场景深度优化，尤其在小红书内容创作与投放方面有专项技能支持。独家特色是通过 WhatsApp/Telegram/飞书远程控制电脑。国内版（[easyclaw.cn](https://easyclaw.cn)）+ 国际版（[easyclaw.com](https://easyclaw.com)）+ EasyClaw Cloud 三端覆盖，兼顾国内用户与跨境出海场景。
 
 > 本教程第一章详细介绍了 [AutoClaw 安装流程](/cn/adopt/chapter1/)。ClawX、OneClaw 和 LobsterAI 的安装也在第一章备选方案中提及。
 

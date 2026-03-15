@@ -287,7 +287,7 @@ openclaw status
 一切正常后，开始你的第一次对话：
 
 ```bash
-openclaw chat
+openclaw tui
 ```
 
 试着输入：`你好，请介绍一下你自己` —— 如果龙虾回复了，恭喜你，安装成功！

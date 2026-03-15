@@ -406,7 +406,7 @@ openclaw onboard \
 **Q：向导跑完，怎么马上开始聊天？**
 
 ```bash
-openclaw chat        # 终端对话
+openclaw tui         # 终端对话
 openclaw dashboard   # 浏览器 Dashboard（无需渠道配置）
 ```
 

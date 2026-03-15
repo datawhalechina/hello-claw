@@ -335,7 +335,7 @@
           </div>
           
           <div class="p-6 font-mono text-sm">
-            <p class="text-gray-500 mb-4"># 一行命令，安装 OpenClaw</p>
+            <p class="text-gray-500 mb-4"># 几行命令，安装 OpenClaw</p>
             <div class="flex items-start justify-between gap-4 group">
               <div class="flex items-start gap-3 w-full">
                 <span class="text-[#ff4d4d] mt-[2px]">$</span>

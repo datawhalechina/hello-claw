@@ -6,6 +6,7 @@ docs/.vitepress/.temp
 .claude
 .vscode
 .omc
+.DS_Store
 
 CLAUDE.md
 temp/*

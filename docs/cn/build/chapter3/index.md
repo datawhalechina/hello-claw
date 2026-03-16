@@ -65,7 +65,7 @@ OpenClaw方式：
 | `HEARTBEAT.md` | **闹钟/日程表** | 定义"我何时行动"——定时任务、触发条件 |
 | `BOOTSTRAP.md` | **出厂设置** | 新工作空间的初始引导配置 |
 
-八个文件覆盖了Agent运作所需的所有维度：**它是谁**（SOUL、IDENTITY）、**它服务谁**（USER）、**它怎么工作**（AGENTS）、**它在哪里工作**（TOOLS）、**它记得什么**（MEMORY）、**它怎么主动行动**（HEARTBEAT）、**它如何初始化**（BOOTSTRAP）。没有冗余，没有遗漏。
+八个文件覆盖了Agent运作所需的所有维度：**它是谁**（SOUL、IDENTITY）、**它服务谁**（USER）、**它怎么工作**（AGENTS）、**它有什么工具**（TOOLS）、**它记得什么**（MEMORY）、**它怎么主动行动**（HEARTBEAT）、**它如何初始化**（BOOTSTRAP）。没有冗余，没有遗漏。
 
 ### SOUL.md 与 AGENTS.md：人格与规则的分离
 

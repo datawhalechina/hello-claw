@@ -201,6 +201,7 @@ https://datawhalechina.github.io/hello-claw
 | [李秀奇](https://github.com/li-xiu-qi)     | 核心贡献者 | -    |
 | [散步](https://github.com/sanbuphy)        | 核心贡献者 | -    |
 | [刘丽欣](https://github.com/liulx25xx)     | 核心贡献者 | -    |
+| [刘思怡](https://github.com/liusiyi77m)    | 核心贡献者 | -    |
 
 *欢迎更多贡献者加入*
 

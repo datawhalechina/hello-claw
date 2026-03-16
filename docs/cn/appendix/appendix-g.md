@@ -7,7 +7,13 @@ next: false
 
 # 附录 G：配置文件详解
 
-OpenClaw 的所有行为——用哪个模型、连哪些渠道、多久心跳一次——都由一个 JSON5 配置文件控制。本附录逐项解读每个配置块，帮你理解"这个字段是干什么的"以及"什么时候需要改它"。
+OpenClaw 的所有行为——用哪个模型、连哪些渠道、多久心跳一次——都由一个 JSON5 配置文件（`~/.openclaw/openclaw.json`）控制。本附录逐项解读每个配置块，帮你理解"这个字段是干什么的"以及"什么时候需要改它"。
+
+::: warning 优先使用 CLI 命令
+**绝大多数配置都可以通过 CLI 命令完成**（如 `openclaw config set <key> <value>`），不需要手动编辑 JSON 文件。手动修改 JSON 容易漏逗号、多括号，导致配置解析失败、Gateway 无法启动。
+
+本附录是**开发者参考文档**——当你需要了解配置文件的完整结构、批量修改配置、或排查配置问题时使用。日常使用请优先通过 CLI、配置向导（`openclaw onboard`）或 Web 控制面板（`openclaw dashboard`）管理配置。
+:::
 
 > **不想手写配置？** 推荐使用 [OpenClaw 配置生成器](https://coclaw.com/openclaw-config-generator/) 可视化生成配置，再对照本附录微调。
 

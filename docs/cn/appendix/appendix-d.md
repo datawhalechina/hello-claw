@@ -354,24 +354,14 @@ for (const r of results) {
 
 **配置方式**
 
-安装后在 `openclaw.json` 中配置：
+安装后设置 API Key 即可使用：
 
-```json
-{
-  "skills": {
-    "entries": {
-      "tavily": {
-        "enabled": true
-      }
-    }
-  },
-  "env": {
-    "TAVILY_API_KEY": "tvly-你的密钥"
-  }
-}
+```bash
+# 设置环境变量（推荐写入 ~/.openclaw/.env）
+echo 'TAVILY_API_KEY=tvly-你的密钥' >> ~/.openclaw/.env
 ```
 
-或直接设置环境变量：`export TAVILY_API_KEY=tvly-你的密钥`
+安装时技能默认启用。如需手动管理，使用 `openclaw skills list` 查看状态。
 
 ---
 
@@ -514,42 +504,31 @@ clawhub uninstall <技能名>
 
 ### 在配置中启用技能
 
-编辑 `~/.openclaw/openclaw.json`：
+通过 ClawHub 安装的技能默认启用。如需手动管理技能状态：
 
-```json
-{
-  "skills": {
-    "entries": {
-      "skill-name": {
-        "enabled": true
-      }
-    }
-  }
-}
+```bash
+openclaw skills list              # 查看所有技能及状态
+openclaw skills info <skill-name> # 查看某个技能的详情
 ```
+
+如需在配置文件中精细控制技能启用/禁用，详见[附录 G 配置文件详解](/cn/appendix/appendix-g)。
 
 ### 配置凭证（SecretRef）
 
-需要 API Key 的技能，推荐使用 SecretRef 安全存储：
+需要 API Key 的技能，推荐使用环境变量或 SecretRef 安全存储：
 
-```json
-{
-  "skills": {
-    "entries": {
-      "tavily": {
-        "enabled": true,
-        "apiKey": {
-          "source": "env",
-          "provider": "default",
-          "id": "TAVILY_API_KEY"
-        }
-      }
-    }
-  }
-}
+```bash
+# 方式一：环境变量（最常用）
+echo 'TAVILY_API_KEY=tvly-你的密钥' >> ~/.openclaw/.env
+
+# 方式二：交互式配置 SecretRef
+openclaw secrets configure
+
+# 方式三：检查密钥状态
+openclaw secrets audit --check
 ```
 
-支持的 `source` 类型：
+支持的 SecretRef `source` 类型：
 
 | source | 说明 | 适用场景 |
 |--------|------|---------|

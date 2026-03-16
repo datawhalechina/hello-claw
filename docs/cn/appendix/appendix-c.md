@@ -33,7 +33,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 
 | 分类 | 代表产品 | 适合谁 | 详见 |
 |------|---------|--------|------|
-| **桌面客户端** | AutoClaw、ClawX、LobsterAI、EasyClaw | 想要 GUI 体验、不想碰终端的用户 | [第 4 节](#_4-桌面客户端) |
+| **桌面客户端** | AutoClaw、ClawX、OneClaw、LobsterAI、EasyClaw | 想要 GUI 体验、不想碰终端的用户 | [第 4 节](#_4-桌面客户端) |
 | **托管服务** | ArkClaw、Kimi Claw、MaxClaw、WorkBuddy | 只想用、不想管服务器的用户 | [第 5 节](#_5-托管服务) |
 | **云厂商部署** | 腾讯云、阿里云、华为云、百度智能云等 | 想要独立服务器但省去安装步骤的用户 | [第 6 节](#_6-云厂商一键部署) |
 | **开源自建** | OpenClaw、IronClaw、CoPaw、NanoClaw 等 | 想完全掌控、愿意折腾的技术用户 | [第 7 节](#_7-开源自建方案) |
@@ -45,10 +45,10 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 
 | 阵营 | 定位 | 代表选手 | 适合谁 |
 |------|------|---------|--------|
-| **第一阵营：本地桌面与一键安装** | 开箱即用，注重隐私 | [LobsterAI](https://lobsterai.youdao.com/)（网易有道）、[AutoClaw](https://autoglm.zhipuai.cn/autoclaw)（智谱）、[EasyClaw](https://easyclaw.com/)（猎豹）、[ClawX](https://clawx.com.cn)、[WorkBuddy](https://workbuddy.tencent.com)（腾讯） | 打工人写日报、做 PPT，装在自己电脑里最踏实 |
+| **第一阵营：本地桌面与一键安装** | 开箱即用，注重隐私 | [LobsterAI](https://lobsterai.youdao.com)（网易有道）、[AutoClaw](https://autoglm.zhipuai.cn/autoclaw)（智谱）、[EasyClaw](https://easyclaw.cn)（猎豹）、[ClawX](https://clawx.com.cn)、[OneClaw](https://oneclaw.cn)、[WorkBuddy](https://workbuddy.tencent.com)（腾讯） | 打工人写日报、做 PPT，装在自己电脑里最踏实 |
 | **第二阵营：公有云原生与一键部署** | 高扩展，企业级 | [阿里云](https://www.aliyun.com/benefit/scene/moltbot)、[腾讯云](https://cloud.tencent.com/act/pro/openclaw)、[火山引擎](https://www.volcengine.com/activity/codingplan)、[华为云](https://activity.huaweicloud.com/openclaw.html)、[百度智能云](https://cloud.baidu.com/doc/qianfan/s/tmlhtdwyj)、[京东云](https://www.ithome.com/0/927/614.htm) | 企业大规模应用协同 |
 | **第三阵营：云端托管与移动跨端** | 跨平台便捷，免除本地算力烦恼 | [MaxClaw](https://maxclaw.ai/)（MiniMax）、[Kimi Claw](https://kimi.com)（月之暗面）、[ArkClaw](https://www.volcengine.com/experience/ark?mode=claw)（字节） | 只想用、不想管服务器 |
-| **第四阵营：专业定制与极客硬件** | 进阶领域与低功耗场景 | [PicoClaw](https://github.com/sipeed/picoclaw)（树莓派）、[IronClaw](https://www.ironclaw.com/)（安全重写）、[HiClaw](https://hiclaw.org/)（多智能体）、[MimiClaw](https://github.com/memovai/mimiclaw)（ESP32） | 极客玩家、安全敏感、多智能体协作 |
+| **第四阵营：专业定制与极客硬件** | 进阶领域与低功耗场景 | [PicoClaw](https://github.com/sipeed/picoclaw)（树莓派）、[IronClaw](https://www.ironclaw.com)（安全重写）、[HiClaw](https://hiclaw.org/)（多智能体）、[MimiClaw](https://github.com/memovai/mimiclaw)（ESP32） | 极客玩家、安全敏感、多智能体协作 |
 
 ---
 
@@ -58,37 +58,23 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 
 | 场景 | 推荐方案 | 一句话理由 |
 |------|---------|-----------|
-| 小白 / 个人轻办公 | [网易有道 LobsterAI](https://lobsterai.youdao.com/) 或 [智谱 AutoClaw](https://autoglm.zhipuai.cn/autoclaw) | 开源免费 / 一键直装，基础功能拉满 |
-| 零基础，不想绑定智谱 | [ClawX](https://clawx.com.cn) + StepFun 免费模型 | 开源 GUI，自选提供商 |
+| 小白 / 个人轻办公 | [网易有道 LobsterAI](https://lobsterai.youdao.com) 或 [智谱 AutoClaw](https://autoglm.zhipuai.cn/autoclaw) | 开源免费 / 一键直装，基础功能拉满 |
+| 零基础，不想绑定智谱 | [ClawX](https://clawx.com.cn) 或 [OneClaw](https://oneclaw.cn) + StepFun 免费模型 | 开源 GUI，自选提供商 |
 | 重度文档分析师 | [Kimi Claw](https://kimi.com) | 200 万字长上下文，几十个文档扔进去直接吐核心摘要 |
-| 微信生态协同 | [腾讯 QClaw](https://claw.guanjia.qq.com/) | 唯一支持微信控制电脑 |
+| 微信生态协同 | [腾讯 QClaw](https://claw.guanjia.qq.com) | 唯一支持微信控制电脑 |
 | 钉钉生态协同 | [阿里 CoPaw](https://copaw.bot/)（[GitHub](https://github.com/agentscope-ai/CoPaw)） | 钉钉原生集成，开源免费 |
 | 飞书生态协同 | [字节 ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) | 飞书深度集成 + Doubao-Seed-2.0 |
 | 做 QQ 机器人 | [腾讯云](#_6-云厂商一键部署) 一键部署 | QQ 开放平台深度集成 |
-| 跨境出海 | [猎豹 EasyClaw](https://easyclaw.com/) | 出海专版，国际化支持 + 本地化部署 |
+| 一键安装 / 跨境出海 | [猎豹 EasyClaw](https://easyclaw.cn)（[国际版](https://easyclaw.com)） | 傅盛同款技能包，针对营销/小红书优化，双击安装零配置，兼顾国内与出海 |
 | 只想用不想管 | [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) / [Kimi Claw](https://kimi.com) | 云端全托管，注册即用 |
 | 想完全掌控配置 | [OpenClaw](https://github.com/openclaw/openclaw) 手动安装 | 本教程主线方案 |
-| 安全敏感 / 企业内网 | [IronClaw](https://www.ironclaw.com/)（[GitHub](https://github.com/nearai/ironclaw)） | WASM 沙盒 + 零遥测，Rust 安全重写 |
+| 安全敏感 / 企业内网 | [IronClaw](https://www.ironclaw.com)（[GitHub](https://github.com/nearai/ironclaw)） | WASM 沙盒 + 零遥测，Rust 安全重写 |
 | 多智能体团队协作 | [HiClaw](https://hiclaw.org/)（[GitHub](https://github.com/higress-group/hiclaw)） | Manager-Worker 架构，人在回路中 |
-| 预算为零 | [ClawX](https://clawx.com.cn) + OpenRouter 免费模型 | 开源 GUI + 免费模型 = ¥0 |
+| 预算为零 | [ClawX](https://clawx.com.cn) 或 [OneClaw](https://oneclaw.cn) + OpenRouter 免费模型 | 开源 GUI + 免费模型 = ¥0 |
 | 预算最低（有付费） | [阿里云](#_6-云厂商一键部署) ¥9.9/月起 | 最低入门价，含海外节点 |
 | 开发者 / 极客 | [PicoClaw](https://github.com/sipeed/picoclaw) | 10MB 极小体积，低资源占用，硬件友好 |
 | 手机端随身 Agent | [MaxClaw](https://maxclaw.ai/) 移动 Web / 小米 miclaw（内测中） | 云端 / 系统级手机 Agent |
 | 硬件 / 嵌入式 | [MimiClaw](https://github.com/memovai/mimiclaw) / [PicoClaw](https://github.com/sipeed/picoclaw) | ESP32 / 旧手机即可运行 |
-
-### 编者亲测：三种最佳入门组合
-
-> 以下三种组合经过实际测试，覆盖零成本、零门槛、高性能三种需求，选一个就够了。
-
-| 组合 | 客户端 | 模型 | 月费 | 适合谁 |
-|------|--------|------|------|--------|
-| **零成本入门** | [ClawX](#_4-桌面客户端) | OpenRouter `stepfun/step-3.5-flash:free` | ¥0 | 对小白最友好，免费 + GUI + 自选提供商 |
-| **零门槛体验** | [AutoClaw](#_4-桌面客户端) | 内置 Pony-Alpha-2 | ¥0（送积分） | 不想配置任何东西，开箱即用 |
-| **高性能方案** | OpenClaw 官方安装 | [火山方舟 Coding Plan](https://www.volcengine.com/activity/codingplan) 任意模型 | ¥9.9 起 | 想用顶级模型（Doubao-Seed-2.0 / DeepSeek-V3.2 等） |
-
-- **组合一**：ClawX 是开源 GUI 客户端，配合 OpenRouter 的免费模型，完全零成本。注册 OpenRouter → 获取 API Key → 在 ClawX 中配置即可。详见[第 1 章](/cn/adopt/chapter1/) + [第 2 章](/cn/adopt/chapter2/)。
-- **组合二**：AutoClaw（澳龙）下载即用，内置智谱 Pony-Alpha-2 模型，新用户赠送积分。适合完全不想碰配置的用户。详见[第 1 章](/cn/adopt/chapter1/)。
-- **组合三**：OpenClaw 手动安装 + 火山方舟 Coding Plan，¥9.9 起享受多家顶级模型。需要终端操作，但拥有最完整的功能和最灵活的配置。详见[第 2 章](/cn/adopt/chapter2/) + [附录 E](/cn/appendix/appendix-e)。
 
 ---
 
@@ -110,7 +96,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 **决策建议：**
 
 > - 🎯 **新手首选**：AutoClaw（零门槛）→ 熟悉后迁移到 OpenClaw（完全掌控）
-> - 💰 **预算最低**：ClawX + StepFun 免费模型（零成本）
+> - 💰 **预算最低**：ClawX 或 OneClaw + StepFun 免费模型（零成本）
 > - 🔒 **安全优先**：IronClaw 自建（WASM 沙盒 + 零遥测）
 > - 🏢 **企业用途**：WorkBuddy（微信生态）/ ArkClaw（飞书生态）
 > - 🤖 **多智能体**：HiClaw（Manager-Worker 架构）
@@ -121,31 +107,23 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 
 不想碰终端？以下桌面客户端提供图形化界面，下载即用。
 
-| | AutoClaw（澳龙） | ClawX | LobsterAI（有道龙虾） | EasyClaw（猎豹） |
-|---|---|---|---|---|
-| **开发商** | 智谱 (Zhipu AI) | ValueCell AI | 网易有道 | 猎豹移动 |
-| **开源** | ❌ 闭源 | ✅ MIT 开源 | ✅ MIT 开源 | ❌ 闭源 |
-| **支持平台** | macOS / Windows | macOS / Windows / Linux | macOS / Windows | macOS / Windows |
-| **内置模型** | Pony-Alpha-2 + 免费积分 | ❌ 需自备 API Key | ❌ 需自备 API Key | ❌ 需自备 API Key |
-| **预装技能** | 50+（含浏览器 Agent） | 通过 ClawHub 安装 | 内置技能商店 | 傅盛官方技能包 |
-| **浏览器操作** | ✅ AutoGLM Browser-Use | ❌ | ❌ | ❌ |
-| **飞书接入** | ✅ 扫码一键 | 需手动配置 | ✅ 支持 | ✅ 支持 |
-| **QQ 接入** | 需配置 | 需配置 | ✅ 支持 (v0.2.2+) | 需配置 |
-| **沙盒隔离** | — | — | ✅ Alpine Linux VM | — |
-| **MCP 支持** | — | — | ✅ | — |
-| **IM 远程控制** | — | — | — | ✅ WhatsApp/Telegram/飞书 |
-| **出海版** | — | — | — | ✅ 企业出海专版 |
-| **上手难度** | ★☆☆☆☆ | ★★☆☆☆ | ★☆☆☆☆ | ★☆☆☆☆ |
-| **官网** | [autoglm.zhipuai.cn/autoclaw](https://autoglm.zhipuai.cn/autoclaw) | [GitHub](https://github.com/ValueCell-ai/ClawX) / [clawx.com.cn](https://clawx.com.cn) | [lobsterai.youdao.com](https://lobsterai.youdao.com/) / [GitHub](https://github.com/netease-youdao/LobsterAI) | [easyclaw.com](https://easyclaw.com/) |
+| 产品 | 开发商 | 开源 | 平台 | 内置模型 | 预装技能 | 浏览器操作 | 飞书 | QQ | 沙盒 | MCP | IM 远程 | 出海版 | 难度 | 官网 |
+|------|--------|------|------|---------|---------|-----------|------|-----|------|-----|--------|--------|------|------|
+| **AutoClaw（澳龙）** | 智谱 | ❌ 闭源 | macOS / Windows | Pony-Alpha-2 + 免费积分 | 50+（含浏览器 Agent） | ✅ AutoGLM | ✅ 扫码一键 | 需配置 | — | — | — | — | ★☆☆☆☆ | [官网](https://autoglm.zhipuai.cn/autoclaw) |
+| **ClawX** | ValueCell AI | ✅ MIT | macOS / Windows / Linux | ❌ 需自备 | 通过 ClawHub | ❌ | 需手动配置 | 需配置 | — | — | — | — | ★★☆☆☆ | [GitHub](https://github.com/ValueCell-ai/ClawX) / [官网](https://clawx.com.cn) |
+| **OneClaw** | OneClaw 社区 | ✅ 开源 | macOS / Windows / Linux | ❌ 需自备 | 通过 ClawHub | ❌ | 需手动配置 | 需配置 | — | — | — | — | ★★☆☆☆ | [GitHub](https://oneclaw.cn) |
+| **LobsterAI（有道龙虾）** | 网易有道 | ✅ MIT | macOS / Windows / Linux | ❌ 需自备 | 16 内置 + 技能商店 5,000+ | ❌ | ✅ 钉钉/飞书 | ✅ 企微/QQ (v0.2.2+) | ✅ Alpine VM | ✅ | ✅ 钉钉/飞书/企微/QQ | — | ★☆☆☆☆ | [官网](https://lobsterai.youdao.com) / [GitHub](https://github.com/netease-youdao/LobsterAI) |
+| **EasyClaw（猎豹）** | 猎豹移动 | ❌ 闭源 | macOS / Windows | ❌ 需自备 | 傅盛官方技能包（营销/小红书优化） | ❌ | ✅ 支持 | 需配置 | — | — | ✅ WhatsApp/Telegram/飞书 | ✅ 企业出海专版 | ★☆☆☆☆ | [国内版](https://easyclaw.cn) / [国际版](https://easyclaw.com) |
 
 **怎么选？**
 
 - **AutoClaw**：最适合零基础用户——下载、注册、开聊，全程不用碰终端。内置模型意味着连 API Key 都不需要。缺点是绑定智谱生态，无 Linux 版。
-- **ClawX**：最适合想要 GUI 但不想绑定任何生态的用户。开源 + 三平台 + 提供商自选。**Linux 用户的唯一 GUI 选项**。内置 OpenClaw 运行时，无需另装 Node.js。
-- **LobsterAI**：大厂出品（网易有道），IM 集成最广（钉钉/飞书/企微/QQ/Telegram/Discord），内置沙盒安全隔离，有自己的技能商店。适合想要安全 + 广泛 IM 支持的用户。
-- **EasyClaw**：猎豹移动 CEO 傅盛亲自推广，主打双击安装零配置、3 分钟上手。独家特色是通过 WhatsApp/Telegram/飞书远程控制电脑，并提供**出海企业专版**，适合跨境出海场景。
+- **ClawX**：最适合想要 GUI 但不想绑定任何生态的用户。开源 + 三平台 + 提供商自选。内置 OpenClaw 运行时，无需另装 Node.js。
+- **OneClaw**：与 ClawX 定位相似的开源桌面客户端，同样支持三平台 + 提供商自选。适合偏好轻量开源 GUI 的用户。
+- **LobsterAI**：网易有道出品，国内首个 MIT 全开源桌面 Agent。16 项内置技能 + 技能商店 5,000+ + MCP 服务市场 15+，IM 覆盖最广（钉钉/飞书/企微/QQ/Telegram/Discord），Alpine VM 沙盒隔离，数据 100% 本地，无广告。适合想要**开源 + 安全 + 广泛 IM 支持**的用户。
+- **EasyClaw**：猎豹移动出品，双击安装零配置。技能包针对营销/小红书场景优化，独家支持通过 WhatsApp/Telegram/飞书远程控制电脑。国内版 + 国际版 + Cloud 三端覆盖，适合**营销运营和跨境出海**。
 
-> 本教程第一章详细介绍了 [AutoClaw 安装流程](/cn/adopt/chapter1/)。ClawX 和 LobsterAI 的安装也在第一章备选方案中提及。
+> 本教程第一章详细介绍了 [AutoClaw 安装流程](/cn/adopt/chapter1/)。ClawX、OneClaw 和 LobsterAI 的安装也在第一章备选方案中提及。
 
 ---
 
@@ -155,18 +133,12 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 
 ### 5.1 一键对比
 
-| | ArkClaw | Kimi Claw | MaxClaw | WorkBuddy / QClaw |
-|---|---|---|---|---|
-| **开发商** | 字节跳动/火山引擎 | 月之暗面 | MiniMax/稀宇科技 | 腾讯 |
-| **访问方式** | Web 浏览器 | Web (kimi.com) | Web + Telegram/Discord/Slack | 本地 + 企微 Web |
-| **底层模型** | Doubao-Seed-2.0 | Kimi K2.5 | MiniMax M2.5 (MoE) | Hunyuan + 多模型 |
-| **技能数量** | OpenClaw 兼容 | 5,000+ (ClawHub) | 内置全栈工具包 | 20+ 预置技能包 |
-| **云存储** | 40GB | 40GB | — | — |
-| **免费额度** | Coding Plan Pro 含 | ❌ 需 Allegretto 会员 | ✅ 欢迎积分 + 每日积分 | ✅ 5,000 欢迎积分 |
-| **付费价格** | ¥9.9/首月起 | ~$39/月 | ~$16/月起 | 免费 |
-| **IM 集成** | 飞书 | Telegram | Telegram/Discord/Slack | 微信/QQ/企微/钉钉/飞书 |
-| **特色功能** | 专属 ECS 资源隔离 | BYOC 混合部署 | 多模态（图/视频）内置 | 唯一支持微信 |
-| **适合谁** | 飞书用户/字节生态 | 国际化用户 | 性价比/多媒体需求 | 微信/企业用户 |
+| 产品 | 开发商 | 访问方式 | 底层模型 | 技能 | 云存储 | 免费额度 | 月费 | IM 集成 | 特色 | 适合谁 |
+|------|--------|---------|---------|------|--------|---------|------|--------|------|--------|
+| **ArkClaw** | 字节跳动/火山引擎 | Web 浏览器 | Doubao-Seed-2.0 | OpenClaw 兼容 | 40GB | Coding Plan Pro 含 | ¥9.9/首月起 | 飞书 | 专属 ECS 资源隔离 | 飞书用户/字节生态 |
+| **Kimi Claw** | 月之暗面 | Web (kimi.com) | Kimi K2.5 | 5,000+ (ClawHub) | 40GB | ❌ 需 Allegretto 会员 | ~$39/月 | Telegram | BYOC 混合部署 | 国际化用户 |
+| **MaxClaw** | MiniMax/稀宇科技 | Web + Telegram/Discord/Slack | MiniMax M2.5 (MoE) | 内置全栈工具包 | — | ✅ 欢迎积分 + 每日积分 | ~$16/月起 | Telegram/Discord/Slack | 多模态（图/视频）内置 | 性价比/多媒体需求 |
+| **WorkBuddy / QClaw** | 腾讯 | 本地 + 企微 Web | Hunyuan + 多模型 | 20+ 预置技能包 | — | ✅ 5,000 欢迎积分 | 免费 | 微信/QQ/企微/钉钉/飞书 | 唯一支持微信 | 微信/企业用户 |
 
 ### 5.2 各托管服务详解
 
@@ -251,7 +223,7 @@ MiniMax 推出的全托管云端 Agent，2026 年 2 月 25 日上线。
 - WorkBuddy：免费 + 5,000 欢迎积分
 - QClaw：未定价（内测阶段）
 
-**链接：** [WorkBuddy 官网](https://workbuddy.tencent.com) | [QClaw](https://claw.guanjia.qq.com/)
+**链接：** [WorkBuddy 官网](https://workbuddy.tencent.com) | [QClaw](https://claw.guanjia.qq.com)
 
 </details>
 
@@ -263,15 +235,14 @@ MiniMax 推出的全托管云端 Agent，2026 年 2 月 25 日上线。
 
 ### 6.1 一键对比
 
-| 对比维度 | 腾讯云 | 阿里云 | 百度智能云 | 火山引擎 | 华为云 | 京东云 |
-|---------|--------|--------|-----------|---------|--------|--------|
-| **一键部署** | ✅ 镜像预装 | ✅ 镜像预装 | ✅ 可视化面板 | ✅ ECS + ArkClaw 双模 | ✅ 镜像预装 | ✅ 镜像 + 人工服务 |
-| **最低月费** | ~¥99/年 | **¥9.9/月** | 限时免费 | ¥9.9/月 | ¥9.9/月 或 ¥68/年 | ¥9.9 起 |
-| **推荐配置** | 2核4G | 2核4G | 2核4G | 2核4G | 2核2G | — |
-| **绑定模型** | 混元/GLM/Kimi/MiniMax | Qwen3.5-plus | 文心/Qwen/DeepSeek | Doubao-Seed-2.0 | DeepSeek-V3.2/GLM-5/Kimi-K2 | Kimi K2.5 |
-| **IM 集成** | 企微/QQ/钉钉/飞书 | 钉钉/飞书 | 钉钉/飞书 | 飞书/企微 | 飞书/QQ/微信/钉钉 | — |
-| **特色** | QQ 深度集成 | 最低价 + 海外节点 | 7 个官方千帆技能 | 双模（ECS + ArkClaw） | ¥20 Token 代金券 | ¥399 人工远程部署 |
-| **适合谁** | QQ 机器人用户 | 预算敏感/需海外 | 百度模型生态 | 飞书用户 | 新手/多 IM | 完全不想动手 |
+| 云厂商 | 一键部署 | 最低月费 | 推荐配置 | 绑定模型 | IM 集成 | 特色 | 适合谁 |
+|--------|---------|---------|---------|---------|--------|------|--------|
+| **腾讯云** | ✅ 镜像预装 | ~¥99/年 | 2核4G | 混元/GLM/Kimi/MiniMax | 企微/QQ/钉钉/飞书 | QQ 深度集成 | QQ 机器人用户 |
+| **阿里云** | ✅ 镜像预装 | **¥9.9/月** | 2核4G | Qwen3.5-plus | 钉钉/飞书 | 最低价 + 海外节点 | 预算敏感/需海外 |
+| **百度智能云** | ✅ 可视化面板 | 限时免费 | 2核4G | 文心/Qwen/DeepSeek | 钉钉/飞书 | 7 个官方千帆技能 | 百度模型生态 |
+| **火山引擎** | ✅ ECS + ArkClaw 双模 | ¥9.9/月 | 2核4G | Doubao-Seed-2.0 | 飞书/企微 | 双模（ECS + ArkClaw） | 飞书用户 |
+| **华为云** | ✅ 镜像预装 | ¥9.9/月 或 ¥68/年 | 2核2G | DeepSeek-V3.2/GLM-5/Kimi-K2 | 飞书/QQ/微信/钉钉 | ¥20 Token 代金券 | 新手/多 IM |
+| **京东云** | ✅ 镜像 + 人工服务 | ¥9.9 起 | — | Kimi K2.5 | — | ¥399 人工远程部署 | 完全不想动手 |
 
 ### 6.2 各云厂商详解
 
@@ -389,20 +360,10 @@ MiniMax 推出的全托管云端 Agent，2026 年 2 月 25 日上线。
 
 ### 7.1 全功能框架
 
-| | OpenClaw | IronClaw |
-|---|---|---|
-| **语言** | TypeScript (Node.js) | Rust |
-| **官网** | [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw) | [ironclaw.com](https://www.ironclaw.com/) / [GitHub](https://github.com/nearai/ironclaw) |
-| **定位** | 全功能 Agent 执行引擎（本教程主线） | 安全优先重写版 |
-| **安全隔离** | Docker 沙盒 | WASM 沙盒 + 凭证保护 + 提示词注入防御 |
-| **数据存储** | SQLite | PostgreSQL 15+ + pgvector |
-| **记忆系统** | 文件级 (Markdown) | 混合全文 + 向量检索 |
-| **遥测** | 可选 | 零遥测，完全可审计 |
-| **技能生态** | ClawHub 16,000+ | 兼容 OpenClaw + 动态工具构建 |
-| **IM 支持** | 15+ 渠道 | 兼容 OpenClaw 渠道 |
-| **MCP 支持** | ✅ | ✅ |
-| **前置条件** | Node.js >= 22 | Rust 1.85+ / PostgreSQL 15+ |
-| **适合谁** | 想深入学习的技术用户 | 安全敏感场景（企业内网/敏感数据） |
+| 项目 | 语言 | 官网 | 定位 | 安全隔离 | 数据存储 | 记忆系统 | 遥测 | 技能生态 | IM 支持 | MCP | 前置条件 | 适合谁 |
+|------|------|------|------|---------|---------|---------|------|--------|--------|-----|---------|--------|
+| **OpenClaw** | TypeScript (Node.js) | [GitHub](https://github.com/openclaw/openclaw) | 全功能 Agent 执行引擎（本教程主线） | Docker 沙盒 | SQLite | 文件级 (Markdown) | 可选 | ClawHub 16,000+ | 15+ 渠道 | ✅ | Node.js >= 22 | 想深入学习的技术用户 |
+| **IronClaw** | Rust | [官网](https://www.ironclaw.com) / [GitHub](https://github.com/nearai/ironclaw) | 安全优先重写版 | WASM 沙盒 + 凭证保护 + 提示词注入防御 | PostgreSQL 15+ + pgvector | 混合全文 + 向量检索 | 零遥测，完全可审计 | 兼容 OpenClaw + 动态工具构建 | 兼容 OpenClaw 渠道 | ✅ | Rust 1.85+ / PostgreSQL 15+ | 安全敏感场景（企业内网/敏感数据） |
 
 <details>
 <summary>IronClaw 安装步骤</summary>
@@ -446,35 +407,38 @@ psql -d ironclaw -c 'CREATE EXTENSION IF NOT EXISTS vector;'
 | **NanoClaw** | TypeScript | 容器沙盒隔离，极简设计，易于理解和扩展 | [qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw) |
 | **ZeroClaw** | Rust | Trait 驱动、零开销架构，全可替换核心，跨环境部署 | [zeroclaw-labs/zeroclaw](https://github.com/zeroclaw-labs/zeroclaw) |
 | **TinyClaw** | Shell/TS | 多智能体多团队，链式执行 + 扇出，隔离工作区 | [TinyAGI/tinyclaw](https://github.com/TinyAGI/tinyclaw) |
-| **AlphaClaw** | — | 社区衍生方案 | [chrysb/alphaclaw](https://github.com/chrysb/alphaclaw) |
+| **AlphaClaw** | TypeScript | OpenClaw 运维管理层：Web 面板 + 网关管理 + 自愈看门狗 + Git 自动备份 | [chrysb/alphaclaw](https://github.com/chrysb/alphaclaw) |
 | **CoPaw** | Python | 阿里通义 AgentScope 团队出品，钉钉原生集成，长期记忆（ReMe 框架），支持本地模型 | [agentscope-ai/CoPaw](https://github.com/agentscope-ai/CoPaw) |
 | **HiClaw** | Docker | Higress 社区多智能体协作平台，Manager-Worker 架构，人在回路中，内置 Matrix 服务器 | [higress-group/hiclaw](https://github.com/higress-group/hiclaw) |
 | **GenericAgent** | Python | 复旦 A3 实验室极简自主 Agent，自组织/自学习/自进化，可自动安装/卸载 OpenClaw 等复杂系统 | [lsdefine/pc-agent-loop](https://github.com/lsdefine/pc-agent-loop) |
+| **ClawRouter** | TypeScript | Agent 原生 LLM 智能路由，41+ 模型本地零延迟自动选路，ECO/AUTO/PREMIUM 三档省 92% 成本 | [BlockRunAI/ClawRouter](https://github.com/BlockRunAI/ClawRouter) |
 
 <details>
 <summary>各轻量方案适用场景</summary>
 
-- **NanoClaw**：想要一个代码量小到能完全读懂的 Agent 框架？NanoClaw 是教科书级别的极简实现，每个组件都清晰分离，非常适合学习和二次开发。
-- **ZeroClaw**：追求极致性能和可定制性？ZeroClaw 用 Rust 的 Trait 系统实现完全可替换的组件架构，编译为零运行时开销的原生二进制。
-- **TinyClaw**：需要多个 Agent 团队协作？TinyClaw 支持链式执行和扇出模式，每个 Agent 在隔离工作区中运行，适合复杂工作流编排。
-- **CoPaw**：阿里通义团队基于 AgentScope 框架打造的开源 Agent 工作台（[官网](https://copaw.bot/) / [GitHub](https://github.com/agentscope-ai/CoPaw)），Apache 2.0 开源。钉钉原生集成，也支持飞书/QQ/Discord/iMessage 等渠道。内置 ReMe（Remember Me, Refine Me）长期记忆框架、Tool Guard 安全层、主动心跳定时任务。支持 Ollama/llama.cpp/MLX 本地模型。适合**钉钉生态用户**和想要国产开源替代方案的开发者。
-- **HiClaw**：Higress 社区推出的多智能体协作平台（[官网](https://hiclaw.org/) / [GitHub](https://github.com/higress-group/hiclaw)）。Manager-Worker 架构：一个管理者智能体协调多个工作者并行处理复杂任务，基于 Matrix 开放协议通信，人在回路中（实时观察/介入/纠正）。工作者只使用消费级 Token，真实凭证存储在 Higress AI 网关中。支持 OpenClaw、NanoClaw、ZeroClaw 等多种运行时。前置条件 Docker Desktop（macOS/Windows）或 Docker Engine（Linux）。适合**需要多智能体团队协作**的场景。
-- **GenericAgent**：复旦大学 A3 实验室（与深圳夸夸菁领科技合作）研发的极简自主 Agent 框架，追求自组织、自学习、自进化。不依赖预定义工具链，而是通过理解系统环境自主决策——例如它能在极少提示下自动完成 OpenClaw 的安装和彻底卸载（含进程清理、配置残留、依赖回收）。提供[一键安装版](https://github.com/lsdefine/pc-agent-loop/release)，支持 Windows/macOS/Linux。
+- **NanoClaw**：教科书级极简实现，代码量小到能完全读懂，每个组件清晰分离。适合**学习 Agent 原理和二次开发**。
+- **ZeroClaw**：Rust Trait 系统实现全可替换组件架构，编译为零运行时开销原生二进制。适合**追求极致性能和可定制性**。
+- **TinyClaw**：支持链式执行和扇出模式，每个 Agent 在隔离工作区中运行。适合**复杂多 Agent 工作流编排**。
+- **AlphaClaw**：OpenClaw 的运维管理层（[GitHub](https://github.com/chrysb/alphaclaw)），提供密码保护 Web 面板、网关进程管理与自愈看门狗、Git 自动备份（每小时提交）、Webhook 调试工具。无锁定——移除后 Agent 照常运行。适合**服务器部署中需要 Web 运维面板**的用户。
+- **CoPaw**：阿里通义 AgentScope 团队出品（[官网](https://copaw.bot/)），Apache 2.0 开源。钉钉原生集成 + 飞书/QQ/Discord 等渠道，内置 ReMe 长期记忆框架，支持 Ollama 本地模型。适合**钉钉生态用户**。
+- **HiClaw**：Higress 社区多智能体协作平台（[官网](https://hiclaw.org/)），Manager-Worker 架构，基于 Matrix 协议通信，人在回路中。凭证存储在 AI 网关，支持多种 Agent 运行时。适合**多智能体团队协作**。
+- **ClawRouter**：Agent 原生 LLM 智能路由器，本地 <1ms 自动选路，41+ 模型，三档路由策略（ECO/AUTO/PREMIUM）可省 92% 成本。适合**自建部署中优化多模型成本**。
+- **GenericAgent**：复旦 A3 实验室极简自主 Agent，自组织/自学习/自进化，不依赖预定义工具链，能自主完成 OpenClaw 安装与卸载。提供[一键安装版](https://github.com/lsdefine/pc-agent-loop/release)。适合**通用自主 Agent 研究**。
 
 </details>
 
 ### 7.3 开源方案综合对比
 
-| 维度 | OpenClaw | IronClaw | CoPaw | NanoClaw | ZeroClaw | HiClaw | GenericAgent |
-|------|----------|----------|-------|----------|----------|--------|-------------|
-| **语言** | TypeScript | Rust | Python | TypeScript | Rust | Docker | Python |
-| **安装难度** | ★★☆☆☆ | ★★★★☆ | ★★☆☆☆ | ★★☆☆☆ | ★★★☆☆ | ★★☆☆☆ | ★☆☆☆☆ |
-| **资源占用** | 中 | 中 | 中 | 低 | 低 | 中 | 低 |
-| **安全性** | ★★★☆☆ | ★★★★★ | ★★★☆☆ | ★★★☆☆ | ★★★☆☆ | ★★★★☆ | ★★★☆☆ |
-| **技能生态** | ★★★★★ | ★★★★☆ | ★★★☆☆ | ★★☆☆☆ | ★★☆☆☆ | ★★★☆☆ | ★☆☆☆☆ |
-| **多 Agent** | 有限 | 有限 | 有限 | 无 | 无 | ★★★★★ | 无 |
-| **IM 集成** | ★★★★★ | ★★★★☆ | ★★★★☆ | ★★☆☆☆ | ★★☆☆☆ | ★★★☆☆ | ★☆☆☆☆ |
-| **适合场景** | 通用主力 | 安全敏感 | 钉钉生态 | 学习/定制 | 高性能 | 团队协作 | 通用自主Agent |
+| 项目 | 语言 | 安装难度 | 资源占用 | 安全性 | 技能生态 | 多 Agent | IM 集成 | 适合场景 |
+|------|------|---------|---------|--------|---------|---------|--------|---------|
+| **OpenClaw** | TypeScript | ★★☆☆☆ | 中 | ★★★☆☆ | ★★★★★ | 有限 | ★★★★★ | 通用主力 |
+| **IronClaw** | Rust | ★★★★☆ | 中 | ★★★★★ | ★★★★☆ | 有限 | ★★★★☆ | 安全敏感 |
+| **CoPaw** | Python | ★★☆☆☆ | 中 | ★★★☆☆ | ★★★☆☆ | 有限 | ★★★★☆ | 钉钉生态 |
+| **NanoClaw** | TypeScript | ★★☆☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | ★★☆☆☆ | 学习/定制 |
+| **ZeroClaw** | Rust | ★★★☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | ★★☆☆☆ | 高性能 |
+| **HiClaw** | Docker | ★★☆☆☆ | 中 | ★★★★☆ | ★★★☆☆ | ★★★★★ | ★★★☆☆ | 团队协作 |
+| **GenericAgent** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★☆☆☆☆ | 无 | ★☆☆☆☆ | 通用自主Agent |
+| **ClawRouter** | TypeScript | ★★☆☆☆ | 低 | ★★★★☆ | — | 无 | — | 多模型路由/降本 |
 
 ---
 
@@ -527,11 +491,11 @@ psql -d ironclaw -c 'CREATE EXTENSION IF NOT EXISTS vector;'
 |------|----------|------|------|
 | **智谱** | [AutoClaw（澳龙）](https://autoglm.zhipuai.cn/autoclaw)一键安装版 | 桌面客户端 | ✅ 已上线 |
 | **字节跳动** | [ArkClaw](https://www.volcengine.com/experience/ark?mode=claw) 全托管 + 飞书适配 + 火山引擎云部署 | 托管 + 云部署 | ✅ 已上线 |
-| **腾讯** | [WorkBuddy](https://workbuddy.tencent.com) + [QClaw](https://claw.guanjia.qq.com/) + 企微/QQ 接入 + [腾讯云部署](https://cloud.tencent.com/act/pro/openclaw) + [SkillHub](https://skillhub.tencent.com) 技能镜像 | 本地 + 托管 + 云部署 | ✅ 部分内测 |
+| **腾讯** | [WorkBuddy](https://workbuddy.tencent.com) + [QClaw](https://claw.guanjia.qq.com) + 企微/QQ 接入 + [腾讯云部署](https://cloud.tencent.com/act/pro/openclaw) + [SkillHub](https://skillhub.tencent.com) 技能镜像 | 本地 + 托管 + 云部署 | ✅ 部分内测 |
 | **月之暗面** | [Kimi Claw](https://kimi.com) 托管版 | 托管服务 | ✅ 已上线 |
 | **MiniMax** | [MaxClaw](https://maxclaw.ai/) 托管版 + 移动端 | 托管服务 | ✅ 已上线 |
-| **网易有道** | [LobsterAI](https://github.com/netease-youdao/LobsterAI) 桌面 Agent（已开源） | 桌面客户端 | ✅ 已上线 |
-| **猎豹移动** | [EasyClaw](https://easyclaw.com/) 一键安装 + 出海企业版 | 桌面客户端 | ✅ 已上线 |
+| **网易有道** | [LobsterAI（有道龙虾）](https://lobsterai.youdao.com) MIT 全开源桌面 Agent + 技能商店 + MCP 市场（[GitHub](https://github.com/netease-youdao/LobsterAI)） | 桌面客户端 | ✅ 已上线 |
+| **猎豹移动** | [EasyClaw](https://easyclaw.cn)（[国际版](https://easyclaw.com)）一键安装 + EasyClaw Cloud | 桌面客户端 | ✅ 已上线 |
 | **阿里** | [阿里云一键部署](https://www.aliyun.com/benefit/scene/moltbot) + [CoPaw](https://copaw.bot/)（[GitHub](https://github.com/agentscope-ai/CoPaw)）+ [AgentBay](https://agentbay.space) | 云部署 + 开源桌面 | ✅ 已上线 |
 | **百度** | [千帆一键体验](https://cloud.baidu.com/doc/qianfan/s/tmlhtdwyj) + 千帆 Skills | 云部署 | ✅ 已上线 |
 | **华为** | [华为云一键部署](https://activity.huaweicloud.com/openclaw.html) + 小艺Claw（HarmonyOS 内置） | 云部署 + 移动端 | ✅ 已上线 / 🔒 小艺Claw 内测 |

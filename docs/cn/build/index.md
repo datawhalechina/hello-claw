@@ -454,4 +454,4 @@ AI Agent正在成为一种基础设施工具，就像数据库、Web服务器、
 
 **现在，选择你想开始的地方：**
 
-- [第1章：核心定位与设计理念](/cn/build/chapter1/) —— 理解Agent Runtime的本质，看看OpenClaw为什么被设计成现在这样
+- [第1章：核心定位与设计理念](./chapter1/index.md) —— 理解Agent Runtime的本质，看看OpenClaw为什么被设计成现在这样

@@ -20,6 +20,8 @@ OpenClaw 支持几乎所有主流聊天软件，文字消息全渠道可用。
 | 渠道 | 说明 | 安装方式 |
 |------|------|---------|
 | **飞书 / Lark** | WebSocket 长连接；企业协作首选 | 内置 |
+| **微信** | WorkBuddy 桥接；个人号/企业微信 | 插件 |
+| **QQ** | QQ 开放平台 Bot API | 插件 |
 | **WhatsApp** | 全球最流行；Baileys 库，需 QR 配对 | 内置 |
 | **Telegram** | Bot API（grammY）；支持群聊，API 最开放 | 内置 |
 | **Discord** | Bot API + Gateway；服务器、频道、私信 | 内置 |
@@ -29,7 +31,6 @@ OpenClaw 支持几乎所有主流聊天软件，文字消息全渠道可用。
 | **iMessage** | BlueBubbles（推荐）或旧版 imsg CLI | 内置 |
 | **IRC** | 经典 IRC 服务器；频道 + 私信 | 内置 |
 | **WebChat** | Gateway 内置 Web 聊天界面 | 内置 |
-| **QQ** | QQ 开放平台 Bot API | 插件 |
 | **LINE** | LINE Messaging API | 插件 |
 | **Matrix** | Matrix 开放协议 | 插件 |
 | **Mattermost** | Bot API + WebSocket | 插件 |
@@ -230,25 +231,7 @@ OpenClaw 支持几乎所有主流聊天软件，文字消息全渠道可用。
 
 导入后点击"申请开通"确认。企业管理员可直接通过，否则需联系管理员审核。
 
-### 第六步：配置事件订阅
-
-> **注意顺序**：请先完成下方[第 3 步](#_3-在-openclaw-中添加飞书渠道)（添加渠道并启动网关），再回来做这一步，否则长连接保存会失败。
-
-进入"事件与回调" → "事件配置"：
-
-![事件与回调页面](./images/lark-event.png)
-
-1. 选择"**使用长连接接收事件**"
-2. 添加事件：`im.message.receive_v1`
-
-<details>
-<summary>为什么用长连接而不是 Webhook？</summary>
-
-Webhook 需要公网 IP，长连接（WebSocket）由 OpenClaw 主动连飞书——不需要公网 IP、不需要域名、家用网络就能用。
-
-</details>
-
-### 第七步：发布应用
+### 第六步：发布应用
 
 进入"版本管理与发布"，点击"创建版本"，填写版本号后提交发布申请。管理员审批通过即生效（你本人是管理员可直接通过）。
 
@@ -269,34 +252,39 @@ openclaw gateway restart
 openclaw gateway status
 ```
 
+确认输出中 feishu 渠道状态为 **connected**。
+
 <details>
-<summary>手动编辑配置文件（高级）</summary>
+<summary>等效 CLI 命令（推荐）</summary>
 
-编辑 `~/.openclaw/openclaw.json`（Windows：`C:\Users\你的用户名\.openclaw\openclaw.json`）：
+不想用交互式向导？也可以一行搞定：
 
-```json
-{
-  "channels": {
-    "feishu": {
-      "enabled": true,
-      "connectionMode": "websocket",
-      "dmPolicy": "pairing",
-      "accounts": {
-        "main": {
-          "appId": "cli_xxx",
-          "appSecret": "你的App Secret"
-        }
-      }
-    }
-  }
-}
+```bash
+openclaw channels add --channel feishu --token "cli_xxx:你的App Secret"
+openclaw gateway restart
 ```
 
-修改后运行 `openclaw gateway restart` 生效。
+> **不推荐**直接编辑配置文件——手动改 JSON 容易漏逗号或括号导致配置解析失败。始终优先使用 CLI 命令。
 
 </details>
 
-> 完成这步后，回到飞书开放平台完成[第六步（事件订阅）](#第六步-配置事件订阅)。
+## 3.5 配置事件订阅
+
+> 此步必须在上一步（添加渠道 + 启动网关）之后进行。飞书在保存长连接配置时会实时检测 WebSocket 连接——如果 OpenClaw 网关未运行，飞书会报"未检测到应用连接信息"错误，无法保存。
+
+回到飞书开放平台，进入"事件与回调" → "事件配置"：
+
+![事件与回调页面](./images/lark-event.png)
+
+1. 选择"**使用长连接接收事件**"
+2. 添加事件：`im.message.receive_v1`
+
+<details>
+<summary>为什么用长连接而不是 Webhook？</summary>
+
+Webhook 需要公网 IP，长连接（WebSocket）由 OpenClaw 主动连飞书——不需要公网 IP、不需要域名、家用网络就能用。
+
+</details>
 
 ## 4. 配对与首次对话
 

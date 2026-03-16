@@ -655,5 +655,7 @@ while True:
 - Microsoft Support: POP, IMAP, and SMTP settings for Outlook.com  
   <https://support.microsoft.com/en-gb/office/pop-imap-and-smtp-settings-for-outlook-com-d088b986-291d-42b8-9564-9c414e2aa040>
 
+---
+
 先做哪一步最划算？  
 先在网页端开启 `IMAP/SMTP`，保存授权码，然后用 `imap.163.com:993` 跑通第一版 Python 脚本。只要这一步成功，后面的邮箱助手就有了一个可靠起点。

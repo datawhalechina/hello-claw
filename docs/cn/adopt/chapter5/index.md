@@ -44,27 +44,6 @@ openclaw config set agents.defaults.model.primary "anthropic/claude-opus-4-6"
 openclaw onboard
 ```
 
-<details>
-<summary>想直接改配置文件？</summary>
-
-编辑 `~/.openclaw/openclaw.json`（Windows：`C:\Users\你的用户名\.openclaw\openclaw.json`）：
-
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "anthropic/claude-opus-4-6"
-      }
-    }
-  }
-}
-```
-
-保存后大部分配置会自动生效（详见[第八章 配置热更新](/cn/adopt/chapter8/#配置热更新)）。
-
-</details>
-
 ---
 
 ## 2. 主模型、备用模型、图片模型

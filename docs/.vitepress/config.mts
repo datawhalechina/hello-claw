@@ -167,21 +167,28 @@ export default defineConfig({
               text: '构建 Claw（开发篇）',
               items: [
                 { text: '写在开头', link: '/cn/build/' },
-                { text: '第1章 核心定位与设计理念', link: '/cn/build/chapter1' },
-                { text: '第2章 整体架构解析', link: '/cn/build/chapter2' },
-                { text: '第3章 提示词系统', link: '/cn/build/chapter3' },
-                { text: '第4章 工具系统', link: '/cn/build/chapter4' },
-                { text: '第5章 消息循环与事件驱动', link: '/cn/build/chapter5' },
-                { text: '第6章 多渠道接入', link: '/cn/build/chapter6' },
-                { text: '第7章 轻量化方案', link: '/cn/build/chapter7' },
-                { text: '第8章 安全加固方案', link: '/cn/build/chapter8' },
-                { text: '第9章 硬件方案', link: '/cn/build/chapter9' },
-                { text: '第10章 案例对比总结', link: '/cn/build/chapter10' },
-                { text: '第11章 定制路径概览', link: '/cn/build/chapter11' },
-                { text: '第12章 配置文件级定制', link: '/cn/build/chapter12' },
-                { text: '第13章 Skill 编写', link: '/cn/build/chapter13' },
-                { text: '第14章 渠道接入', link: '/cn/build/chapter14' },
-                { text: '第15章 完整定制案例', link: '/cn/build/chapter15' }
+                {
+                  text: '🔵 OpenClaw 内部拆解',
+                  collapsed: false,
+                  items: [
+                    { text: '第1章 架构设计哲学', link: '/cn/build/chapter1' },
+                    { text: '第2章 ReAct 循环', link: '/cn/build/chapter2' },
+                    { text: '第3章 提示词系统', link: '/cn/build/chapter3' },
+                    { text: '第4章 工具系统', link: '/cn/build/chapter4' },
+                    { text: '第5章 消息循环与事件驱动', link: '/cn/build/chapter5' },
+                    { text: '第6章 统一网关', link: '/cn/build/chapter6' },
+                    { text: '第7章 安全沙箱', link: '/cn/build/chapter7' },
+                  ]
+                },
+                {
+                  text: '🟢 定制方案',
+                  collapsed: false,
+                  items: [
+                    { text: '第8章 轻量化方案', link: '/cn/build/chapter8' },
+                    { text: '第9章 安全加固方案', link: '/cn/build/chapter9' },
+                    { text: '第10章 硬件方案', link: '/cn/build/chapter10' },
+                  ]
+                },
               ]
             }
           ],
@@ -195,7 +202,6 @@ export default defineConfig({
                 { text: '多智能体协作（HiClaw）', link: '/cn/university/multi-claw-hiclaw/' },
                 { text: '安全防护清单', link: '/cn/university/security/' },
                 { text: 'Vibe Coding 实战', link: '/cn/university/vibe-coding/' },
-                { text: '金融实战', link: '/cn/university/finance.html' }
               ]
             }
           ]
@@ -250,21 +256,16 @@ export default defineConfig({
               text: 'Build Claw (Developer Guide)',
               items: [
                 { text: 'Introduction', link: '/en/build/' },
-                { text: 'Chapter 1: Core Concepts & Design', link: '/en/build/chapter1' },
-                { text: 'Chapter 2: Architecture Overview', link: '/en/build/chapter2' },
+                { text: 'Chapter 1: Architecture Philosophy', link: '/en/build/chapter1' },
+                { text: 'Chapter 2: ReAct Loop', link: '/en/build/chapter2' },
                 { text: 'Chapter 3: Prompt System', link: '/en/build/chapter3' },
                 { text: 'Chapter 4: Tool System', link: '/en/build/chapter4' },
                 { text: 'Chapter 5: Message Loop & Events', link: '/en/build/chapter5' },
-                { text: 'Chapter 6: Multi-Channel Integration', link: '/en/build/chapter6' },
-                { text: 'Chapter 7: Lightweight Solutions', link: '/en/build/chapter7' },
-                { text: 'Chapter 8: Security Hardening', link: '/en/build/chapter8' },
-                { text: 'Chapter 9: Hardware Solutions', link: '/en/build/chapter9' },
-                { text: 'Chapter 10: Case Comparison', link: '/en/build/chapter10' },
-                { text: 'Chapter 11: Customization Roadmap', link: '/en/build/chapter11' },
-                { text: 'Chapter 12: Configuration Customization', link: '/en/build/chapter12' },
-                { text: 'Chapter 13: Skill Development', link: '/en/build/chapter13' },
-                { text: 'Chapter 14: Channel Integration', link: '/en/build/chapter14' },
-                { text: 'Chapter 15: Complete Cases', link: '/en/build/chapter15' }
+                { text: 'Chapter 6: Unified Gateway', link: '/en/build/chapter6' },
+                { text: 'Chapter 7: Security Sandbox', link: '/en/build/chapter7' },
+                { text: 'Chapter 8: Lightweight Solutions', link: '/en/build/chapter8' },
+                { text: 'Chapter 9: Security Hardening', link: '/en/build/chapter9' },
+                { text: 'Chapter 10: Hardware Solutions', link: '/en/build/chapter10' },
               ]
             }
           ]

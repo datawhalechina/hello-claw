@@ -292,10 +292,10 @@
         </div>
       </div>
 
-      <!-- Quick Start Section -->
+      <!-- 一键安装 -->
       <div v-fade-in class="w-full max-w-5xl mt-32">
         <h3 class="!text-3xl md:!text-4xl !font-extrabold !leading-tight flex items-center gap-2 mb-8">
-          <span class="text-[#ff4d4d]">&gt;</span> Quick Start
+          <span class="text-[#ff4d4d]">&gt;</span> 一键安装
         </h3>
         
         <div class="bg-[#0f1623] border border-white/5 rounded-2xl overflow-hidden shadow-xl">
@@ -335,7 +335,7 @@
           </div>
           
           <div class="p-6 font-mono text-sm">
-            <p class="text-gray-500 mb-4"># 复制粘贴即可开始：安装 → 配置 → 第一次对话</p>
+            <p class="text-gray-500 mb-4"># 几行命令，安装 OpenClaw</p>
             <div class="flex items-start justify-between gap-4 group">
               <div class="flex items-start gap-3 w-full">
                 <span class="text-[#ff4d4d] mt-[2px]">$</span>
@@ -348,9 +348,6 @@
             </div>
           </div>
         </div>
-        <p class="text-center text-gray-500 text-sm mt-4">
-          以上命令来自本教程「第 1 章」的安装步骤，按你的系统选择即可。
-        </p>
       </div>
 
       <!-- What It Does Section -->
@@ -599,9 +596,6 @@ clawhub install github</pre>
         <h2 class="!text-3xl md:!text-4xl !font-extrabold !leading-tight flex items-center gap-2 mb-8 mt-2">
           <span class="text-[#ff4d4d]">&gt;</span> 3) 龙虾大学文章合集
         </h2>
-        <p class="text-gray-300 !leading-relaxed !m-0">
-          先放两个假想场景，后续可以按你的真实案例持续扩充。
-        </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <a
             v-for="article in lobsterUniversityCollections"
@@ -868,7 +862,7 @@ const quickLinks = [
   { icon: '🎓', text: '龙虾大学', link: '/cn/university/' },
   { icon: '📱', text: '领养：移动端接入', link: '/cn/adopt/chapter3' },
   { icon: '🛠️', text: '构建：写在开头', link: '/cn/build/' },
-  { icon: '📚', text: '附录：命令速查表', link: '/cn/appendix/appendix-a' },
+  { icon: '📚', text: '附录：社区之声', link: '/cn/appendix/appendix-b' },
   { icon: '🐙', text: 'GitHub', link: 'https://github.com/datawhalechina/hello-claw', external: true },
 ]
 

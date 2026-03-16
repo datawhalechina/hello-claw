@@ -21,6 +21,7 @@ next:
 |------|------|-----------|
 | 刚装好，想试试 | [安装与更新](#安装与更新) | 安装、升级、卸载 |
 | 第一次配置 | [初始化与配置](#初始化与配置) | 向导、诊断、Dashboard |
+| 终端里直接聊 | [终端对话](#终端对话) | TUI 交互聊天、单次 Agent 调用 |
 | 让 OpenClaw 跑起来 | [网关管理](#网关管理) | 启动、停止、健康检查 |
 | 连接聊天平台 | [渠道管理](#渠道管理) | 添加 Telegram / QQ / 飞书等渠道 |
 | 管理多个 Agent | [Agent 管理](#agent-管理) | 创建、绑定、运行 Agent |
@@ -29,8 +30,9 @@ next:
 | 定时自动执行 | [定时任务](#定时任务) | Cron 任务的增删改查 |
 | 发消息、投票 | [消息发送](#消息发送) | 主动发送消息和互动 |
 | 调参数 | [配置操作](#配置操作) | 读写配置项 |
-| 出问题了 | [诊断与调试](#诊断与调试) | 日志、Doctor、安全审计 |
-| 其他高级功能 | [更多命令](#更多命令) | 记忆、设备、浏览器、系统 |
+| 沙箱与安全 | [沙箱与安全](#沙箱与安全) | 沙箱隔离、审批、安全审计 |
+| 出问题了 | [诊断与调试](#诊断与调试) | 日志、Doctor、备份恢复 |
+| 其他高级功能 | [更多命令](#更多命令) | 记忆、设备、浏览器、DNS、Webhook 等 |
 
 ---
 
@@ -39,12 +41,13 @@ next:
 所有 `openclaw` 命令都支持以下选项：
 
 ```bash
-openclaw [--dev] [--profile <name>] <command>
+openclaw [--dev] [--profile <name>] [--log-level <level>] <command>
 
 --dev              # 隔离开发环境（状态存到 ~/.openclaw-dev，端口自动偏移）
 --profile <name>   # 自定义隔离环境（状态存到 ~/.openclaw-<name>）
+--log-level <level>  # 全局日志级别覆盖（silent|fatal|error|warn|info|debug|trace）
 --no-color         # 禁用终端颜色输出
--V, --version, -v  # 查看版本号
+-V, --version      # 查看版本号
 ```
 
 > 多套环境互不干扰：`--dev` 适合调试，`--profile` 适合同时运行多个实例（如一个生产、一个测试）。
@@ -125,6 +128,36 @@ openclaw dashboard                   # 启动 Web Dashboard（浏览器自动打
 ```
 
 > 详见[第 3 章 初始配置向导](/cn/adopt/chapter3/)。
+
+---
+
+## 终端对话
+
+不需要浏览器，不需要聊天平台，直接在终端里和 OpenClaw 对话。SSH 远程、服务器、Docker 容器——有终端就能聊。
+
+### ⭐ TUI 交互模式
+
+```bash
+openclaw tui                         # 打开终端聊天界面（连接到 Gateway）
+```
+
+### 单次 Agent 调用
+
+不需要交互界面，发一条消息就走：
+
+```bash
+openclaw agent --message "帮我总结今天的日程"                  # 本地执行
+openclaw agent --message "Hello" --to +15555550123 --deliver  # 执行并投递到聊天渠道
+openclaw agent --message "分析报告" --thinking high            # 使用深度思考
+```
+
+### 搜索文档
+
+```bash
+openclaw docs                        # 搜索 OpenClaw 官方文档
+```
+
+> 详见[第 11 章 Web 界面与客户端](/cn/adopt/chapter11/)。
 
 ---
 
@@ -463,7 +496,7 @@ openclaw message unpin                # 取消置顶
 
 ## 配置操作
 
-OpenClaw 的配置存储在 `openclaw.json` 中，可以通过 CLI 直接读写。
+OpenClaw 的配置可以通过 CLI 直接读写（配置文件结构详见[附录 G](/cn/appendix/appendix-g)）。
 
 ```bash
 openclaw config get <path>           # 读取配置项
@@ -535,6 +568,40 @@ openclaw secrets apply --from <plan.json>  # 从计划文件批量应用
 
 ---
 
+## 沙箱与安全
+
+### 沙箱管理
+
+沙箱为 Agent 提供隔离的运行环境，防止操作影响宿主系统：
+
+```bash
+openclaw sandbox list                # 列出沙箱容器
+openclaw sandbox start               # 启动沙箱
+openclaw sandbox stop                # 停止沙箱
+```
+
+> 沙箱详见[第 8 章 Gateway 运维](/cn/adopt/chapter8/)和[第 10 章 安全防护](/cn/adopt/chapter10/)。
+
+### 执行审批
+
+Agent 执行敏感操作时需要人工审批：
+
+```bash
+openclaw approvals list              # 查看待审批操作
+openclaw approvals approve <id>      # 批准
+openclaw approvals deny <id>         # 拒绝
+```
+
+### 🔧 Agent Hooks
+
+```bash
+openclaw hooks list                  # 列出已注册的 Agent Hook
+openclaw hooks add                   # 添加 Hook
+openclaw hooks remove <id>           # 移除 Hook
+```
+
+---
+
 ## 更多命令
 
 以下命令使用频率较低，按需查阅。
@@ -597,6 +664,65 @@ openclaw system heartbeat disable    # 禁用心跳
 openclaw system presence             # 在线状态
 ```
 
+### 备份与恢复
+
+```bash
+openclaw backup create               # 创建本地备份归档
+openclaw backup verify               # 验证备份完整性
+openclaw backup list                 # 列出已有备份
+```
+
+### Node 管理（无头节点）
+
+在远程服务器上运行无头节点，由网关统一调度：
+
+```bash
+openclaw node start                  # 🔧 启动 Node Host 服务
+openclaw node stop                   # 🔧 停止 Node Host
+openclaw nodes list                  # 🔧 列出网关管理的所有节点
+openclaw nodes pair                  # 🔧 配对新节点
+```
+
+### DNS 与网络发现
+
+```bash
+openclaw dns status                  # 🔧 DNS 发现状态（Tailscale + CoreDNS）
+```
+
+### Webhook
+
+```bash
+openclaw webhooks list               # 🔧 列出已配置的 Webhook
+openclaw webhooks add                # 🔧 添加 Webhook
+openclaw webhooks remove <id>        # 🔧 移除 Webhook
+```
+
+### 联系人与群组查询
+
+```bash
+openclaw directory self              # 查询自己的 ID
+openclaw directory peers             # 查询联系人 ID
+openclaw directory groups            # 查询群组 ID
+```
+
+### ACP（Agent Control Protocol）
+
+```bash
+openclaw acp status                  # 🔧 ACP 协议状态
+```
+
+### Shell 自动补全
+
+```bash
+openclaw completion                  # 生成 Shell 补全脚本（支持 bash/zsh/fish）
+```
+
+### iOS 配对
+
+```bash
+openclaw qr                         # 生成 iOS 配对二维码
+```
+
 ### 用量统计与清理
 
 ```bash
@@ -618,6 +744,7 @@ openclaw cleanup --older-than 30d    # 清理 30 天前的数据
 ```bash
 # 添加到 ~/.bashrc 或 ~/.zshrc
 alias oc='openclaw'
+alias oct='openclaw tui'
 alias ocg='openclaw gateway'
 alias ocs='openclaw skills'
 alias oca='openclaw agents'
@@ -643,6 +770,7 @@ alias ocrestart='openclaw gateway restart'
 | 模型调用失败 | `openclaw models status` | 验证 API Key，检查余额 |
 | 设备配对不成功 | `openclaw devices list` | 批准待处理请求 |
 | 配置不生效 | `openclaw config validate` | 重启网关：`openclaw gateway restart` |
+| TUI 连不上 | `openclaw gateway status` | 确认网关在运行，检查端口 |
 | 什么都没用 | `openclaw doctor --deep` | 查看日志：`openclaw logs --limit 50` |
 
 ---

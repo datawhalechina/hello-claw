@@ -37,7 +37,7 @@ openclaw gateway restart  # 重启（修改 gateway.* 配置后需要）
 openclaw status           # 查看整体运行状态
 ```
 
-> 修改 `openclaw.json` 后，大部分配置自动热更新生效。只有端口、认证、TLS 等基础设施字段需要手动重启（详见[第八章](/cn/adopt/chapter8/#配置热更新)）。
+> 通过 CLI 修改配置后，大部分设置自动热更新生效。只有端口、认证、TLS 等基础设施字段需要手动重启（详见[第八章](/cn/adopt/chapter8/#配置热更新)）。
 
 <details>
 <summary>Gateway 架构详解（连接协议、节点系统）</summary>
@@ -618,14 +618,14 @@ code ~/.openclaw/workspace/IDENTITY.md
 - 常用网站：飞书（feishu.cn）、语雀（yuque.com）
 ```
 
-**TOOLS.md vs `openclaw.json` 的区别：**
+**TOOLS.md vs CLI 配置的区别：**
 
-| 维度 | TOOLS.md | openclaw.json |
-|------|----------|---------------|
+| 维度 | TOOLS.md | CLI 配置（`openclaw config set`） |
+|------|----------|----------------------------------|
 | 控制什么 | 使用建议和环境备忘 | 工具的开关和权限 |
 | 谁读 | 龙虾（AI 模型） | Gateway（程序） |
 | 效果 | 软性引导，龙虾"尽量"遵守 | 硬性限制，不给就用不了 |
-| 例子 | "删除前先确认" | `tools.profile: "default"` |
+| 例子 | "删除前先确认" | `openclaw config set tools.profile full` |
 
 > TOOLS.md 是龙虾的"速查小抄"——技能定义了工具怎么用，这个文件记录你的环境怎么配。两者分开存放，更新技能不会丢失你的备忘，分享技能也不会泄露你的环境信息。
 
@@ -784,7 +784,7 @@ BOOTSTRAP.md（首次启动，完成后删除）
 | 写入文件 | 每个环节的结果立即写入对应的 .md 文件 |
 | 一次性 | 完成后自动删除 BOOTSTRAP.md，确保只运行一次 |
 
-> 如果你不想走引导仪式，在 `openclaw.json` 中设置 `agent.skipBootstrap: true`，然后直接手动编辑 IDENTITY.md、USER.md 和 SOUL.md 即可。
+> 如果你不想走引导仪式，运行 `openclaw config set agent.skipBootstrap true`，然后直接手动编辑 IDENTITY.md、USER.md 和 SOUL.md 即可。
 
 </details>
 
@@ -844,7 +844,7 @@ Gateway 重启时自动执行以下检查（每次启动只执行一次）。
 - 如果今天还没写日记，提醒用户
 ```
 
-> 心跳间隔通过 `openclaw.json` 的 `agents.defaults.heartbeat` 配置，不在这里设置。
+> 心跳间隔通过 `openclaw config set agents.defaults.heartbeat.every "30m"` 配置，不在这里设置。
 
 <details>
 <summary>📋 HEARTBEAT.md 配置模板参考（点击展开）</summary>
@@ -883,7 +883,7 @@ Gateway 重启时自动执行以下检查（每次启动只执行一次）。
 | 每 3 小时 | 日常使用，邮件 + 日历 | 中等 |
 | 每 1 小时 | 重度使用，多项检查 | 较高 |
 
-> 安装后的初始模板是空的——**留空就不会触发心跳 API 调用**，不消耗任何 Token。等你确定了需要定期检查的事项，再按上面的格式添加任务。心跳间隔通过 `openclaw.json` 的 `agents.defaults.heartbeat` 配置。
+> 安装后的初始模板是空的——**留空就不会触发心跳 API 调用**，不消耗任何 Token。等你确定了需要定期检查的事项，再按上面的格式添加任务。心跳间隔通过 CLI 配置：`openclaw config set agents.defaults.heartbeat.every "30m"`。
 
 </details>
 
@@ -893,7 +893,7 @@ Gateway 重启时自动执行以下检查（每次启动只执行一次）。
 
 | 路径 | 内容 |
 |------|------|
-| `~/.openclaw/openclaw.json` | 全局配置 |
+| `~/.openclaw/` 配置文件 | 全局配置（详见[附录 G](/cn/appendix/appendix-g)） |
 | `~/.openclaw/credentials/` | OAuth 令牌、API 密钥 |
 | `~/.openclaw/agents/<id>/sessions/` | 会话记录 |
 | `~/.openclaw/skills/` | 共享级技能 |
@@ -1006,14 +1006,10 @@ openclaw config set agent.skipBootstrap true
 
 > **安全警告**：默认所有私聊共享同一会话。如果多个人都能私聊你的龙虾，Alice 的内容可能被 Bob 看到。
 
-多人使用时，在 `openclaw.json` 中设置：
+多人使用时，用 CLI 设置会话隔离：
 
-```json
-{
-  "session": {
-    "dmScope": "per-channel-peer"
-  }
-}
+```bash
+openclaw config set session.dmScope per-channel-peer
 ```
 
 | 模式 | 适用场景 |

@@ -22,7 +22,7 @@ next:
 | **是什么** | OpenClaw 内置的底层能力 | 社区或用户编写的高层指令 |
 | **举例** | 执行命令、读写文件、搜索网页 | "每天早上发晨间简报"、"总结网页" |
 | **谁提供** | OpenClaw 核心代码 | ClawHub 技能市场 / 用户自己编写 |
-| **如何管理** | `openclaw.json` 中的 `tools` 配置 | `clawhub` CLI 安装/卸载 |
+| **如何管理** | `openclaw config set tools.*` CLI 命令 | `clawhub` CLI 安装/卸载 |
 
 一句话：**Tools 是手脚，Skills 是招式。**
 
@@ -72,23 +72,6 @@ openclaw gateway restart
 ```
 
 上面的配置让默认 Agent 拥有全部工具，而 `support` Agent 只能收发消息和使用 Slack。
-
-</details>
-
-<details>
-<summary>在配置文件中手动设置</summary>
-
-编辑 `~/.openclaw/openclaw.json`（Windows：`C:\Users\你的用户名\.openclaw\openclaw.json`）：
-
-```json
-{
-  "tools": {
-    "profile": "full"
-  }
-}
-```
-
-修改后运行 `openclaw gateway restart` 生效。
 
 </details>
 
@@ -165,36 +148,6 @@ openclaw configure --section web
 | **Kimi** | 国内可用，中文搜索优化 |
 | **Gemini** | Google 搜索能力 |
 | **Grok** | xAI 提供的搜索 |
-
-</details>
-
-<details>
-<summary>手动编辑配置文件</summary>
-
-编辑 `~/.openclaw/openclaw.json`：
-
-```json
-{
-  "tools": {
-    "web": {
-      "search": {
-        "enabled": true,
-        "provider": "brave",
-        "maxResults": 5
-      },
-      "fetch": {
-        "enabled": true,
-        "maxCharsCap": 50000
-      }
-    }
-  },
-  "env": {
-    "BRAVE_API_KEY": "你的 Brave API Key"
-  }
-}
-```
-
-修改后运行 `openclaw gateway restart` 生效。搜索结果默认缓存 15 分钟，避免重复请求浪费 API 额度。
 
 </details>
 
@@ -368,7 +321,7 @@ exec 工具有三种安全级别：
 | `allowlist` | 仅允许白名单中的命令 |
 | `full` | 允许执行任何命令（需用户确认） |
 
-如果你需要限制龙虾可以执行的命令范围，在 `openclaw.json` 中配置 `tools.exec.security` 和对应的白名单。
+如果你需要限制龙虾可以执行的命令范围，通过 `openclaw config set tools.exec.security allowlist` 配置安全级别，详见[附录 G](/cn/appendix/appendix-g)。
 
 </details>
 
@@ -385,31 +338,6 @@ openclaw config set tools.allow '["group:fs", "group:web"]'
 ```
 
 `deny` 优先于 `allow`，匹配不区分大小写，支持 `*` 通配符。
-
-<details>
-<summary>在配置文件中设置</summary>
-
-编辑 `~/.openclaw/openclaw.json`：
-
-```json
-{
-  "tools": {
-    "deny": ["browser"]
-  }
-}
-```
-
-或：
-
-```json
-{
-  "tools": {
-    "allow": ["group:fs", "group:web"]
-  }
-}
-```
-
-</details>
 
 <details>
 <summary>按模型提供商限制工具</summary>

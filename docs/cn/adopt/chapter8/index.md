@@ -67,20 +67,20 @@ Dev 模式使用隔离的状态/配置目录，默认端口 19001。
 
 ## 2. 配置管理
 
-配置文件：`~/.openclaw/openclaw.json`（JSON5 格式，支持注释和尾逗号）。
+配置文件为 JSON5 格式（支持注释和尾逗号），结构详见[附录 G](/cn/appendix/appendix-g)。
 
 | 编辑方式 | 命令/操作 |
 |---------|---------|
 | 配置向导 | `openclaw onboard` |
 | CLI | `openclaw config set <key> <value>` |
 | Web 控制面板 | `openclaw dashboard` |
-| 直接编辑 | 用编辑器打开 `~/.openclaw/openclaw.json` |
+| 直接编辑（不推荐） | 手动改 JSON 容易出错，详见[附录 G](/cn/appendix/appendix-g) |
 
 **配置写错会怎样**：Gateway 拒绝启动，运行 `openclaw doctor` 查看原因，`openclaw doctor --fix` 自动修复。
 
 ### 配置热更新
 
-修改 `openclaw.json` 后**大部分设置自动生效，无需重启**。只有 `gateway.*`（端口、绑定、认证、TLS）和 `discovery`、`plugins` 等基础设施字段需要重启。
+通过 CLI 修改配置后**大部分设置自动生效，无需重启**。只有 `gateway.*`（端口、绑定、认证、TLS）和 `discovery`、`plugins` 等基础设施字段需要重启。
 
 ```json5
 {

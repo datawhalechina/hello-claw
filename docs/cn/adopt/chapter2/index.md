@@ -267,7 +267,7 @@ OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-fl
 
 > **更多提供商**：OpenClaw 支持 15+ 模型提供商（DeepSeek、Qwen、Kimi、GLM、OpenAI、Claude 等），完整列表及获取地址见[附录 E 模型提供商选型指南](/cn/appendix/appendix-e)。
 
-> **想跳过向导、手动编辑配置文件？** 向导会自动生成 `~/.openclaw/openclaw.json`，你也可以直接编辑它，详见[附录 G 配置文件详解](/cn/appendix/appendix-g)。
+> **想了解配置文件结构？** 向导会自动生成配置文件，通常无需手动修改。如需了解每个字段的含义，详见[附录 G 配置文件详解](/cn/appendix/appendix-g)。
 
 ## 3. 验证与首次对话
 
@@ -287,7 +287,7 @@ openclaw status
 一切正常后，开始你的第一次对话：
 
 ```bash
-openclaw chat
+openclaw tui
 ```
 
 试着输入：`你好，请介绍一下你自己` —— 如果龙虾回复了，恭喜你，安装成功！
@@ -318,7 +318,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 **Q: 提示"API key not found"怎么办？**
 
-A: 编辑 `~/.openclaw/openclaw.json`（Windows 上是 `C:\Users\你的用户名\.openclaw\openclaw.json`），确保 API 密钥配置正确。参考[第 2 步](#_2-配置-ai-模型)的配置示例。
+A: 重新运行配置向导：`openclaw onboard`，按提示重新输入 API Key。也可以检查环境变量是否正确设置（如 `OPENROUTER_API_KEY`）。参考[第 2 步](#_2-配置-ai-模型)的配置示例。
 
 **Q: 机器人回复很慢或超时？**
 
@@ -350,7 +350,7 @@ openclaw gateway restart  # 重启网关
 
 ### 更新前准备
 
-升级前建议备份你的定制内容：配置 `~/.openclaw/openclaw.json`、凭证 `~/.openclaw/credentials/`、工作区 `~/.openclaw/workspace/`。
+升级前建议备份你的定制内容：配置文件、凭证 `~/.openclaw/credentials/`、工作区 `~/.openclaw/workspace/`。
 
 ### 全局安装（npm/pnpm）
 
@@ -538,7 +538,7 @@ openclaw status
 
 **常见陷阱：**
 
-- **只复制了 openclaw.json**：不够，必须迁移整个 `~/.openclaw/` 文件夹（凭证存在 `credentials/` 子目录）
+- **只复制了配置文件**：不够，必须迁移整个 `~/.openclaw/` 文件夹（凭证存在 `credentials/` 子目录）
 - **权限问题**：确保状态目录由运行 Gateway 的用户拥有，不要用 root 复制
 - **备份安全**：`~/.openclaw/` 含 API 密钥等敏感信息，加密存储，勿通过不安全渠道传输
 

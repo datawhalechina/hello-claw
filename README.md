@@ -104,7 +104,7 @@ https://datawhalechina.github.io/hello-claw
 | 章节 | 简介 | 状态 |
 | ---- | ---- | ---- |
 | **写在开头** | **为什么要从零构建你的 Claw、OpenClaw 复杂度困境与学习路线图** | ✅ |
-| **🔵 第一层：OpenClaw 内部拆解**（第 1～7 章） | | |
+| **🔵 OpenClaw 内部拆解**（第 1～7 章） | | |
 | 第 1 章 架构设计哲学 | AI Agent 架构演化、OpenClaw 六大架构创新 | ✅ |
 | 第 2 章 ReAct 循环 | Agent 的"思考-行动"引擎、循环执行流程 | ✅ |
 | 第 3 章 提示词系统 | 提示词架构与热更新机制、持久人格设计 | ✅ |
@@ -112,7 +112,7 @@ https://datawhalechina.github.io/hello-claw
 | 第 5 章 消息循环与事件驱动 | 泳道模型、心跳机制、并发安全与时间主动性 | ✅ |
 | 第 6 章 统一网关 | Gateway 架构、多渠道接入与消息标准化 | ✅ |
 | 第 7 章 安全沙箱 | 自由与约束的平衡、执行环境隔离与权限控制 | ✅ |
-| **🟢 第二层：定制方案**（第 8～10 章） | | |
+| **🟢 定制方案**（第 8～10 章） | | |
 | 第 8 章 轻量化方案 | NanoClaw、Nanobot、ZeroClaw 等社区变体 | ✅ |
 | 第 9 章 安全加固方案 | IronClaw 安全架构、沙箱隔离与审计日志 | ✅ |
 | 第 10 章 硬件方案 | PicoClaw 硬件选型、低功耗嵌入式部署 | ✅ |
@@ -134,7 +134,6 @@ https://datawhalechina.github.io/hello-claw
 | [邮箱助手实战（163）](./docs/cn/university/email-assistant/index.md) | 从 IMAP/SMTP 配置到脚本验证与 cron 定时，跑通邮件自动化 | ✅ |
 | [多智能体协作（Multi OpenClaw / HiClaw）](./docs/cn/university/multi-claw-hiclaw/index.md) | 从单 Worker 瓶颈到多智能体协作，落地可追踪的任务编排 | ✅ |
 | [安全防护清单](./docs/cn/university/security/index.md) | 技能与工具的安全边界、审计与防注入要点 | ✅ |
-| [金融简报实战](./docs/cn/university/finance.md) | 多源信息聚合 + 结构化输出 + 定时分发，构建盘前/周报金融助理 | ✅ |
 
 ---
 

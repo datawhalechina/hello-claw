@@ -170,20 +170,17 @@ systemctl --user status openclaw-tunnel
 
 ### 3.1 最快上手：Tailscale Serve
 
-在 `openclaw.json` 加两行：
+用 CLI 配置 Tailscale Serve：
 
-```json5
-{
-  gateway: {
-    bind: "loopback",
-    tailscale: { mode: "serve" },
-  },
-}
+```bash
+openclaw config set gateway.bind loopback
+openclaw config set gateway.tailscale.mode serve
+openclaw gateway restart
 ```
 
-重启 Gateway 后，用 tailnet 内任意设备访问：`https://<你的MagicDNS地址>/`
+重启后，用 tailnet 内任意设备访问：`https://<你的MagicDNS地址>/`
 
-CLI 一行命令等效：
+或一行命令等效：
 
 ```bash
 openclaw gateway --tailscale serve

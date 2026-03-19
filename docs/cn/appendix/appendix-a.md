@@ -245,7 +245,6 @@ next:
 | 资源 | 地址 | 说明 |
 |------|------|------|
 | ⭐ PinchBench | <https://pinchbench.com> | 首个专为 OpenClaw 类 Agent 设计的真实任务基准测试，覆盖文件操作、数据处理、Web 搜索、创意输出、工具调用 5 大维度 |
-| PinchBench 源码 | <https://github.com/pinchbench/skill> | 开源评测框架，含任务集与自动评分，由 [Kilo.ai](https://kilo.ai) 团队维护 |
 | ClawBench | <https://clawbench.net> | 标准化 Agent 评测平台，210 个任务、14 个领域、4 个难度等级，支持 OpenClaw 等多框架横向对比 |
 | ClawWork | <https://github.com/HKUDS/ClawWork> | 港科大 HKUDS 出品，基于 nanobot 的 AI 经济能力基准，220 个 GDPVal 真实职业任务覆盖 44 个部门，Agent 自负盈亏 |
 

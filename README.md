@@ -211,7 +211,6 @@ https://datawhalechina.github.io/hello-claw
 - 如果你想参与贡献本项目，可以提 Pull Request，如果提完没有人回复你可以联系[保姆团队](https://github.com/datawhalechina/DOPMC/blob/main/OP.md)的同学进行反馈跟进
 - 如果你对 Datawhale 很感兴趣并想要发起一个新的项目，请按照 [Datawhale 开源项目指南](https://github.com/datawhalechina/DOPMC/blob/main/GUIDE.md)进行操作即可
 
-`<a id="交流群"></a>`
 
 ## 💬 交流群
 

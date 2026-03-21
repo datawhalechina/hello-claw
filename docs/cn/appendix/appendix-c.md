@@ -205,6 +205,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | **nanobot** | Python | 港科大 HKUDS 出品，代码量仅 OpenClaw 1%，研究友好，pip 一键安装，支持 10+ IM 渠道 | [HKUDS/nanobot](https://github.com/HKUDS/nanobot) |
 | **ClawWork** | Python | 港科大 HKUDS 出品，AI Coworker 经济基准测试：220 GDPVal 任务、44 职业、$10 起步生存挑战，基于 nanobot | [HKUDS/ClawWork](https://github.com/HKUDS/ClawWork) |
 | **MetaClaw** | Python | 在线 RL 进化层，Agent 从交互中自学习、自进化，无需 GPU，一键注入 OpenClaw | [aiming-lab/MetaClaw](https://github.com/aiming-lab/MetaClaw) |
+| **AutoResearchClaw** | Python | aiming-lab 出品，自动化科研工作流：文献检索、实验设计、数据分析、论文撰写，端到端 AI 科研助手 | [aiming-lab/AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) |
 | **MiniClaw** | TypeScript | 极简 OpenClaw 替代，直接用 Claude Pro/ChatGPT Plus 订阅跑 Telegram，零 API 成本 | [htlin222/mini-claw](https://github.com/htlin222/mini-claw) |
 | **ChatClaw** | Go | 智麻出品，30MB 安装包一分钟装好，内置技能市场 + 知识库 + 记忆 + MCP + 定时任务，覆盖 WhatsApp/Telegram/Slack/Discord/Gmail/钉钉/企微/QQ/飞书 | [zhimaAi/ChatClaw](https://github.com/zhimaAi/ChatClaw) |
 
@@ -224,6 +225,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | **nanobot** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | ★★★★☆ | 学术研究/快速原型 |
 | **ClawWork** | Python | ★★☆☆☆ | 中 | ★★★☆☆ | — | 无 | ★★★★☆ | Agent 经济基准测试 |
 | **MetaClaw** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★★☆☆ | 无 | — | Agent 自进化/RL |
+| **AutoResearchClaw** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | — | 自动化科研 |
 | **MiniClaw** | TypeScript | ★☆☆☆☆ | 低 | ★★★☆☆ | ★☆☆☆☆ | 无 | ★☆☆☆☆ | 订阅复用/极简 |
 | **ChatClaw** | Go | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★★☆☆ | 无 | ★★★★★ | IM 全覆盖/开源自建 |
 

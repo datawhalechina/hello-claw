@@ -1,10 +1,29 @@
+/// <reference types="node" />
 import { defineConfig } from 'vitepress'
 import tailwindcss from '@tailwindcss/vite'
 
-const baseConfig = '/hello-claw/'
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL_URL
+const isEdgeOne = !!process.env.EDGEONE || process.env.EDGEONE === '1'
+
+const base = process.env.BASE || (isVercel || isEdgeOne ? '/' : '/hello-claw/')
+
+const getSiteUrl = () => {
+  if (isVercel && process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  if (isEdgeOne && process.env.EDGEONE_URL) {
+    return `https://${process.env.EDGEONE_URL}`
+  }
+  if (process.env.SITE_URL) {
+    return process.env.SITE_URL
+  }
+  return 'https://datawhalechina.github.io/hello-claw'
+}
+
+const siteUrl = getSiteUrl()
 
 export default defineConfig({
-  base: baseConfig,
+  base,
   vite: {
     plugins: [tailwindcss()]
   },

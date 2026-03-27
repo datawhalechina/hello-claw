@@ -72,6 +72,51 @@ https://datawhalechina.github.io/hello-claw
 
 ## 📖 目录
 
+### 龙虾大学
+
+<table align="center">
+  <tr>
+    <td valign="top" width="33%">
+      <b>🌅 个人效率</b><br>
+      • <a href="./docs/cn/university/email-assistant/index.md">邮箱助手实战（163）</a><br>
+      • <a href="./docs/cn/university/local-health-assistant/index.md">Skill 开发实战：本地健康管理助手</a><br>
+      • <a href="./docs/cn/university/daily-briefing/index.md">早间简报自动化</a><br>
+      • <a href="./docs/cn/university/calendar-ops/index.md">智能日程管理</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>💻 编程开发</b><br>
+      • <a href="./docs/cn/university/vibe-coding/index.md">Vibe Coding 实战</a><br>
+      • <a href="./docs/cn/university/ci-cd-assistant/index.md">自动化测试与部署：CI/CD 助手实战</a><br>
+      • <a href="./docs/cn/university/docs-automation/index.md">文档自动生成：从代码变更到可发布文档</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>📢 内容创作</b><br>
+      • <a href="./docs/cn/university/voice-research/index.md">语音调研实战</a><br>
+      • <a href="./docs/cn/university/content-studio/index.md">内容创作工作室：社媒运营、写作润色与多平台发布</a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="33%">
+      <b>🏢 商务销售</b><br>
+      • <a href="./docs/cn/university/revops-assistant/index.md">商务销售实战：客户支持与 CRM 协同助手</a><br>
+      • <a href="./docs/cn/university/meeting-ops/index.md">商务销售实战：会议预约与纪要自动化</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>🤖 多智能体协作</b><br>
+      • <a href="./docs/cn/university/multi-claw-hiclaw/index.md">多智能体协作（Multi OpenClaw / HiClaw）</a><br>
+      • <a href="./docs/cn/university/knowledge-base/index.md">多智能体协作实战：知识库共享与检索</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>🔧 更多场景</b><br>
+      • <a href="./docs/cn/university/security/index.md">安全防护清单</a><br>
+      • <a href="./docs/cn/university/paper-assistant/index.md">Agent 论文推送助手</a><br>
+      • <a href="./docs/cn/university/smart-home-control/index.md">更多场景实战：智能家居控制助手</a><br>
+      • <a href="./docs/cn/university/finance-research/index.md">更多场景实战：金融数据分析助手</a><br>
+      • <a href="./docs/cn/university/training-assistant/index.md">更多场景实战：教育培训辅助助手</a>
+    </td>
+  </tr>
+</table>
+
 ### 第一部分：领养 Claw（使用篇，11 章 + 附录 A-G）
 
 | 章节                           | 简介                                                      | 状态 |
@@ -134,51 +179,6 @@ https://datawhalechina.github.io/hello-claw
 > - 加入社区讨论，与其他开发者交流
 >
 > 每一份贡献都能帮助更多人发现 OpenClaw 的可能性！
-
-## 🦞 龙虾大学
-
-<table align="center">
-  <tr>
-    <td valign="top" width="33%">
-      <b>🌅 个人效率</b><br>
-      • <a href="./docs/cn/university/email-assistant/index.md">邮箱助手实战（163）</a><br>
-      • <a href="./docs/cn/university/local-health-assistant/index.md">Skill 开发实战：本地健康管理助手</a><br>
-      • <a href="./docs/cn/university/daily-briefing/index.md">早间简报自动化</a><br>
-      • <a href="./docs/cn/university/calendar-ops/index.md">智能日程管理</a>
-    </td>
-    <td valign="top" width="33%">
-      <b>💻 编程开发</b><br>
-      • <a href="./docs/cn/university/vibe-coding/index.md">Vibe Coding 实战</a><br>
-      • <a href="./docs/cn/university/ci-cd-assistant/index.md">自动化测试与部署：CI/CD 助手实战</a><br>
-      • <a href="./docs/cn/university/docs-automation/index.md">文档自动生成：从代码变更到可发布文档</a>
-    </td>
-    <td valign="top" width="33%">
-      <b>📢 内容创作</b><br>
-      • <a href="./docs/cn/university/voice-research/index.md">语音调研实战</a><br>
-      • <a href="./docs/cn/university/content-studio/index.md">内容创作工作室：社媒运营、写作润色与多平台发布</a>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="33%">
-      <b>🏢 商务销售</b><br>
-      • <a href="./docs/cn/university/revops-assistant/index.md">商务销售实战：客户支持与 CRM 协同助手</a><br>
-      • <a href="./docs/cn/university/meeting-ops/index.md">商务销售实战：会议预约与纪要自动化</a>
-    </td>
-    <td valign="top" width="33%">
-      <b>🤖 多智能体协作</b><br>
-      • <a href="./docs/cn/university/multi-claw-hiclaw/index.md">多智能体协作（Multi OpenClaw / HiClaw）</a><br>
-      • <a href="./docs/cn/university/knowledge-base/index.md">多智能体协作实战：知识库共享与检索</a>
-    </td>
-    <td valign="top" width="33%">
-      <b>🔧 更多场景</b><br>
-      • <a href="./docs/cn/university/security/index.md">安全防护清单</a><br>
-      • <a href="./docs/cn/university/paper-assistant/index.md">Agent 论文推送助手</a><br>
-      • <a href="./docs/cn/university/smart-home-control/index.md">更多场景实战：智能家居控制助手</a><br>
-      • <a href="./docs/cn/university/finance-research/index.md">更多场景实战：金融数据分析助手</a><br>
-      • <a href="./docs/cn/university/training-assistant/index.md">更多场景实战：教育培训辅助助手</a>
-    </td>
-  </tr>
-</table>
 
 ## 贡献者名单
 

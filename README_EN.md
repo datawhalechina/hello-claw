@@ -69,6 +69,52 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 
 ## 📖 Table of Contents
 
+### Lobster University
+
+<table align="center">
+  <tr>
+    <td valign="top" width="33%">
+      <b>🌅 Personal Productivity</b><br>
+      • <a href="./docs/en/university/email-assistant/index.md">Email Assistant in Practice (163)</a><br>
+      • <a href="./docs/en/university/local-health-assistant/index.md">Skill Development in Practice: Local Health Assistant</a><br>
+      • Morning briefing (weather + schedule + todos)<br>
+      • Smart calendar management
+    </td>
+    <td valign="top" width="33%">
+      <b>💻 Programming and Development</b><br>
+      • <a href="./docs/en/university/vibe-coding/index.md">Vibe Coding in Practice</a><br>
+      • Automated testing and deployment<br>
+      • Automatic documentation generation
+    </td>
+    <td valign="top" width="33%">
+      <b>📢 Content Creation</b><br>
+      • Automated social media operations<br>
+      • Writing assistance and polishing<br>
+      • Multi-platform content publishing
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="33%">
+      <b>🏢 Business and Sales</b><br>
+      • Customer support and CRM management<br>
+      • Automatic sales lead follow-up<br>
+      • Meeting scheduling and notes
+    </td>
+    <td valign="top" width="33%">
+      <b>🤖 Multi-Agent Collaboration</b><br>
+      • <a href="./docs/en/university/multi-claw-hiclaw/index.md">Multi-Agent Collaboration (Multi OpenClaw / HiClaw)</a><br>
+      • Shared knowledge bases and retrieval
+    </td>
+    <td valign="top" width="33%">
+      <b>🔧 More Scenarios</b><br>
+      • <a href="./docs/en/university/security/index.md">Security Checklist</a><br>
+      • Smart home control<br>
+      • Financial data analysis<br>
+      • Education and training support
+    </td>
+  </tr>
+</table>
+
 ### Part 1: Adopt Claw (User Guide, 11 Chapters + Appendices A-G)
 
 | Chapter | Description | Status |
@@ -120,18 +166,6 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 | **🟡 Level 3: Customize Your Claw** (Ch. 11-15) |  |  |
 | Ch. 13 Skill Authoring | Skill file structure, frontmatter, async handling, and debugging | ✅ |
 
----
-
-### Part 3: Lobster University (Practical Scenarios)
-
-| Article | Description | Status |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---- |
-| [Lobster University: Opening Notes and Skills Elective Guide](./docs/en/university/intro.md) | Dual entry through ClawHub and SkillHub, skill taxonomy, course-selection principles, and recommended schedules | ✅ |
-| [Vibe Coding in Practice](./docs/en/university/vibe-coding/index.md) | A full loop from Feishu conversation to requirements and PR: "conversation as development" | ✅ |
-| [Email Assistant in Practice (163)](./docs/en/university/email-assistant/index.md) | From IMAP/SMTP setup to script validation and cron-based email automation | ✅ |
-| [Multi-Agent Collaboration (Multi OpenClaw / HiClaw)](./docs/en/university/multi-claw-hiclaw/index.md) | From a single-worker bottleneck to multi-agent collaboration with traceable task orchestration | ✅ |
-| [Security Checklist](./docs/en/university/security/index.md) | Security boundaries for skills and tools, plus auditing and anti-injection essentials | ✅ |
-| [Skill Development in Practice: Local Health Assistant](./docs/en/university/local-health-assistant/index.md) | Build a local-first home health management loop powered by MediWise | ✅ |
 ---
 
 > 🎉 **We'd love case-study contributions!**

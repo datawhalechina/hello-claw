@@ -242,6 +242,138 @@ This design has one direct benefit: **skill updates don't require restarting the
 
 ---
 
+## VI. Putting It Into Practice
+
+The first two sections covered the principles. This section covers one thing only: now that you understand how the tool system works, how do you design, configure, and use it more reliably?
+
+### 6.1 First Distinguish Whether You're Missing a Tool, a Skill, or a Rule
+
+The most common mistake when starting to configure an Agent is not "under-configuring" — it's **treating three completely different kinds of problems as if they were the same problem**.
+
+A more reliable first step is to ask yourself: **what I'm actually missing right now — capability, knowledge, or behavioral constraints?**
+
+Use this quick-reference table:
+
+| Symptom | More likely missing |
+|---------|-------------------|
+| It can't read, write, run commands, or search the web at all | A tool |
+| It can do the task, but not professionally or systematically | A skill |
+| It acts when it shouldn't, or its output habits are wrong | A rule / config |
+
+Some concrete examples:
+
+| Your problem | The right fix |
+|-------------|--------------|
+| "It can't start the local test suite" | Check whether `exec` / `process` is in the tool policy |
+| "It can search, but can't do systematic literature review" | Add a research skill |
+| "I want it to confirm before deleting any file" | Update the default rule and configure approvals / policy |
+| "It doesn't know where my project's entry file is" | Write it into `TOOLS.md` or another workspace config |
+
+Put simply:
+
+```
+Missing hands       → add tools
+Missing know-how    → add skills
+Missing boundaries  → change rules
+```
+
+### 6.2 Start with a Small, Stable Tool Set, Then Scope Boundaries by Context
+
+Once you understand the distinction above, the next step follows naturally: **don't start by trying to give the Agent everything — start by thinking about which small group of tools is most valuable right now**.
+
+This is because the cost of a large tool set is not just security risk — it's also cognitive load.
+
+More tools means:
+
+- More boundaries the model has to distinguish between
+- More prompt and schema overhead
+- More complexity in configuration and debugging
+- Harder for you to reason about "why did it choose that tool"
+
+A more reliable approach is usually:
+
+1. Start from the default profile that best matches your task
+2. Make small adjustments with `allow` / `deny`
+3. Only add specific tools when you hit a clear gap
+
+For coding or local automation tasks, you'd typically start from a `coding`-style profile. If the Agent mainly handles messaging and channel replies, the `messaging` capability boundary is usually enough.
+
+Also, don't think only in terms of "does this system need these tools" — think in terms of "does this Agent, in this context, need these tools." OpenClaw often runs more than one Agent at a time. You might have a primary Agent, a helper Agent that only sends messages, a sub-Agent that only handles local search, a channel Agent that only operates in one surface. These roles have fundamentally different risk profiles.
+
+A rough breakdown:
+
+| Agent type | Appropriate capability boundary |
+|-----------|-------------------------------|
+| Primary Agent | Can be broader, but still scoped to the task |
+| Sub-Agent | Lean toward lightweight and local; avoid system-level capabilities |
+| Messaging Agent | Focus on conversation, send, and read; no need for heavy local execution |
+| Read-only analysis Agent | Can read, search, and inspect — not necessarily write or execute |
+
+Compressed to one principle:
+
+- If a capability can be scoped locally, don't make it global.
+- If a task can be solved with read-only access, don't start by granting write access.
+- If something can be done in a sandbox first, don't run it on the host.
+
+### 6.3 Design for "Usable" and "Controllable" Together
+
+A common mistake at this stage is: spend the first half just trying to get it running, then go back and bolt on security and controllability later.
+
+But the tool system is not well-suited to that approach, **because every known case of tool-system security problems has gone through a tool call**.
+
+Once the Agent is wired into external commands, file writes, web or channel operations, background processes, and multi-Agent collaboration, going back to add boundaries after the fact carries a much higher cost.
+
+The more reliable approach is to think about "usable" and "controllable" together from the start.
+
+Four habits worth building:
+
+1. Grant minimum privilege by default
+2. Design high-risk actions and their confirmation mechanisms together
+3. Treat the sandbox as the default working environment, not a patch
+4. Don't casually expand `safeBins` or `elevated`
+
+One more thing worth flagging: **don't treat third-party skills as inherently harmless documentation**.
+
+A skill may not directly execute code, but it can absolutely guide the model step by step toward high-risk actions. When designing the tool system, it's worth thinking through "how will this skill steer tool usage." A sufficiently well-crafted skill can lead the model toward high-risk behavior while making that trajectory invisible.
+
+### 6.4 The One Takeaway from Chapter 4
+
+If you've read through everything so far, the most important thing to take away from this chapter is not a list of tool names or the details of any specific config field — it's a more stable way of thinking:
+
+**A mature tool system is never about giving the Agent as many capabilities as possible. It's about using a small set of clear primitives as the skeleton, layering on-demand extensions above them, and managing the whole system with layered boundaries.**
+
+In other words:
+
+```
+A good tool system
+is not stronger because it has more tools
+it gets stronger over time because it stays clear
+```
+
+This connects directly back to Chapters 2 and 3:
+
+- Chapter 2 told us: the system needs to be able to keep making progress
+- Chapter 3 told us: the system needs stable defaults
+- Chapter 4 tells us: the system also needs real hands — and those hands need to know when to reach out and when to stay still
+
+---
+
+## Chapter Summary
+
+This chapter covered three things.
+
+First, **the tool system bridges the gap from "knowing how" to "actually doing it."** Without it, an Agent is at best a chat assistant that gives advice; with it, the Agent can genuinely read, write, edit, and execute — and bring results back into the next round of reasoning.
+
+Second, **OpenClaw's tool system is not a static list — it's a runtime chain.** Tools travel from the underlying skeleton through assembly, injection, filtering, execution, result-passing, and guardrails before they appear in any given run.
+
+Third, **once you understand the mechanism, the most important thing is not to pile on more tools — it's to diagnose the right problem type and assign capability boundaries by context.** Missing a tool? Add a tool. Missing professional know-how? Add a skill. Missing behavioral constraints? Change the rules. Give less when you can. Layer when you can. Put it in the sandbox when you can.
+
+If Chapter 4 comes down to one sentence:
+
+**The real strength of an Agent's tool system is not in how many moves it knows — it's in knowing exactly when each move should and shouldn't be made.**
+
+---
+
 ## Summary
 
 Four primitive tools, dynamically orchestrated by an LLM, can accomplish arbitrarily complex local computing tasks. The secret is not in the tools themselves, but in the fact that the return value of every call flows back into the ReAct loop and becomes the basis for the next round of reasoning — tools are both the Agent's hands and its perceptual system.

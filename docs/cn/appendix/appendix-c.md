@@ -204,6 +204,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | **ClawRouter** | TypeScript | Agent 原生 LLM 智能路由，41+ 模型本地零延迟自动选路，ECO/AUTO/PREMIUM 三档省 92% 成本 | [BlockRunAI/ClawRouter](https://github.com/BlockRunAI/ClawRouter) |
 | **nanobot** | Python | 港科大 HKUDS 出品，代码量仅 OpenClaw 1%，研究友好，pip 一键安装，支持 10+ IM 渠道 | [HKUDS/nanobot](https://github.com/HKUDS/nanobot) |
 | **ClawWork** | Python | 港科大 HKUDS 出品，AI Coworker 经济基准测试：220 GDPVal 任务、44 职业、$10 起步生存挑战，基于 nanobot | [HKUDS/ClawWork](https://github.com/HKUDS/ClawWork) |
+| **WildClawBench** | Python | 上海 AI 实验室 InternLM 出品，真实用户对话驱动的 Agent 能力基准测试，覆盖多轮工具调用与复杂任务评估 | [InternLM/WildClawBench](https://github.com/InternLM/WildClawBench) |
 | **MetaClaw** | Python | 在线 RL 进化层，Agent 从交互中自学习、自进化，无需 GPU，一键注入 OpenClaw | [aiming-lab/MetaClaw](https://github.com/aiming-lab/MetaClaw) |
 | **AutoResearchClaw** | Python | aiming-lab 出品，自动化科研工作流：文献检索、实验设计、数据分析、论文撰写，端到端 AI 科研助手 | [aiming-lab/AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) |
 | **MiniClaw** | TypeScript | 极简 OpenClaw 替代，直接用 Claude Pro/ChatGPT Plus 订阅跑 Telegram，零 API 成本 | [htlin222/mini-claw](https://github.com/htlin222/mini-claw) |
@@ -224,6 +225,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | **ClawRouter** | TypeScript | ★★☆☆☆ | 低 | ★★★★☆ | — | 无 | — | 多模型路由/降本 |
 | **nanobot** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | ★★★★☆ | 学术研究/快速原型 |
 | **ClawWork** | Python | ★★☆☆☆ | 中 | ★★★☆☆ | — | 无 | ★★★★☆ | Agent 经济基准测试 |
+| **WildClawBench** | Python | ★★☆☆☆ | 中 | ★★★☆☆ | — | 无 | — | 真实对话 Agent 基准测试 |
 | **MetaClaw** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★★☆☆ | 无 | — | Agent 自进化/RL |
 | **AutoResearchClaw** | Python | ★☆☆☆☆ | 低 | ★★★☆☆ | ★★☆☆☆ | 无 | — | 自动化科研 |
 | **MiniClaw** | TypeScript | ★☆☆☆☆ | 低 | ★★★☆☆ | ★☆☆☆☆ | 无 | ★☆☆☆☆ | 订阅复用/极简 |

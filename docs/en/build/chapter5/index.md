@@ -233,6 +233,100 @@ The essential difference between the two is **context ownership**: the heartbeat
 
 ---
 
+## V. Practical Configuration: Staying Grounded
+
+The previous four sections covered the underlying principles. This section is more concrete: **if you're actually starting to use this system, how should you configure it — and how do you avoid tying yourself in knots?**
+
+### Start with Stability, Not Maximum Flexibility
+
+When most people first encounter these configuration options, the instinct is: "The system is this powerful — shouldn't I turn on all the flexible modes?"
+
+Usually not. For someone just getting started, what matters most is not "can it immediately course-correct intelligently," but: **is its behavior stable, predictable, and easy to review?**
+
+A more grounded starting configuration looks like this:
+
+| Setting | Starting Recommendation |
+|---------|------------------------|
+| Default queue mode | Start with `collect` |
+| Concurrency | Keep it conservative; don't set global concurrency too high |
+| Heartbeat | Write a short, focused checklist to begin with |
+| Cron | Reserve it for tasks that genuinely need precise scheduling |
+
+Why start with `collect`? Because it aligns with most people's intuitions: finish what's currently in progress, hold any new input, then pick everything up afterward. That makes behavior easier to observe and easier to reason about. Once you're comfortable with the system, you can introduce `steer` or `interrupt` for scenarios that warrant them.
+
+### How to Choose Among the Four Common Modes
+
+If you want a single practical decision table, this is it:
+
+| Your actual intent | Better-suited mode |
+|--------------------|-------------------|
+| "I'm just adding context — finish what you're doing first" | `collect` |
+| "Keep the order right — finish this before starting the next" | `followup` |
+| "Don't stop, but adjust to this new direction immediately" | `steer` |
+| "Stop now — this direction is already wrong" | `interrupt` |
+
+The easiest to confuse are `steer` and `interrupt`. The difference is simple: `steer` is "turn while still moving"; `interrupt` is "brake first, then start fresh."
+
+If the current run still has value worth preserving, use `steer`. If the current run is clearly wrong and continuing would only waste time, use `interrupt`.
+
+`followup` earns its place when you need to make the ordering explicit. It works well for unambiguous task chains, like:
+
+```
+Run the tests first
+  → Once the tests finish, compile the list of failures
+  → Once that's done, write up the fix recommendations
+```
+
+In these situations, `followup` is often more precise than `collect`, because it doesn't just mean "deal with it later" — it means "this step is definitely next."
+
+### Divide Responsibilities Between Heartbeat and Cron
+
+A practical combination that works well:
+
+```
+Heartbeat:
+  Lightweight monitoring, follow-ups, gentle reminders
+
+Cron:
+  Precise execution, reports, routine scheduled tasks
+```
+
+Consider a student research project: heartbeat checks periodically whether any experiments have completed, whether a collaborator has sent new messages, whether there's anything to follow up on; cron runs a fixed summary of experiment results every evening.
+
+With this split, each does its own job: heartbeat keeps the Agent "alive and aware"; cron keeps it "on schedule."
+
+The reverse doesn't work as well. Using cron for continuous monitoring feels rigid, because cron is a hammer that fires at a fixed moment — it's good at "do this at exactly this time," but not at "keep watching the current session for anything new." Using heartbeat to carry all scheduled tasks creates confusion too, because heartbeat's purpose is status monitoring, not a timetable.
+
+The better mental model is not "pick one" — it's: **let heartbeat handle what needs watching, let cron handle what needs a precise time.**
+
+### When Troubleshooting, Check Scheduling First, Then the Model
+
+When something goes wrong, most people's first instinct is: "Did the model misunderstand something?"
+
+Sometimes that's the cause. But in the message system layer, the more common root cause is that things went wrong earlier in the pipeline. A more reliable troubleshooting sequence:
+
+1. Did this message land in the right session?
+2. Did it land in the right lane?
+3. Does the current queue mode actually match your intent?
+4. Was heartbeat or cron skipped, delayed, or silently handled?
+5. Only then — suspect the model's reasoning.
+
+A useful way to remember it: **check whether the queue was set up right before you blame the person doing the work.**
+
+In practice, this often looks like:
+
+- You think the system "never responded" — it was actually still queued behind a long-running task.
+- You think heartbeat "stopped working" — it was returning `HEARTBEAT_OK` normally, or running an internal check without sending anything externally.
+- You think cron "didn't execute" — it ran in an isolated session, and its output isn't in your current chat window.
+
+None of these are model-reasoning problems; they're runtime mechanics. Once you establish this troubleshooting order, most issues become much faster to pinpoint.
+
+---
+
+**The one-line takeaway for this section:** For most people, the best approach is not to start with the system tuned to maximum flexibility — it's to let it run stable, quiet, and predictable first, then gradually open up more proactive capabilities as you get comfortable.
+
+---
+
 ## Summary
 
 | Core Mechanism | Problem Solved | Key Design |

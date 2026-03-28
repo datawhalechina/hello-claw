@@ -240,6 +240,154 @@ OpenClaw's Ask mode (`off` / `on-miss` / `always`) codifies this judgment framew
 
 ---
 
+## VI. Putting It into Practice
+
+The previous sections explained how the Agent Loop works. Now for the practical question: **given that OpenClaw is built to sustain multi-step tasks, how should you actually use it?**
+
+### 6.1 First, Determine Whether It's a Complex Task
+
+Many people approaching OpenClaw for the first time treat it as a "customizable chat AI."
+
+This is understandable. OpenClaw has a relatively low barrier to customization, and for many people it may be their first experience building a custom Agent. The problem is that without understanding where its real strength lies, it's easy to hand it ordinary conversational tasks — things like:
+
+- Explain a concept
+- Translate a passage
+- Polish an email
+- Summarize some material
+
+It can handle all of these, but the results are rarely meaningfully different from any ordinary chat model. That leads many people to a mistaken conclusion: **OpenClaw doesn't seem particularly special.**
+
+The problem isn't that OpenClaw lacks capability — it's that the task never called on its actual capabilities.
+
+As the earlier sections explained, what makes OpenClaw distinctive isn't that it's "better at conversation" — it's that it can take a task and keep pushing it forward on its own. Its advantage appears specifically with things that **can't be resolved in a single exchange**.
+
+So the first thing to learn after understanding the Agent Loop is not which command to type, but to ask first: **is this actually a complex task worth handing to OpenClaw?**
+
+"Complex" here doesn't necessarily mean difficult or large. More precisely, it means the task has characteristics like these:
+
+- The number of steps isn't fixed upfront
+- Intermediate feedback will change the direction
+- It requires tools, files, commands, or external environment involvement
+- The goal is clear, but the path shouldn't be scripted in advance
+
+For example:
+
+- "Explain virtual memory" — this is closer to a question. The value is in the answer itself, not the process.
+- "Get the tests in my project to pass" — this is closer to a task. The value isn't in what to say, but in what comes next: reading code, running tests, reading errors, making changes.
+
+The key shift for new users: stop asking "can OpenClaw do this?" and start asking "**does this task actually require multi-step progression to get done properly?**"
+
+If the answer is no, an ordinary chat model will usually do fine.
+
+If the answer is yes, that's where OpenClaw's advantage becomes real.
+
+In short: **only when you've chosen the right kind of task will OpenClaw's strengths actually show. If the task is just a single exchange, it won't conjure any difference out of thin air.**
+
+### 6.2 Then, Learn to Hand Off Tasks Properly
+
+Once you've determined that something should be handed to OpenClaw as a task, the next thing to learn is how to hand it off clearly.
+
+The least effective approach is usually "give it a fixed list of steps."
+
+Rather than this:
+
+```
+First do A, then do B, then do C, finally produce D.
+```
+
+What usually works better for the Agent Loop is something like:
+
+```
+Help me accomplish X.
+Use the smallest possible change to solve it.
+Don't touch Y.
+If you find it's a Z-type problem, tell me before continuing.
+When done, explain what you changed and how you verified it.
+```
+
+Why does this work better? Because it gives the system what it actually needs:
+
+1. **Goal** — what the end result should be
+2. **Boundaries** — what's in scope, what isn't
+3. **Completion criteria** — what "done" looks like
+4. **Risk threshold** — what situations require checking with a human first
+5. **Reporting format** — how to account for the result at the end
+
+Not scripting the path is precisely the point. OpenClaw's value is in its ability to adjust course based on intermediate feedback. Lock the path in advance and the system can only follow it mechanically; define the goal and boundaries clearly and it has the room to push the task forward step by step.
+
+There's one more thing that's easy to underestimate but genuinely important: **context budget is a real cost.**
+
+The official [Context documentation](https://docs.openclaw.ai/concepts/context) is explicit that a single run's context includes the system prompt, session history, tool calls and results, attachments, and even tool schemas themselves. The official [System Prompt documentation](https://docs.openclaw.ai/concepts/system-prompt) also notes that bootstrap files in the workspace get injected into the prompt.
+
+In plain terms: your task description, workspace instruction files, prior conversation, and tool output all compete for space in the same context window.
+
+This has two direct practical consequences:
+
+- Constraints that need to hold long-term should be stated clearly and stably — not scattered across casual back-and-forth
+- On long tasks, you need to consciously manage context rather than assuming the model will "just keep remembering"
+
+OpenClaw already provides the tools for this:
+
+- `/status` — see current window pressure and session settings
+- `/context list` — see what's currently injected
+- `/context detail` — see a finer breakdown
+- `/compact` — compress old history into a summary to free space for subsequent runs
+
+So when you hand something to OpenClaw as a task, it's not just "submitting a request" — you're also starting to **manage context like you're managing an ongoing execution**.
+
+### 6.3 Finally, Learn to Collaborate
+
+Once something enters multi-step execution, the relationship between user and system changes.
+
+In ordinary chat, the user is more like "the person asking questions." In task execution, the user is more like "a collaborator." This isn't an abstraction — it maps to a few very concrete habits.
+
+**First, learn to watch the process.**
+
+On a long task, checking, trial and error, backtracking, and retrying are all normal. It's not "stalling" — it's correcting direction based on new observations.
+
+**Second, surface critical constraints early.**
+
+If you realize any of the following, don't wait until the task is finished to mention it:
+
+- Don't modify the public interface
+- Read-only for now, no writes yet
+- Don't touch this directory
+- Ask before deleting files, sending messages, or running dangerous commands
+
+The earlier these constraints are stated, the lower the chance the loop drifts somewhere unwanted.
+
+**Third, correct course promptly.**
+
+The Agent has self-correction ability, but that doesn't mean it will always find its way back on its own. When a direction is clearly wrong, the more effective move is usually not to wait silently — it's to reset the boundary directly:
+
+```
+Pause — don't continue down this path.
+First explain to me why you reached this judgment.
+```
+
+Or:
+
+```
+Stop making changes.
+Just do an inspection for now, and tell me your current conclusion and the evidence behind it.
+```
+
+**Fourth, treat confirmation as a normal part of collaboration, not a sign that something has gone wrong.**
+
+OpenClaw's engineering boundaries are designed to accept that some actions should stop and wait for a human decision — especially high-risk, irreversible, or wide-impact operations. The ability to pause and ask at these moments is a sign that the system's boundaries are working correctly.
+
+To compress this section into a few practical principles:
+
+- Not everything needs to be handed off as a task
+- When handing off a task, goal, boundaries, and completion criteria matter more than a scripted list of steps
+- On long tasks, watch the process — don't wait only for the final line
+- When direction goes wrong, surface information and correct course early
+- Confirmation at high-risk points is collaboration, not interruption
+
+**OpenClaw chose the Agent Loop — which means when we use it, we're not waiting for an answer. We're working alongside it to complete a task.**
+
+---
+
 ## Summary
 
 The ReAct loop answers a fundamental question: how do you evolve AI from "answer once" to "see a task through to completion"?
@@ -255,8 +403,10 @@ Not by making the model smarter, but through an architectural design: turning th
 
 **This loop is the operational foundation for OpenClaw's other five pillars.** The prompt system equips it with identity and rules; the tool system provides the hands and feet for interacting with the world; the message loop manages its concurrent scheduling; the unified gateway receives input from every channel; the security sandbox vets every tool call.
 
+But understanding the loop is only half the picture. Knowing when a task genuinely calls for it, handing it off with a clear goal and boundaries rather than a scripted path, and staying engaged as a collaborator throughout — these are what determine whether the loop's capability is actually put to use.
+
 One message comes in, six pillars work in concert, the ReAct loop turns — this is what a "digital living system" actually looks like in operation.
 
 ---
 
-→ [Chapter 3: The Prompt System](../chapter3/index.md)
+→ [Chapter 3: The Prompt System](/en/build/chapter3/index.md)

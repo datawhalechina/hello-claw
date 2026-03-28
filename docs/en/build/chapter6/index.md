@@ -231,6 +231,153 @@ Different platforms impose length limits on individual messages (Discord default
 
 But there is an engineering detail here: **splitting must recognize code block boundaries and never cut in the middle of a code block**. Imagine a Python function split in half — the first message has only the top portion, and the second message starts abruptly mid-function. Readability suffers badly. A smart splitting strategy finds appropriate split points (paragraph boundaries, blank lines) and ensures every segment is semantically complete.
 
+### Why This Layer Can Keep Scaling
+
+At this point the full pipeline is fairly clear:
+
+```
+Platform event
+→ Channel adapter
+→ Normalization
+→ Route to Agent
+→ Assign to correct session
+→ Enter message loop
+→ Agent produces reply
+→ Deliver according to platform capabilities
+```
+
+One final key question remains: **why can OpenClaw keep onboarding new platforms without having to rewrite the system each time?** The answer lives entirely in the `ChannelPlugin` boundary.
+
+From a design perspective, the plugin mechanism's greatest value isn't "better code organization" — it's that **the system can finally evolve "platform-specific capabilities" and "Agent general capabilities" on separate tracks**.
+
+For any new platform, the minimum required work is typically quite small:
+
+1. Tell the system who you are;
+2. Be able to read platform events in;
+3. Be able to send system replies back out.
+
+This is classic sound engineering: low barrier to entry, high ceiling for capability. Because plugin registration and capability declaration live at this layer, the Gateway can truly deliver on its promise: **when adding a new platform, you mainly change the plugin — you don't touch the Agent core.**
+
+In other words, the unified gateway's real contribution isn't "multi-platform showmanship" — it's a long-term maintainable boundary.
+
+---
+
+## III. Practical Configuration
+
+The previous sections covered "why it exists" and "how it runs." Now for the more practical question: **if you actually want to start using OpenClaw's Gateway, how should you configure it so things stay stable and you avoid the common pitfalls?**
+
+### 3.1 Get a Minimum Viable Channel Working First
+
+The most common mistake is connecting many platforms all at once and immediately enabling streaming, threads, rich text, and every other enhancement.
+
+The more stable approach: **pick the platform you know best and get the minimum viable channel working first.**
+
+A minimum viable channel means exactly four steps:
+
+1. Messages are being received
+2. They route to the correct Agent
+3. They land in the correct session
+4. Replies go back to the correct place
+
+Once those four steps run cleanly, most of the core mechanisms in this chapter are already alive. Adding a second platform at that point becomes much easier to debug, because you already know: the Agent core itself works — any problem almost certainly lives in the new channel's adapter or configuration.
+
+So the best starting point for newcomers isn't "enable everything" — it's: **get one channel working first, then add more.**
+
+### 3.2 Four Things to Decide Before Configuring
+
+When you actually start configuring the Gateway, write down the answers to these four questions first:
+
+1. **Who should handle which messages?**
+This corresponds to the routing layer. You need to clarify upfront: which channels default to which Agent, which channels or groups need explicit bindings, which accounts serve only certain kinds of tasks. If this isn't settled first, no amount of later display tuning will matter.
+
+2. **Which platform IDs are actually the same person?**
+This corresponds to `identityLinks`. The key principle here isn't "bind as many as possible" — it's: **only bind IDs when you are genuinely certain they belong to the same person.** Binding incorrectly causes the system to mix preferences or identity information that should never be shared.
+
+3. **Which messages should count as the same session?**
+This corresponds to `sessionKey` and `dmScope`. One rule to always keep in mind: **the same person does not automatically mean the same session.** You need to decide: should different channels each keep their own context, or should certain scenarios merge more tightly? How granularly should DMs be split? Should group chat threads be isolated?
+
+4. **Which enhanced capabilities should be enabled now, and which can wait?**
+
+| Phase | Priority Goal |
+|-------|---------------|
+| First | Ensure messages can be received, sent, and never cross-contaminated |
+| Second | Then enable streaming, threads, actions, and other enhancements |
+
+"Working" and "working well" are two different things. Make "working" solid first — only then is it worth discussing experience optimization.
+
+### 3.3 Always Distinguish "Identity Sharing" from "Context Sharing"
+
+This is the most common place to stumble in this chapter.
+
+The precise distinction:
+
+- `identityLinks` primarily answers "is this the same person?"
+- Session configuration like `dmScope` primarily answers "should these messages count as the same session?"
+
+These two are related, but they are not the same switch.
+
+Use this table to clarify your goals before touching configuration:
+
+| Goal | More Stable Approach |
+|------|----------------------|
+| Only want to recognize the same person across platforms | Do identity linking first; then cautiously decide whether sessions should merge |
+| Want the same person to continue the same DM across platforms | Identity linking and session granularity must be designed together; confirm that `dmScope` truly allows removing the channel/account dimension |
+| Multiple people sharing a bot, with absolutely no cross-contamination | Prefer finer-grained isolation like `per-channel-peer` |
+| Group chat and threads should stay independent | Keep sessions split by group or thread |
+
+So if you ever need cross-platform collaboration, the most important thing isn't "whether `identityLinks` exists" — it's: **you need to be clear in your own mind which layer you actually want to share.**
+
+### 3.4 Multi-Channel Optimization: Secure the Floor Before Raising the Ceiling
+
+Gateway can be tempting — once you see streaming, buttons, thread replies, rich text cards, and typing indicators, you want to turn everything on. But from an engineering standpoint, the recommended sequence is straightforward:
+
+```
+First ensure content is always delivered
+→ Then ensure sessions are always correct
+→ Then improve the presentation experience
+→ Finally pursue platform-specific enhancements
+```
+
+The reason is simple: what users notice first is not "whether there's streaming output" — it's:
+
+- Did it reply to me?
+- Did the reply go to the right place?
+- Are conversations getting mixed up?
+- Does it recognize me as the same person?
+
+When these fundamentals are unstable, the fancier your enhancements, the harder debugging becomes.
+
+Graceful degradation isn't just an internal system design principle — it should be your configuration principle too:
+
+**Make every platform "at least solidly functional" first, then work toward "especially good on a particular platform."**
+
+### 3.5 When Problems Arise, Troubleshoot in a Fixed Order
+
+Gateway problems can look varied, but they typically converge with this sequence:
+
+1. **First, check whether the message actually came in.**
+Confirm the channel plugin is running, the platform event reached your system, and the corresponding account is configured correctly. If messages aren't entering the system at all, nothing else matters.
+
+2. **Then, check whether routing hit the correct Agent.**
+If the message came in but went to the wrong Agent, check first: is the `bindings` configuration correct, is the default account and default routing misconfigured, did a more specific rule intercept it unexpectedly?
+
+3. **Then, check whether the session was calculated correctly.**
+If the Agent is right but context is clearly bleeding across conversations or breaking unexpectedly, check: is the `sessionKey` granularity wrong, is `dmScope` splitting DMs too coarsely or too finely, did `identityLinks` accidentally merge people who shouldn't share context?
+
+4. **Finally, check platform capabilities and outbound adapters.**
+Why is there no streaming? Why are buttons not showing? Why are long messages being split badly? Why is a reply going to the wrong channel or position? At this point, review the platform capability declarations, the outbound adapter, and the most recent return-path information — the picture will be much clearer.
+
+A short phrase to remember the sequence:
+
+```
+First check: did it come in?
+→ Then check: did it go to the right person?
+→ Then check: was the session calculated correctly?
+→ Finally check: display and experience
+```
+
+Troubleshooting in this order is almost always faster than diving into platform-specific details from the start.
+
 ---
 
 ## Summary

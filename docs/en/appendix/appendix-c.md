@@ -204,6 +204,7 @@ The following projects each have a distinct focus — minimalist design, securit
 | **ClawRouter** | TypeScript | Agent-native LLM intelligent routing, 41+ models with local zero-latency auto-routing, ECO/AUTO/PREMIUM tiers save up to 92% costs | [BlockRunAI/ClawRouter](https://github.com/BlockRunAI/ClawRouter) |
 | **nanobot** | Python | Made by HKUST HKUDS, only 1% the code size of OpenClaw, research-friendly, one-command pip install, supports 10+ IM channels | [HKUDS/nanobot](https://github.com/HKUDS/nanobot) |
 | **ClawWork** | Python | Made by HKUST HKUDS, AI Coworker economic benchmark: 220 GDPVal tasks, 44 professions, $10 survival challenge, based on nanobot | [HKUDS/ClawWork](https://github.com/HKUDS/ClawWork) |
+| **WildClawBench** | Python | Made by Shanghai AI Lab InternLM, real user conversation-driven Agent capability benchmark, covering multi-turn tool calling and complex task evaluation | [InternLM/WildClawBench](https://github.com/InternLM/WildClawBench) |
 | **MetaClaw** | Python | Online RL evolution layer, Agent self-learns and self-evolves from interactions, no GPU needed, one-click injection into OpenClaw | [aiming-lab/MetaClaw](https://github.com/aiming-lab/MetaClaw) |
 | **AutoResearchClaw** | Python | Made by aiming-lab, automated research workflow: literature search, experiment design, data analysis, paper writing, end-to-end AI research assistant | [aiming-lab/AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) |
 | **MiniClaw** | TypeScript | Minimalist OpenClaw alternative, run on Telegram directly using Claude Pro/ChatGPT Plus subscriptions, zero API cost | [htlin222/mini-claw](https://github.com/htlin222/mini-claw) |
@@ -224,6 +225,7 @@ The following projects each have a distinct focus — minimalist design, securit
 | **ClawRouter** | TypeScript | ★★☆☆☆ | Low | ★★★★☆ | — | None | — | Multi-model routing / cost reduction |
 | **nanobot** | Python | ★☆☆☆☆ | Low | ★★★☆☆ | ★★☆☆☆ | None | ★★★★☆ | Academic research / rapid prototyping |
 | **ClawWork** | Python | ★★☆☆☆ | Medium | ★★★☆☆ | — | None | ★★★★☆ | Agent economic benchmarking |
+| **WildClawBench** | Python | ★★☆☆☆ | Medium | ★★★☆☆ | — | None | — | Real-conversation Agent benchmark |
 | **MetaClaw** | Python | ★☆☆☆☆ | Low | ★★★☆☆ | ★★★☆☆ | None | — | Agent self-evolution / RL |
 | **AutoResearchClaw** | Python | ★☆☆☆☆ | Low | ★★★☆☆ | ★★☆☆☆ | None | — | Automated research |
 | **MiniClaw** | TypeScript | ★☆☆☆☆ | Low | ★★★☆☆ | ★☆☆☆☆ | None | ★☆☆☆☆ | Subscription reuse / minimalist |

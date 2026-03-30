@@ -61,6 +61,9 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 
 ## 🔥 News
 
+- **[2026-03-25]** ✅ Lobster University completed a round of scenario expansion and beginner-friendly rewrite, adding 11 ready-to-use case studies across personal productivity, programming, content creation, business sales, multi-agent collaboration, and more, organized by README category
+- **[2026-03-25]** 🔥 OpenClaw v2026.3.24: Gateway OpenAI-compatible endpoints (`/v1/models`, `/v1/embeddings`), Microsoft Teams official SDK integration (streaming replies / welcome cards / message edit and delete), one-click Skills installation recipes and Control UI status filtering, Slack rich reply restoration, CLI `--container` for in-container execution, Discord LLM auto thread naming, `before_dispatch` plugin hook, sandbox media security fix — all tutorial chapters synced
+- **[2026-03-23]** 🔥 OpenClaw 3.22 major release: Plugin SDK refactor (old `extension-api` deprecated), security hardening (SMB credential leak / env var injection / Unicode spoofing fixes), GPT-5.4 as new default, Feishu interactive cards / Telegram topic auto-naming, Agent timeout extended to 48h
 - **[2026-03-12]** ✅ Completed Build Claw Ch. 1-10: core architecture analysis (prompt system, tool system, message loop, multi-channel integration), alternative solution exploration (lightweight, hardened security, hardware), and a summit-view retrospective
 - **[2026-03-10]** ✅ Completed Build Claw Ch. 13: Skill file structure, frontmatter, async handling, and debugging
 - **[2026-03-10]** ✅ Added Lobster University: a menu-style Skills elective guide to give your lobster "combat add-ons"
@@ -76,41 +79,41 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
     <td valign="top" width="33%">
       <b>🌅 Personal Productivity</b><br>
       • <a href="./docs/en/university/email-assistant/index.md">Email Assistant in Practice (163)</a><br>
-      • <a href="./docs/en/university/local-health-assistant/index.md">Skill Development in Practice: Local Health Assistant</a><br>
-      • Morning briefing (weather + schedule + todos)<br>
-      • Smart calendar management
+      • <a href="./docs/en/university/local-health-assistant/index.md">Skill Development in Practice: Local Health Management Assistant</a><br>
+      • <a href="./docs/en/university/daily-briefing/index.md">Morning Briefing Automation</a><br>
+      • <a href="./docs/en/university/calendar-ops/index.md">Smart Calendar Management</a>
     </td>
     <td valign="top" width="33%">
       <b>💻 Programming and Development</b><br>
       • <a href="./docs/en/university/vibe-coding/index.md">Vibe Coding in Practice</a><br>
-      • Automated testing and deployment<br>
-      • Automatic documentation generation
+      • <a href="./docs/en/university/ci-cd-assistant/index.md">Automated Testing and Deployment: CI/CD Assistant in Practice</a><br>
+      • <a href="./docs/en/university/docs-automation/index.md">Documentation Automation: From Code Changes to Publishable Docs</a>
     </td>
     <td valign="top" width="33%">
       <b>📢 Content Creation</b><br>
-      • Automated social media operations<br>
-      • Writing assistance and polishing<br>
-      • Multi-platform content publishing
+      • <a href="./docs/en/university/vibe-research/index.md">Automated Research in Practice</a><br>
+      • <a href="./docs/en/university/content-studio/index.md">Content Creation Studio: Social Media Operations, Writing Polish, and Multi-Platform Publishing</a>
     </td>
   </tr>
   <tr>
     <td valign="top" width="33%">
       <b>🏢 Business and Sales</b><br>
-      • Customer support and CRM management<br>
-      • Automatic sales lead follow-up<br>
-      • Meeting scheduling and notes
+      • <a href="./docs/en/university/revops-assistant/index.md">Business Sales in Practice: Customer Support & CRM Coordination Assistant</a><br>
+      • <a href="./docs/en/university/meeting-ops/index.md">Business Sales in Practice: Meeting Scheduling and Minutes Automation</a>
     </td>
     <td valign="top" width="33%">
       <b>🤖 Multi-Agent Collaboration</b><br>
       • <a href="./docs/en/university/multi-claw-hiclaw/index.md">Multi-Agent Collaboration (Multi OpenClaw / HiClaw)</a><br>
-      • Shared knowledge bases and retrieval
+      • <a href="./docs/en/university/knowledge-base/index.md">Multi-Agent Collaboration in Practice: Knowledge Base Sharing and Retrieval</a><br>
+      • <a href="./docs/en/university/one-person-company/index.md">One-Person Company in Practice (One Person, One Team)</a>
     </td>
     <td valign="top" width="33%">
       <b>🔧 More Scenarios</b><br>
       • <a href="./docs/en/university/security/index.md">Security Checklist</a><br>
-      • Smart home control<br>
-      • Financial data analysis<br>
-      • Education and training support
+      • <a href="./docs/en/university/paper-assistant/index.md">Agent Paper Push Assistant</a><br>
+      • <a href="./docs/en/university/smart-home-control/index.md">More Scenarios: Smart Home Control Assistant</a><br>
+      • <a href="./docs/en/university/finance-research/index.md">More Scenarios: Financial Data Analysis Assistant</a><br>
+      • <a href="./docs/en/university/training-assistant/index.md">More Scenarios: Education & Training Assistant</a>
     </td>
   </tr>
 </table>
@@ -178,51 +181,6 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 >
 > Every contribution helps more people discover what OpenClaw can do.
 
-## 🦞 Use Case Gallery (Continuously Updated)
-
-<table align="center">
-  <tr>
-    <td valign="top" width="33%">
-      <b>🌅 Personal Productivity</b><br>
-      • Morning briefing (weather + schedule + todos)<br>
-      • Automatic email classification and summaries<br>
-      • Smart calendar management
-    </td>
-    <td valign="top" width="33%">
-      <b>💻 Programming and Development</b><br>
-      • Code generation and review<br>
-      • Automated testing and deployment<br>
-      • Automatic documentation generation
-    </td>
-    <td valign="top" width="33%">
-      <b>📢 Content Creation</b><br>
-      • Automated social media operations<br>
-      • Writing assistance and polishing<br>
-      • Multi-platform content publishing
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="33%">
-      <b>🏢 Business and Sales</b><br>
-      • Customer support and CRM management<br>
-      • Automatic sales lead follow-up<br>
-      • Meeting scheduling and notes
-    </td>
-    <td valign="top" width="33%">
-      <b>🤖 Multi-Agent Collaboration</b><br>
-      • Agent team project management<br>
-      • Automated workflow orchestration<br>
-      • Shared knowledge bases and retrieval
-    </td>
-    <td valign="top" width="33%">
-      <b>🔧 More Scenarios</b><br>
-      • Smart home control<br>
-      • Financial data analysis<br>
-      • Education and training support
-    </td>
-  </tr>
-</table>
-
 ## 🙏 Contributors
 
 | Name | Role | Bio |
@@ -279,3 +237,7 @@ This work is licensed under a
 <div align="center">
   <h3>⭐ If this project helps you, please give us a Star ❤️</h3>
 </div>
+
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=datawhalechina/hello-claw&type=Date)](https://star-history.com/?type=date&legend=top-left&repos=datawhalechina%2Fhello-claw)

@@ -61,6 +61,9 @@ https://datawhalechina.github.io/hello-claw
 
 ## 🔥 最新情報
 
+- **[2026-03-25]** ✅ ロブスター大学のシナリオを大幅拡充し、初心者向けに全面リライト。個人の生産性、プログラミング、コンテンツ制作、ビジネス・営業、マルチエージェント協調、その他シナリオを合わせた 11 本の実践事例を追加し、README のカテゴリ別に整理
+- **[2026-03-25]** 🔥 OpenClaw v2026.3.24：Gateway の OpenAI 互換エンドポイント（`/v1/models`、`/v1/embeddings`）、Microsoft Teams 公式 SDK 統合（ストリーミング返信 / ウェルカムカード / メッセージ編集・削除）、Skills ワンクリックインストールレシピと Control UI のステータスフィルタ、Slack リッチリプライ復元、CLI `--container` によるコンテナ内実行、Discord LLM 自動スレッド命名、`before_dispatch` プラグインフック、サンドボックスメディアセキュリティ修正 — 全チュートリアル章を同期
+- **[2026-03-23]** 🔥 OpenClaw 3.22 メジャーリリース：プラグイン SDK リファクタ（旧 `extension-api` は廃止）、セキュリティ強化（SMB 認証情報漏洩 / 環境変数インジェクション / Unicode なりすまし修正）、GPT-5.4 がデフォルトに、Feishu インタラクティブカード / Telegram 話題自動命名、Agent タイムアウトを 48h に延長
 - **[2026-03-12]** ✅ Build Claw 第 1-10 章を公開: コアアーキテクチャ解析（プロンプトシステム、ツールシステム、メッセージループ、マルチチャネル接続）、代替案の探究（軽量化、セキュリティ強化、ハードウェア化）、そして全体を俯瞰する総括
 - **[2026-03-10]** ✅ Build Claw 第 13 章を公開: Skill ファイル構造、Frontmatter、非同期処理、デバッグ
 - **[2026-03-10]** ✅ ロブスター大学を追加: メニュー式の Skills 選修ガイドで、ロブスターに「戦闘用アドオン」を装備
@@ -68,6 +71,52 @@ https://datawhalechina.github.io/hello-claw
 - **[2026-03-04]** 🦞 プロジェクトを開始し、「Adopt Claw」と「Build Claw」の 2 つのコアモジュールを企画
 
 ## 📖 目次
+
+### ロブスター大学
+
+<table align="center">
+  <tr>
+    <td valign="top" width="33%">
+      <b>🌅 個人の生産性</b><br>
+      • <a href="./docs/en/university/email-assistant/index.md">メールアシスタント実践（163）</a><br>
+      • <a href="./docs/en/university/local-health-assistant/index.md">Skill 開発実践: ローカル健康管理アシスタント</a><br>
+      • <a href="./docs/en/university/daily-briefing/index.md">朝のブリーフィング自動化</a><br>
+      • <a href="./docs/en/university/calendar-ops/index.md">スマートカレンダー管理</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>💻 プログラミングと開発</b><br>
+      • <a href="./docs/en/university/vibe-coding/index.md">Vibe Coding 実践</a><br>
+      • <a href="./docs/en/university/ci-cd-assistant/index.md">自動テストとデプロイ: CI/CD アシスタント実践</a><br>
+      • <a href="./docs/en/university/docs-automation/index.md">ドキュメント自動生成: コード変更から公開可能ドキュメントまで</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>📢 コンテンツ制作</b><br>
+      • <a href="./docs/en/university/vibe-research/index.md">自動化科研実践</a><br>
+      • <a href="./docs/en/university/content-studio/index.md">コンテンツ制作スタジオ: SNS 運用・執筆補助・マルチプラットフォーム配信</a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="33%">
+      <b>🏢 ビジネスと営業</b><br>
+      • <a href="./docs/en/university/revops-assistant/index.md">ビジネス営業実践: カスタマーサポートと CRM 協調アシスタント</a><br>
+      • <a href="./docs/en/university/meeting-ops/index.md">ビジネス営業実践: 会議予約と議事録自動化</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>🤖 マルチエージェント協調</b><br>
+      • <a href="./docs/en/university/multi-claw-hiclaw/index.md">マルチエージェント協調（Multi OpenClaw / HiClaw）</a><br>
+      • <a href="./docs/en/university/knowledge-base/index.md">マルチエージェント協調実践: ナレッジベース共有と検索</a><br>
+      • <a href="./docs/en/university/one-person-company/index.md">一人会社実践（一人でもチーム）</a>
+    </td>
+    <td valign="top" width="33%">
+      <b>🔧 その他のシナリオ</b><br>
+      • <a href="./docs/en/university/security/index.md">セキュリティチェックリスト</a><br>
+      • <a href="./docs/en/university/paper-assistant/index.md">Agent 論文プッシュアシスタント</a><br>
+      • <a href="./docs/en/university/smart-home-control/index.md">その他の実践: スマートホーム制御アシスタント</a><br>
+      • <a href="./docs/en/university/finance-research/index.md">その他の実践: 金融データ分析アシスタント</a><br>
+      • <a href="./docs/en/university/training-assistant/index.md">その他の実践: 教育・研修支援アシスタント</a>
+    </td>
+  </tr>
+</table>
 
 ### 第1部：Clawを迎える（ユーザー編、11 章 + 付録 A-G）
 
@@ -129,9 +178,23 @@ https://datawhalechina.github.io/hello-claw
 | [ロブスター大学: はじめにと Skills 選修ガイド](./docs/en/university/intro.md) | ClawHub と SkillHub の二重入口、スキル分類マップ、選び方の原則、推奨カリキュラム | ✅ |
 | [Vibe Coding 実践](./docs/en/university/vibe-coding/index.md) | Feishu 対話から要件整理、PR までをつなぐ「会話即開発」のフルループ | ✅ |
 | [メールアシスタント実践（163）](./docs/en/university/email-assistant/index.md) | IMAP/SMTP 設定からスクリプト検証、cron 自動化まで | ✅ |
-| [マルチエージェント協調（Multi OpenClaw / HiClaw）](./docs/en/university/multi-claw-hiclaw/index.md) | 単一 Worker のボトルネックから、追跡可能なマルチエージェント協調へ | ✅ |
-| [セキュリティチェックリスト](./docs/en/university/security/index.md) | Skills とツールのセキュリティ境界、監査、インジェクション対策の要点 | ✅ |
 | [Skill 開発実践: ローカル健康管理アシスタント](./docs/en/university/local-health-assistant/index.md) | MediWise をベースにしたローカル優先の家庭向け健康管理ループの構築 | ✅ |
+| [朝のブリーフィング自動化](./docs/en/university/daily-briefing/index.md) | 天気・カレンダー・ToDo を一括配信する朝の自動ブリーフィング | ✅ |
+| [スマートカレンダー管理](./docs/en/university/calendar-ops/index.md) | 衝突検出・日程調整・議事録自動化 | ✅ |
+| [自動テストとデプロイ: CI/CD アシスタント実践](./docs/en/university/ci-cd-assistant/index.md) | テスト・デプロイパイプラインの自動化実践 | ✅ |
+| [ドキュメント自動生成](./docs/en/university/docs-automation/index.md) | コード変更から公開可能ドキュメントまでの標準化 | ✅ |
+| [自動化科研実践](./docs/en/university/vibe-research/index.md) | 説明するだけで論文が出てくる自動科研ループ | ✅ |
+| [コンテンツ制作スタジオ](./docs/en/university/content-studio/index.md) | SNS 運用・執筆補助・マルチプラットフォーム配信 | ✅ |
+| [ビジネス営業実践: カスタマーサポートと CRM 協調アシスタント](./docs/en/university/revops-assistant/index.md) | 顧客サポートと CRM を連携させた営業自動化 | ✅ |
+| [ビジネス営業実践: 会議予約と議事録自動化](./docs/en/university/meeting-ops/index.md) | 会議スケジューリングから議事録作成まで | ✅ |
+| [マルチエージェント協調（Multi OpenClaw / HiClaw）](./docs/en/university/multi-claw-hiclaw/index.md) | 単一 Worker のボトルネックから、追跡可能なマルチエージェント協調へ | ✅ |
+| [マルチエージェント協調実践: ナレッジベース共有と検索](./docs/en/university/knowledge-base/index.md) | 複数エージェント間でのナレッジベース共有と検索 | ✅ |
+| [一人会社実践（一人でもチーム）](./docs/en/university/one-person-company/index.md) | 144 専門 AI エージェントで会社全体の機能を一人でまかなう | ✅ |
+| [セキュリティチェックリスト](./docs/en/university/security/index.md) | Skills とツールのセキュリティ境界、監査、インジェクション対策の要点 | ✅ |
+| [Agent 論文プッシュアシスタント](./docs/en/university/paper-assistant/index.md) | Agent 論文の自動収集・整理・配信 | ✅ |
+| [その他の実践: スマートホーム制御アシスタント](./docs/en/university/smart-home-control/index.md) | スマートホームデバイスの AI 制御実践 | ✅ |
+| [その他の実践: 金融データ分析アシスタント](./docs/en/university/finance-research/index.md) | 金融データの自動収集・分析・レポート生成 | ✅ |
+| [その他の実践: 教育・研修支援アシスタント](./docs/en/university/training-assistant/index.md) | 教育コンテンツの自動生成と研修支援 | ✅ |
 ---
 
 > 🎉 **事例の貢献を歓迎します！**
@@ -143,51 +206,6 @@ https://datawhalechina.github.io/hello-claw
 > - コミュニティに参加して他の開発者と知見を交換する
 >
 > 一つひとつの貢献が、OpenClaw の可能性をもっと多くの人に届けてくれます。
-
-## 🦞 ユースケースギャラリー（随時更新）
-
-<table align="center">
-  <tr>
-    <td valign="top" width="33%">
-      <b>🌅 個人の生産性</b><br>
-      • 朝のブリーフィング（天気 + 予定 + ToDo）<br>
-      • メールの自動分類と要約<br>
-      • スマートなカレンダー管理
-    </td>
-    <td valign="top" width="33%">
-      <b>💻 プログラミングと開発</b><br>
-      • コード生成とレビュー<br>
-      • 自動テストとデプロイ<br>
-      • ドキュメントの自動生成
-    </td>
-    <td valign="top" width="33%">
-      <b>📢 コンテンツ制作</b><br>
-      • SNS の自動運用<br>
-      • 執筆支援と推敲<br>
-      • マルチプラットフォーム配信
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="33%">
-      <b>🏢 ビジネスと営業</b><br>
-      • カスタマーサポートと CRM 管理<br>
-      • 営業リードの自動フォローアップ<br>
-      • 会議の調整と議事録
-    </td>
-    <td valign="top" width="33%">
-      <b>🤖 マルチエージェント協調</b><br>
-      • エージェントチームのプロジェクト管理<br>
-      • 自動ワークフローのオーケストレーション<br>
-      • ナレッジベース共有と検索
-    </td>
-    <td valign="top" width="33%">
-      <b>🔧 その他のシナリオ</b><br>
-      • スマートホーム制御<br>
-      • 金融データ分析<br>
-      • 教育と研修の支援
-    </td>
-  </tr>
-</table>
 
 ## 🙏 コントリビューター
 
@@ -246,3 +264,7 @@ https://datawhalechina.github.io/hello-claw
 <div align="center">
   <h3>⭐ このプロジェクトが役に立ったら、Star をお願いします ❤️</h3>
 </div>
+
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=datawhalechina/hello-claw&type=Date)](https://star-history.com/?type=date&legend=top-left&repos=datawhalechina%2Fhello-claw)

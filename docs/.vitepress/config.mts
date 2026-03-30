@@ -247,6 +247,7 @@ export default defineConfig({
             {
               text: '🏢 商务销售',
               items: [
+                { text: '一人公司实战', link: '/cn/university/one-person-company/' },
                 { text: '客户支持与 CRM 协同', link: '/cn/university/revops-assistant/' },
                 { text: '会议预约与纪要自动化', link: '/cn/university/meeting-ops/' },
               ]
@@ -451,6 +452,7 @@ export default defineConfig({
                 { text: 'Vibe Coding Hands-On', link: '/en/university/vibe-coding/' },
                 { text: 'Paper Push Assistant', link: '/en/university/paper-assistant/' },
                 { text: 'Automated Research in Practice', link: '/en/university/vibe-research/' },
+                { text: 'One-Person Company in Practice', link: '/en/university/one-person-company/' },
                 { text: 'Local Health Assistant', link: '/en/university/local-health-assistant/' },
               ]
             }

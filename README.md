@@ -104,7 +104,8 @@ https://datawhalechina.github.io/hello-claw
     <td valign="top" width="33%">
       <b>🤖 多智能体协作</b><br>
       • <a href="./docs/cn/university/multi-claw-hiclaw/index.md">多智能体协作（Multi OpenClaw / HiClaw）</a><br>
-      • <a href="./docs/cn/university/knowledge-base/index.md">多智能体协作实战：知识库共享与检索</a>
+      • <a href="./docs/cn/university/knowledge-base/index.md">多智能体协作实战：知识库共享与检索</a><br>
+      • <a href="./docs/cn/university/one-person-company/index.md">一人公司实战（一个人，一支团队）</a>
     </td>
     <td valign="top" width="33%">
       <b>🔧 更多场景</b><br>

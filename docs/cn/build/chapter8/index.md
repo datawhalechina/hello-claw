@@ -6,8 +6,6 @@
 
 OpenClaw 功能强大，但有时"强大"也意味着"沉重"。本章我们将探索社区中的轻量化变体，它们展示了 Agent 设计的另一种哲学：**减法**。
 
-> **来源核验（2026-04-03）**：NanoClaw 参考 [qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw)，Nanobot 参考 [HKUDS/NanoBot](https://github.com/HKUDS/NanoBot)，ZeroClaw 参考其公开项目入口。本章的对比更适合帮助理解设计取舍，不应替代各项目 README 里的安装步骤、版本限制和性能说明。
-
 ## 1 为什么要"瘦身"
 
 想象你要买一辆代步车。OpenClaw 就像一辆豪华房车——有厨房、卫生间、卧室，能住一家人。但有时候，你只需要一辆共享单车。

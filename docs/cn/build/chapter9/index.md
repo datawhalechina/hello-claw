@@ -2,8 +2,6 @@
 
 > **核心问题**：当 Agent 可以读写文件、执行命令、访问网络时，如何保证它不会被攻击者利用？
 
-> **来源核验（2026-04-03）**：本章主要依据 [nearai/ironclaw](https://github.com/nearai/ironclaw) README。IronClaw 是受 OpenClaw 启发的 Rust 实现，不是 OpenClaw 官方组件；这里更适合把它看成“安全架构参考样本”，而不是 OpenClaw 默认模式的一一映射。
-
 ---
 
 ## 1 从"裸奔"到"全副武装"

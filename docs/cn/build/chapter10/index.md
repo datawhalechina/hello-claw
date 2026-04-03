@@ -2,8 +2,6 @@
 
 > **核心问题**：如果 Agent 可以跑在 10 美元的硬件上，它会打开什么新的可能性？
 
-> **来源核验（2026-04-03）**：本章主要依据 [sipeed/picoclaw](https://github.com/sipeed/picoclaw) README 和 [Ollama 文档](https://docs.ollama.com/)。PicoClaw 的硬件成本、RAM、启动时间等数字会随版本与开发板变化，下面的内容应理解为“上游自述 + 教学整理”，而不是统一基准测试。
-
 ---
 
 ## 1 从「机房」到「口袋」

@@ -256,6 +256,7 @@ export default defineConfig({
               text: '🤖 多智能体协作',
               items: [
                 { text: '多智能体协作（HiClaw）', link: '/cn/university/multi-claw-hiclaw/' },
+                { text: '飞书群多智能体自主讨论', link: '/cn/university/group-debate/' },
                 { text: '知识库共享与检索', link: '/cn/university/knowledge-base/' },
               ]
             },
@@ -448,6 +449,7 @@ export default defineConfig({
                 { text: 'Skills Elective Guide', link: '/en/university/' },
                 { text: 'Email Assistant (163)', link: '/en/university/email-assistant/' },
                 { text: 'Multi-Agent Collaboration (HiClaw)', link: '/en/university/multi-claw-hiclaw/' },
+                { text: 'Multi-Bot Group Discussion', link: '/en/university/group-debate/' },
                 { text: 'Security Checklist', link: '/en/university/security/' },
                 { text: 'Vibe Coding Hands-On', link: '/en/university/vibe-coding/' },
                 { text: 'Paper Push Assistant', link: '/en/university/paper-assistant/' },

@@ -45,7 +45,7 @@ Model providers can be divided into four categories:
 
 | Your Situation | Recommended Solution | Reason |
 |---------------|---------------------|--------|
-| Zero cost, don't want to spend anything | [**OpenRouter**](#_3-1-openrouter) + `stepfun/step-3.5-flash:free` | Free model, sign up and use immediately |
+| Zero cost, don't want to spend anything | [**OpenRouter**](#_3-1-openrouter) + `qwen/qwen3.6-plus:free` | Free model, sign up and use immediately |
 | China-based user, want to spend the least | [**DeepSeek**](#_4-1-quick-comparison) direct | Best domestic value, ¥1/million tokens |
 | China-based user, want an all-in-one experience | [**SiliconFlow**](#_3-2-siliconflow) | 200+ models aggregated, new users get ¥16 |
 | Need the strongest reasoning capability | [**OpenAI**](#_5-1-quick-comparison) o3 / GPT-5 | Currently best overall, requires VPN |
@@ -70,7 +70,7 @@ Don't want to register for a bunch of accounts? Aggregation gateways let you acc
 [OpenRouter](https://openrouter.ai) is the world's largest model aggregation gateway, connecting to 300+ models including OpenAI, Anthropic, Google, Meta, Mistral, DeepSeek, and virtually all major providers.
 
 **Key Advantages:**
-- **Free models available**: `stepfun/step-3.5-flash:free`, `google/gemma-3-4b-it:free`, etc. — zero-cost onboarding
+- **Free models available**: `qwen/qwen3.6-plus:free`, `google/gemma-3-4b-it:free`, etc. — zero-cost onboarding
 - **One key for all models**: Generate one API Key after registration and switch models using the `provider/model-name` format
 - **Transparent pricing**: Prices displayed directly on each model page, pay-as-you-go, no monthly fees
 - **Accessible in China**: Directly accessible in some regions, or via domestic proxies like SiliconFlow
@@ -86,7 +86,7 @@ Don't want to register for a bunch of accounts? Aggregation gateways let you acc
 export OPENROUTER_API_KEY="sk-or-v1-..."
 
 # Set model
-# openclaw models set openrouter/stepfun/step-3.5-flash:free
+# openclaw models set openrouter/qwen/qwen3.6-plus:free
 ```
 
 **Link:** [openrouter.ai](https://openrouter.ai)
@@ -387,7 +387,7 @@ export MINIMAX_API_KEY="..."
 - **Step-3.5-flash**: Lightweight fast version — **available for free via OpenRouter**
 
 **Advantages:**
-- `stepfun/step-3.5-flash:free` is free via OpenRouter (the onboarding solution in Chapter 2 of this tutorial)
+- `qwen/qwen3.6-plus:free` is free via OpenRouter (the onboarding solution in Chapter 2 of this tutorial)
 - Direct API pricing is also competitive
 - Fast inference speed
 

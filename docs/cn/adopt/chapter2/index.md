@@ -189,7 +189,7 @@ openclaw onboard --install-daemon
 │  OpenAI-compatible
 
 ◇  Model ID
-│  stepfun/step-3.5-flash:free
+│  qwen/qwen3.6-plus:free
 ```
 
 **推荐 OpenRouter**——注册即可使用免费模型（如 Step 3.5 Flash），无需充值，零成本完成全部教程练习。
@@ -221,7 +221,7 @@ openclaw onboard --install-daemon
 
 **第三步：充值（可选）**
 
-OpenRouter 上带 `:free` 后缀的模型完全免费，如 `stepfun/step-3.5-flash:free`，日常学习足够使用。如果你想使用更强的付费模型：
+OpenRouter 上带 `:free` 后缀的模型完全免费，如 `qwen/qwen3.6-plus:free`，日常学习足够使用。如果你想使用更强的付费模型：
 
 1. 点击左侧菜单的 **Credits** 进入充值页面
 2. 点击 **Add Credits** 进行充值

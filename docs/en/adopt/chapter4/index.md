@@ -231,6 +231,15 @@ If you only need basic chat functionality, the minimum required permissions are:
 
 After importing, click "Apply for Authorization" to confirm. Enterprise admins can approve directly; otherwise, contact your admin for review.
 
+### Step 5.5: Set Availability Scope
+
+Go to "Availability" in the left menu (or "App Release" → "Availability"), click "Add", and select the people or departments that can use this app.
+
+- If it's just for yourself, add only yourself
+- If the whole team needs it, add the corresponding department or select "All employees"
+
+> **What happens if you skip this?** Even after publishing, users outside the availability scope cannot find the bot in the Feishu client — it won't appear in search results or when creating groups. This is the most commonly overlooked step — the symptom is "the app is published, but the bot can't be found in Feishu."
+
 ### Step 6: Publish the App
 
 Go to "Version Management & Publishing", click "Create Version", fill in the version number, and submit the publishing request. The app takes effect once approved by the admin (you can approve it yourself if you are the admin).

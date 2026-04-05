@@ -336,7 +336,7 @@ openclaw agents add <name>
 **非交互模式标志**：
 ```bash
 openclaw agents add worker-bot \
-  --model "openrouter/stepfun/step-3.5-flash:free" \
+  --model "openrouter/qwen/qwen3.6-plus:free" \
   --agent-dir ~/.openclaw/agents/worker \
   --bind "telegram:chat:12345" \
   --non-interactive

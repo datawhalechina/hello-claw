@@ -189,7 +189,7 @@ Then enter the following information (using a free OpenRouter model as an exampl
 │  OpenAI-compatible
 
 ◇  Model ID
-│  stepfun/step-3.5-flash:free
+│  qwen/qwen3.6-plus:free
 ```
 
 **OpenRouter is recommended** — sign up and use free models (such as Step 3.5 Flash) immediately, no top-up required, zero cost to complete all tutorial exercises.
@@ -221,7 +221,7 @@ The wizard will subsequently ask about channels, skills, and other settings — 
 
 **Step 3: Add credits (optional)**
 
-Models with a `:free` suffix on OpenRouter are completely free, such as `stepfun/step-3.5-flash:free`, which is sufficient for everyday learning. If you want to use more powerful paid models:
+Models with a `:free` suffix on OpenRouter are completely free, such as `qwen/qwen3.6-plus:free`, which is sufficient for everyday learning. If you want to use more powerful paid models:
 
 1. Click **Credits** in the left menu to go to the top-up page
 2. Click **Add Credits** to add funds

@@ -23,7 +23,7 @@ The model identifier format is `provider/model-name`, for example:
 
 | Identifier | Meaning |
 |------|------|
-| `openrouter/stepfun/step-3.5-flash:free` | A free model on OpenRouter |
+| `openrouter/qwen/qwen3.6-plus:free` | A free model on OpenRouter |
 | `anthropic/claude-opus-4-6` | Anthropic's flagship model |
 | `openai/gpt-5.4` | OpenAI's flagship model (default) |
 | `ollama/llama3.3` | A model running locally on your machine |

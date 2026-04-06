@@ -29,9 +29,6 @@
 
 </div>
 
-> [!WARNING]
-> 🧪 Beta Notice: the main tutorial is complete, and we are now polishing the details. Issues and suggestions are very welcome.
-
 ## Read Online
 
 https://datawhalechina.github.io/hello-claw
@@ -183,14 +180,14 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 
 ## 🙏 Contributors
 
-| Name | Role | Bio |
-| :-------------------------------------- | :--------- | :--- |
-| [Zixuan Gui](https://github.com/zixuangui-rgb) | Core Contributor | - |
-| [Zhimin Zhao](https://github.com/zhimin-z) | Core Contributor | - |
-| [Xiuqi Li](https://github.com/li-xiu-qi) | Core Contributor | - |
-| [Lixin Liu](https://github.com/liulx25xx) | Core Contributor | - |
-| [Siyi Liu](https://github.com/liusiyi77m) | Core Contributor | - |
-| [Sanbu](https://github.com/sanbuphy) | Core Contributor | - |
+| Name | Role |
+| :-------------------------------------- | :--------- |
+| [Zixuan Gui](https://github.com/zixuangui-rgb) | Core Contributor |
+| [Zhimin Zhao](https://github.com/zhimin-z) | Core Contributor |
+| [Xiuqi Li](https://github.com/li-xiu-qi) | Core Contributor |
+| [Lixin Liu](https://github.com/liulx25xx) | Core Contributor |
+| [Siyi Liu](https://github.com/liusiyi77m) | Core Contributor |
+| [Sanbu](https://github.com/sanbuphy) | Core Contributor |
 
 *More contributors are welcome*
 

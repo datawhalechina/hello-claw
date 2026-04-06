@@ -29,9 +29,6 @@
 
 </div>
 
-> [!WARNING]
-> 🧪 ベータ版のお知らせ: チュートリアル本体は完成しており、現在は細部を磨いています。Issue や改善提案を歓迎します。
-
 ## オンラインで読む
 
 https://datawhalechina.github.io/hello-claw
@@ -209,14 +206,14 @@ https://datawhalechina.github.io/hello-claw
 
 ## 🙏 コントリビューター
 
-| 名前 | 役割 | 紹介 |
-| :-------------------------------------- | :--------- | :--- |
-| [桂子轩](https://github.com/zixuangui-rgb) | コアコントリビューター | - |
-| [赵志民](https://github.com/zhimin-z) | コアコントリビューター | - |
-| [李秀奇](https://github.com/li-xiu-qi) | コアコントリビューター | - |
-| [刘丽欣](https://github.com/liulx25xx) | コアコントリビューター | - |
-| [刘思怡](https://github.com/liusiyi77m) | コアコントリビューター | - |
-| [散步](https://github.com/sanbuphy) | コアコントリビューター | - |
+| 名前 | 役割 |
+| :-------------------------------------- | :--------- |
+| [桂子轩](https://github.com/zixuangui-rgb) | コアコントリビューター |
+| [赵志民](https://github.com/zhimin-z) | コアコントリビューター |
+| [李秀奇](https://github.com/li-xiu-qi) | コアコントリビューター |
+| [刘丽欣](https://github.com/liulx25xx) | コアコントリビューター |
+| [刘思怡](https://github.com/liusiyi77m) | コアコントリビューター |
+| [散步](https://github.com/sanbuphy) | コアコントリビューター |
 
 *より多くのコントリビューターを歓迎します*
 

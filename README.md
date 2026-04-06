@@ -29,9 +29,6 @@
 
 </div>
 
-> [!WARNING]
-> 🧪 Beta公测版本提示：教程主体已完成，正在优化细节，欢迎大家提Issue反馈问题或建议。
-
 ## 在线阅读
 
 https://datawhalechina.github.io/hello-claw
@@ -183,14 +180,14 @@ https://datawhalechina.github.io/hello-claw
 
 ## 贡献者名单
 
-| 姓名                                    | 职责       | 简介 |
-| :-------------------------------------- | :--------- | :--- |
-| [桂子轩](https://github.com/zixuangui-rgb) | 核心贡献者 | -    |
-| [赵志民](https://github.com/zhimin-z)      | 核心贡献者 | -    |
-| [李秀奇](https://github.com/li-xiu-qi)     | 核心贡献者 | -    |
-| [刘丽欣](https://github.com/liulx25xx)     | 核心贡献者 | -    |
-| [刘思怡](https://github.com/liusiyi77m)    | 核心贡献者 | -    |
-| [散步](https://github.com/sanbuphy)        | 核心贡献者 | -    |
+| 姓名                                    | 职责       |
+| :-------------------------------------- | :--------- |
+| [桂子轩](https://github.com/zixuangui-rgb) | 核心贡献者 |
+| [赵志民](https://github.com/zhimin-z)      | 核心贡献者 |
+| [李秀奇](https://github.com/li-xiu-qi)     | 核心贡献者 |
+| [刘丽欣](https://github.com/liulx25xx)     | 核心贡献者 |
+| [刘思怡](https://github.com/liusiyi77m)    | 核心贡献者 |
+| [散步](https://github.com/sanbuphy)        | 核心贡献者 |
 
 *欢迎更多贡献者加入*
 

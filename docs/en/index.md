@@ -169,6 +169,3 @@ This project is a comprehensive learning tutorial for OpenClaw, helping you mast
 - **[2026-03-10]** ✅ Updated Build Claw Chapters 7-9: Lightweight, Security Hardening, Hardware Solutions
 - **[2026-03-08]** ✅ Completed Chapters 1-11: Adopt Claw user guide fully complete
 - **[2026-03-04]** 🦞 Project launched with "Adopt Claw" and "Build Claw" core modules
-
-> [!WARNING]
-> 🧪 Beta version: Main content completed, optimizing details. Welcome to submit Issues for feedback or suggestions.

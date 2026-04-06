@@ -9,7 +9,7 @@
 <p align="center"><em>Hello Claw：领养你的 AI 龙虾助理，上龙虾大学学 Skills，从零构建属于你的智能助理</em></p>
 
 <p align="center">
-  📌 <a href="https://datawhalechina.github.io/hello-claw/">在线阅读</a> | 💬 <a href="#交流群">加入交流群</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">还想学 Vibe Coding</a>
+  📌 <a href="https://datawhalechina.github.io/hello-claw/">在线阅读</a> |  <a href="https://github.com/datawhalechina/easy-vibe">还想学 Vibe Coding</a>
 </p>
 
 <p align="center">
@@ -201,14 +201,7 @@ https://datawhalechina.github.io/hello-claw
 - 如果你对 Datawhale 很感兴趣并想要发起一个新的项目，请按照 [Datawhale 开源项目指南](https://github.com/datawhalechina/DOPMC/blob/main/GUIDE.md)进行操作即可
 
 
-## 💬 交流群
-
-<div align="center">
-<p>欢迎加入 Hello Claw 交流群，与其他开发者一起探讨学习：</p>
-<img src="asset/wechat.jpg" width="300" alt="交流群二维码">
-</div>
-
-## 📧 关注我们
+##  关注我们
 
 <div align=center>
 <p>扫描下方二维码关注公众号：Datawhale</p>

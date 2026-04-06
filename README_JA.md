@@ -9,7 +9,7 @@
 <p align="center"><em>Hello Claw: AIロブスターアシスタントを迎え、ロブスター大学でSkillsを学び、あなただけの知的エージェントをゼロから構築しよう</em></p>
 
 <p align="center">
-  📌 <a href="https://datawhalechina.github.io/hello-claw/">オンラインで読む</a> | 💬 <a href="#community">コミュニティに参加</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">Vibe Coding も学びたい？</a>
+  📌 <a href="https://datawhalechina.github.io/hello-claw/">オンラインで読む</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">Vibe Coding も学びたい？</a>
 </p>
 
 <p align="center">
@@ -225,14 +225,6 @@ https://datawhalechina.github.io/hello-claw
 - 問題を見つけた場合は Issue でフィードバックしてください。反応がない場合は [サポートチーム](https://github.com/datawhalechina/DOPMC/blob/main/OP.md) に連絡してフォローアップできます。
 - このプロジェクトに貢献したい場合は Pull Request を送ってください。反応がない場合は [サポートチーム](https://github.com/datawhalechina/DOPMC/blob/main/OP.md) に連絡してフォローアップできます。
 - Datawhale に興味があり、新しいプロジェクトを立ち上げたい場合は [Datawhale オープンソースプロジェクトガイド](https://github.com/datawhalechina/DOPMC/blob/main/GUIDE.md) を参照してください。
-
-<a id="community"></a>
-## 💬 コミュニティ
-
-<div align="center">
-<p>Hello Claw コミュニティに参加して、ほかの開発者と一緒に学びましょう:</p>
-<img src="asset/wechat.jpg" width="300" alt="コミュニティ QR コード">
-</div>
 
 ## 📧 フォローする
 

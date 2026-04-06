@@ -9,7 +9,7 @@
 <p align="center"><em>Hello Claw: adopt your AI lobster assistant, learn Skills in Lobster University, and build your own intelligent agent from scratch</em></p>
 
 <p align="center">
-  📌 <a href="https://datawhalechina.github.io/hello-claw/">Read Online</a> | 💬 <a href="#community">Join Community</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">Want to Learn Vibe Coding Too?</a>
+  📌 <a href="https://datawhalechina.github.io/hello-claw/">Read Online</a> | 🚀 <a href="https://github.com/datawhalechina/easy-vibe">Want to Learn Vibe Coding Too?</a>
 </p>
 
 <p align="center">
@@ -199,14 +199,6 @@ This project is a complete learning guide for OpenClaw, designed to help you mas
 - If you find an issue, feel free to open an Issue. If you do not receive a response, you can contact the [support team](https://github.com/datawhalechina/DOPMC/blob/main/OP.md) for follow-up.
 - If you would like to contribute, feel free to submit a Pull Request. If you do not receive a response, you can contact the [support team](https://github.com/datawhalechina/DOPMC/blob/main/OP.md) for follow-up.
 - If you are interested in Datawhale and want to start a new project, please follow the [Datawhale Open Source Project Guide](https://github.com/datawhalechina/DOPMC/blob/main/GUIDE.md).
-
-<a id="community"></a>
-## 💬 Community
-
-<div align="center">
-<p>Join the Hello Claw community group and learn together with other developers:</p>
-<img src="asset/wechat.jpg" width="300" alt="Community QR Code">
-</div>
 
 ## 📧 Follow Us
 

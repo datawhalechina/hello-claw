@@ -57,6 +57,7 @@ next:
 |------|------|------|
 | ⭐ OpenClaw 中文社区 | <https://clawd.org.cn> | 国内用户交流、经验分享、问题互助的中文社区门户 |
 | Claw123 资源导航 | <https://www.claw123.com> | OpenClaw 中文资源导航站，汇聚教程、工具与社区入口 |
+| Awesome OpenClaw Asia | <https://awesome.tryopenclaw.asia> | 亚洲社区维护的 OpenClaw 优质资源汇总 |
 
 ### 2.2 中文教程与文档
 
@@ -116,6 +117,7 @@ next:
 | 1Panel 一键部署 | <https://github.com/1Panel-dev/1Panel> | 国产 VPS 面板，支持 OpenClaw 一键安装 |
 | MoltWorker | <https://github.com/cloudflare/moltworker> | Cloudflare 开源的 OpenClaw 部署方案 |
 | 阿里云部署 | <https://developer.aliyun.com/article/1713898> | 云服务器部署与 Skill 实操教程 |
+| RemoteOpenClaw | <https://remoteopenclaw.com> | 远程托管 OpenClaw 服务，无需本地环境即可运行 |
 
 > 详见[附录 F：云服务部署指南](/cn/appendix/appendix-f)。
 
@@ -298,6 +300,7 @@ next:
 | CoClaw 社区资源中心 | <https://coclaw.com> | 社区维护的 OpenClaw 资源枢纽，覆盖指南、排错、配置生成与专题文章（非官方） |
 | 用例集合 | <https://github.com/hesamsheikh/awesome-openclaw-usecases> | 社区应用案例，36 个真实场景验证 |
 | ZooClaw 帮助中心 | <https://zooclaw.ai/help> | ZooClaw 官方帮助文档与使用指南 |
+| OpenClaw 101 | <https://openclaw101.dev> | OpenClaw 入门学习网站，涵盖基础概念与快速上手指南 |
 ---
 
 ## 推荐学习路径

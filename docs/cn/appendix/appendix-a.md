@@ -196,6 +196,7 @@ next:
 |------|------|------|
 | OpenClaw 架构解析 | <https://www.toutiao.com/article/7602243573023425060> | 智能体执行、工具调用、浏览器操作底层逻辑 |
 | 意图与对话管理 | <https://www.toutiao.com/article/7610070344208073259> | NLP 识别与槽位填充实战 |
+| OpenClaw 实际发出的系统提示词与工具 schema | <https://github.com/Continuum-AI-Corp/OrcaPromptVault/tree/main/OpenClaw> | 本地代理抓下的原文（2026-09-17，`agent exec`，21,630 字符、38 个工具定义），带复现命令，可对照上面两篇解析自行核对 |
 
 ### 6.2 记忆系统与知识库
 

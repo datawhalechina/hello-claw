@@ -196,6 +196,7 @@ The biggest challenge in learning OpenClaw isn't the technology itself — it's 
 |----------|-----|-------------|
 | OpenClaw Architecture Analysis | <https://www.toutiao.com/article/7602243573023425060> | Underlying logic of agent execution, tool invocation, and browser operations |
 | Intent & Conversation Management | <https://www.toutiao.com/article/7610070344208073259> | NLP recognition and slot-filling in practice |
+| OpenClaw's system prompt and tool schema as sent | <https://github.com/Continuum-AI-Corp/OrcaPromptVault/tree/main/OpenClaw> | The text itself, recorded by a local proxy (2026-09-17, `agent exec`, 21,630 characters and 38 tool definitions), with a reproduce command — check the two analyses above against it |
 
 ### 6.2 Memory Systems & Knowledge Bases
 

@@ -241,6 +241,7 @@ next:
 |------|------|------|
 | ⭐ AWS 安全与功能增强实践 | <https://aws.amazon.com/cn/blogs/china/openclaw-security-and-feature-enhancement-practices/> | EC2 部署后的安全防护与功能增强工程实践（踩坑记录） |
 | 安全加固指南 | <https://github.com/rohitg00/awesome-openclaw> | 权限管理与风险防控 |
+| Orca AI Incident Archive（OpenClaw 安全事件记录） | <https://github.com/Continuum-AI-Corp/Orca-AI-Incident-Archive> | 公开的 AI 智能体安全事件档案；OpenClaw 相关记录包括 ClawHavoc 恶意技能投放、控制面板与网关大规模暴露、窃密木马盗取网关令牌、无视多次停止指令删除邮件等，每条附公开来源 |
 
 > 详见[第十章 安全防护与威胁模型](/cn/adopt/chapter10/)。
 

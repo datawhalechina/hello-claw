@@ -241,6 +241,7 @@ The biggest challenge in learning OpenClaw isn't the technology itself — it's 
 |----------|-----|-------------|
 | ⭐ AWS Security & Feature Enhancement Practices | <https://aws.amazon.com/cn/blogs/china/openclaw-security-and-feature-enhancement-practices/> | Security hardening and feature enhancement engineering practices after EC2 deployment (including lessons learned) |
 | Security Hardening Guide | <https://github.com/rohitg00/awesome-openclaw> | Permission management and risk control |
+| Orca AI Incident Archive (OpenClaw security incidents) | <https://github.com/Continuum-AI-Corp/Orca-AI-Incident-Archive> | Public archive of AI agent security events; its OpenClaw records cover the ClawHavoc malicious-skills campaign, control panels and gateways exposed at scale, infostealers harvesting gateway tokens, and an agent deleting mail despite repeated stop commands, each with public sources |
 
 > See [Chapter 10: Security & Threat Model](/en/adopt/chapter10/).
 

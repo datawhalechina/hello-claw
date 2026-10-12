@@ -164,7 +164,7 @@ def fetch_yesterday_emails(
     items: list[dict[str, str]] = []
 
     for message_id in reversed(message_ids):
-        fetch_status, fetch_data = mail.fetch(message_id, "(RFC822)")
+        fetch_status, fetch_data = mail.fetch(message_id, "(BODY.PEEK[])")
         if fetch_status != "OK" or not fetch_data or fetch_data[0] is None:
             continue
 

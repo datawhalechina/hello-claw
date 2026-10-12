@@ -289,6 +289,16 @@ Check first:
 This is normal.
 Many marketing emails and system notifications use HTML templates. The first version of the script is for connectivity and basic read verification, not a full body text cleaner.
 
+## Offline Regression Tests
+
+After installing the dependencies above, run this from the repository root:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The tests use real `imaplib` and a local IMAP protocol fixture to check the CN/EN scripts and tutorial code, including message content and read flags. They require no mailbox account and never connect to a real mailbox. Both reading scripts use `BODY.PEEK[]`, preserving read/unread state even when `EXAMINE` fails and selection falls back to `SELECT`.
+
 ## What to Add Next
 
 - Read only unread mail

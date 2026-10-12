@@ -106,6 +106,8 @@ uv run --with python-dotenv imap_connect_test.py
 
 ## 这个脚本多做了哪一步
 
+两个读取脚本都使用 `BODY.PEEK[]` 获取完整邮件，保留原有的已读 / 未读状态。即使服务器不支持 `EXAMINE`、脚本回退到 `SELECT`，生成摘要也不会把未读邮件标为已读。
+
 这个脚本和最基础的 IMAP 示例相比，多做了一件对 163 很关键的事：
 
 - `LOGIN` 之后先发一次 `IMAP ID`
@@ -288,6 +290,16 @@ gateway closed (1006 abnormal closure)
 
 这是正常的。  
 不少营销邮件和系统通知本来就是 HTML 模板，第一版脚本只是做联通性和基础读取验证，不是完整正文清洗器。
+
+## 离线回归测试
+
+安装上述依赖后，从仓库根目录运行：
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+测试使用真实 `imaplib` 和本机 IMAP 协议夹具，检查中英文脚本及教程代码的读取结果和已读标记，不需要邮箱账号，也不会连接真实邮箱。
 
 ## 下一步可以加什么
 

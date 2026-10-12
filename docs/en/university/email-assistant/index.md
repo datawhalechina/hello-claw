@@ -221,6 +221,8 @@ Verifying that Python can read your 163 mail over `IMAP` is already enough.
 
 The script below only depends on the Python standard library, making it suitable for an initial connectivity check:
 
+Fetch messages with `BODY.PEEK[]` to preserve their read/unread status; `RFC822` marks messages as read when the mailbox is writable.
+
 ```python
 import email
 import imaplib
@@ -262,7 +264,7 @@ def fetch_recent_emails():
 
     results = []
     for mail_id in reversed(target_ids):
-        status, msg_data = mail.fetch(mail_id, "(RFC822)")
+        status, msg_data = mail.fetch(mail_id, "(BODY.PEEK[])")
         if status != "OK":
             continue
 

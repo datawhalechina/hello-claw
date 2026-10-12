@@ -221,6 +221,8 @@ uv run --with python-dotenv imap_connect_test.py
 
 下面这版脚本只依赖 Python 标准库，适合做第一次联通性验证：
 
+读取邮件时使用 `BODY.PEEK[]` 保留原有的已读 / 未读状态；`RFC822` 会在可写邮箱中把邮件标为已读。
+
 ```python
 import email
 import imaplib
@@ -262,7 +264,7 @@ def fetch_recent_emails():
 
     results = []
     for mail_id in reversed(target_ids):
-        status, msg_data = mail.fetch(mail_id, "(RFC822)")
+        status, msg_data = mail.fetch(mail_id, "(BODY.PEEK[])")
         if status != "OK":
             continue
 

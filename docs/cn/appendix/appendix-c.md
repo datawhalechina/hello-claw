@@ -157,6 +157,7 @@ OpenClaw 的爆发催生了一个庞大的"龙虾生态"——从开源框架到
 | [**DuClaw**](https://cloud.baidu.com/product/duclaw) | 百度 | Web 浏览器 | 文心/DeepSeek/Kimi-K2.5/GLM-5/MiniMax-M2.5 | 百度搜索/百科/学术等预置 Skills | — | ✅ 限时优惠 | ¥17.8/月 | — | 零部署浏览器直用，多模型切换 | 不想管服务器的轻度用户 |
 | [**AstronClaw**](https://astronclaw.com) | 科大讯飞 | Web 浏览器 | 星火 X2/MiniMax-M2.5/Kimi-K2.5/GLM-5 | 10,000+ Skills | — | ✅ 限时优惠 | ¥16.8/月 | 企微/钉钉/飞书 | 云端沙箱隔离，一键部署 | 讯飞模型生态用户 |
 | [**PineClaw**](https://pineclaw.com) | Pine AI | API/SDK + OpenClaw 插件 | — | OpenClaw 插件 + ClawHub 技能 + MCP 服务器 | — | — | — | — | AI 语音电话代理，自动拨打客服电话、账单议价、取消订阅，93% 成功率 | 需要电话自动化的用户 |
+| [**OpenClaw Launch**](https://openclawlaunch.com) | OpenClaw Launch | Web 浏览器 + IM | GPT / Claude / Gemini 等（经 OpenRouter），或自带 API Key | ClawHub 技能 | 10GB (Lite) / 40GB (Pro) | ✅ 30 分钟免费试用，无需绑卡 | 首月 $3，之后 $6/月 | Telegram/Discord/WhatsApp/微信/飞书 | 托管 OpenClaw 与 Hermes Agent，独立实例，每日自动备份 | 不想自己运维服务器、希望直接用上 OpenClaw 或 Hermes 的用户 |
 
 ---
 

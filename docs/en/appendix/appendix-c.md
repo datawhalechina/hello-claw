@@ -157,6 +157,7 @@ Don't want to manage servers? The following managed services let you register an
 | [**DuClaw**](https://cloud.baidu.com/product/duclaw) | Baidu | Web browser | ERNIE / DeepSeek / Kimi-K2.5 / GLM-5 / MiniMax-M2.5 | Pre-built Skills incl. Baidu Search / Baike / academic | — | ✅ Limited-time offer | ¥17.8/month | — | Zero deployment, browser-ready, multi-model switching | Light users who don't want to manage servers |
 | [**AstronClaw**](https://astronclaw.com) | iFlytek | Web browser | Spark X2 / MiniMax-M2.5 / Kimi-K2.5 / GLM-5 | 10,000+ Skills | — | ✅ Limited-time offer | ¥16.8/month | WeCom/DingTalk/Feishu | Cloud sandbox isolation, one-click deployment | iFlytek model ecosystem users |
 | [**PineClaw**](https://pineclaw.com) | Pine AI | API/SDK + OpenClaw plugins | — | OpenClaw plugins + ClawHub skills + MCP servers | — | — | — | — | AI voice call agent: auto-dials customer service, negotiates bills, cancels subscriptions, 93% success rate | Users needing phone call automation |
+| [**OpenClaw Launch**](https://openclawlaunch.com) | OpenClaw Launch | Web browser + IM | GPT / Claude / Gemini and more via OpenRouter, or bring your own key | ClawHub skills | 10GB (Lite) / 40GB (Pro) | ✅ 30-minute free trial, no card | $3 first month, then $6/month | Telegram/Discord/WhatsApp/WeChat/Feishu | Managed OpenClaw and Hermes Agent hosting with a dedicated instance and daily backups | Users who want OpenClaw or Hermes online without running a server |
 
 ---
 
